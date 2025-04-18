@@ -1,0 +1,802 @@
+@-moz-document url-prefix("https://hentaiverse.org/") {
+
+/***
+*** A dark style for HentaiVerse ***
+> version: 2.0.0
+
+*** Supporting Scripts: ***
+> HV Utils 3.0.0
+> Live Percentile Ranges 1.1.0.s3
+> Monsterbation 1.4.1.2
+> HentaiVerse Monster Database UserScript 1.2.0
+> Hentaiverse Battle Stats 1.1.3
+
+
+*** Settings for Monsterbation: ***
+> need to chnage the color via Monsterbation Settings
+> press the button [Dump] and replace 
+
+> the original color settings:
+{"default":"#EDEBDF","spark":"magenta","lowhp":"deeppink","lowmp":"darkslateblue","lowsp":"indigo","ocfull":"mediumspringgreen","expiring":"lightblue","channelling":"aquamarine","usable":"mediumspringgreen","miss":"gray","damage":"red","item":"#00B000","attack":"blue","spell":"darkslateblue","recovery":"mediumseagreen","effect":"seagreen","spirit":"indigo","proficiency":"darkolivegreen","monster":"springgreen","stun":"darkseagreen","imperil":"lightsteelblue","stunimperil":"cadetblue"}
+
+> with the dark mode color setings:
+{"default":"#1f2129","spark":"magenta","lowhp":"deeppink","lowmp":"darkslateblue","lowsp":"indigo","ocfull":"#00c87b","expiring":"#2a6f89","channelling":"#009966","usable":"#00c87b","miss":"#808080","damage":"#ff4d55","item":"#45d145","attack":"#66abff","spell":"#ada6d8","recovery":"#53c687","effect":"#8cd9ad","spirit":"#d294ff","proficiency":"#98b95f","monster":"#00a653","stun":"#396039","imperil":"#2d476c","stunimperil":"#395e60"}
+
+> recommend to check the box of "add colour highlights to the battle log"
+
+
+*** Settings for HentaiVerse Monster Database UserScript ***
+> set darkMode: true in Monster Database UserScript (Thank you @OnceForAll for supporting the dark mode)
+
+> (optional, disabled by default)
+> delete the comment line in line 757 of this css to enable a normal font-weight type
+
+
+/* image filter */
+
+#navbar #parent_Character> img,
+#navbar #parent_Bazaar> img,
+#navbar #parent_Battle> img,
+#navbar #parent_Forge> img,
+#navbar #child_Character .f4b,
+#navbar #child_Bazaar .f4b,
+#navbar #child_Battle .f4b,
+#navbar #child_Forge .f4b,
+#stamina_readout .f4b,
+#level_readout .f4b,
+#world_readout .f4b,
+#persona_select .f4b,
+#persona_used .f2b,
+#attr_outer .f4b,
+#str_display> div[style^="position:relative; display:inline"],
+#str_text> div[style^="position:relative; display:inline"],
+#str_left> div[style^="position:relative; display:inline"],
+#dex_display> div[style^="position:relative; display:inline"],
+#dex_text> div[style^="position:relative; display:inline"],
+#dex_left> div[style^="position:relative; display:inline"],
+#agi_display> div[style^="position:relative; display:inline"],
+#agi_text> div[style^="position:relative; display:inline"],
+#agi_left> div[style^="position:relative; display:inline"],
+#end_display> div[style^="position:relative; display:inline"],
+#end_text> div[style^="position:relative; display:inline"],
+#end_left> div[style^="position:relative; display:inline"],
+#int_display> div[style^="position:relative; display:inline"],
+#int_text> div[style^="position:relative; display:inline"],
+#int_left> div[style^="position:relative; display:inline"],
+#wis_display> div[style^="position:relative; display:inline"],
+#wis_text> div[style^="position:relative; display:inline"],
+#wis_left> div[style^="position:relative; display:inline"],
+#remaining_exp div[style^="position:relative; display:inline"],
+#prof_outer .f4b,
+#stats_header .f4b,
+#stats_pane .f2b,
+#eqsh .f4b,
+#eqch_left .eqb .fc,
+#ability_top .f4b,
+#ability_treepane .f2b,
+#ability_treepane .f4b,
+#train_table .f2b,
+#train_table .f4b,
+#networth .f4b,
+#item_left .f4b,
+#item_right .f4b,
+.cfbs .f4b,
+.cfb .f2b,
+.eqinv_pane .f4b,
+#eqinv_bot .f2b,
+.settings_block .f2b,
+.settings_block .f4b,
+#eqshop_outer .f4b,
+#eqshop_transact> #sum_field> div[style^="position:relative; display:inline"],
+#itshop_outer .f4b,
+#itshop_t2 .f2b,
+#itembot_outer .f4b,
+#itembot_outer .f2b,
+#minprice> div[style^="position:relative; display:inline"],
+#monster_list> div>#slot_pane> .msl .f4b,
+#monster_outer .f4b,
+#monster_outer .f2b,
+#shrine_left .f4b,
+#mmail_list .f2b,
+#mmail_left .f2b,
+#mmail_right .f4b,
+#mmail_fin .f4b,
+#arena_list .f2b,
+#arena_list .f4b,
+#arena_tokens .f4b,
+#forge_outer .f4b,
+#forge_outer .f2b,
+#pane_skill> #table_skills img,
+#pane_skill> #table_skills .f2b,
+#pane_magic> #table_magic img,
+#pane_magic> #table_magic .f2b,
+#pane_item .f2b,
+#pane_monster .btm2>div .f4b,
+#pane_monster .btm3> .f2b,
+#btcp .f4b,
+#riddlecounter> div> div
+{filter:invert(1) grayscale(1)}
+
+body> div>div[style="width:300px; margin:auto"]> img[src="/y/hentaiverse_login.png"] {filter: brightness(2.5)}
+#stamina_readout> div> img{filter: invert(1) hue-rotate(180deg) brightness(1.2)}
+#nav_mail .f2b, #mail_img {filter:brightness(13) hue-rotate(88deg)}
+#stamina_readout .f4r,
+#stamina_restore .f4r,
+#attr_table> tbody>tr>td>.f4r,
+#monsterstats_rename> .f2r,
+#forge_outer> #rightpane .f2r
+{filter: invert(1) hue-rotate(230deg);}
+#attr_table> tbody>tr>td>.f4a{filter:invert(1) hue-rotate(80deg)}
+.csps> img{filter:brightness(1.95);} /* scroll buttons */
+.il{filter:contrast(1.8)} /* padlock_closed.png */
+.iu{filter:brightness(2.2)} /* padlock_open.png */
+#train_table> tbody>tr>td> img[src="/y/training/train_d.png"],
+#arena_list> tbody>tr>td>div> img[src$="/y/arena/startchallenge_d.png"]
+{filter:brightness(0)}
+.msl>div:nth-child(5)>div{filter:invert(1)} /* hungerbar */
+.msl>div:nth-child(6)>div{filter:invert(1)} /* moralebar */
+.msn>div>img{filter:invert(1)}
+#battle_right> img{filter: brightness(5)}
+#pane_monster> div>.btm2>div> img{filter:brightness(20) hue-rotate(90deg)}
+#vcp>div>div{filter: brightness(0.85)} /* overcharge pip */
+
+#persona_new> img[src$="/y/character/persona_create_clone_d.png"],
+#persona_new> img[src$="/y/character/persona_create_blank_d.png"],
+#eqsl> div> img[src$="/y/equip/set1_off.png"],
+#eqsl> div> img[src$="/y/equip/set2_off.png"],
+#eqsl> div> img[src$="/y/equip/set3_off.png"],
+.ability_slotbar> div> div[style^="background-image:url(/y/t/0.png)"],
+.ability_slotbar> div> div[style^="background-image:url(/isekai/y/t/0.png)"],
+#ability_treelist> div> img[src$="/y/ab/tdgeneral.png"],
+#ability_treelist> div> img[src$="/y/ab/tdonehanded.png"],
+#ability_treelist> div> img[src$="/y/ab/tdtwohanded.png"],
+#ability_treelist> div> img[src$="/y/ab/tddualwield.png"],
+#ability_treelist> div> img[src$="/y/ab/tdniten.png"],
+#ability_treelist> div> img[src$="/y/ab/tdstaff.png"],
+#ability_treelist> div> img[src$="/y/ab/tdcloth.png"],
+#ability_treelist> div> img[src$="/y/ab/tdlight.png"],
+#ability_treelist> div> img[src$="/y/ab/tdheavy.png"],
+#ability_treelist> div> img[src$="/y/ab/tddeprecating1.png"],
+#ability_treelist> div> img[src$="/y/ab/tddeprecating2.png"],
+#ability_treelist> div> img[src$="/y/ab/tdsupportive1.png"],
+#ability_treelist> div> img[src$="/y/ab/tdsupportive2.png"],
+#ability_treelist> div> img[src$="/y/ab/tdelemental.png"],
+#ability_treelist> div> img[src$="/y/ab/tdforbidden.png"],
+#ability_treelist> div> img[src$="/y/ab/tddivine.png"],
+#ability_treepane> div>div> img[src$="/y/ab/reset_d.png"],
+#eqshop_transact> div> img[src$="/y/shops/accept_d.png"],
+#itshop_t3> img[src$="/y/shops/accept_d.png"],
+#monster_actions> div>div> img[src="/y/monster/feedallmonsters_d.png"],
+#monster_actions> div>div> img[src="/y/monster/unlock_slot_d.png"],
+#monster_actions> div>div> img[src="/y/monster/createmonster_d.png"],
+#monster_actions> div>div> img[src="/y/monster/drugallmonsters_d.png"],
+#monstercreate_left> div> img[src="/y/monster/arthropod.png"],
+#monstercreate_left> div> img[src="/y/monster/avion.png"],
+#monstercreate_left> div> img[src="/y/monster/beast.png"],
+#monstercreate_left> div> img[src="/y/monster/celestial.png"],
+#monstercreate_left> div> img[src="/y/monster/daimon.png"],
+#monstercreate_left> div> img[src="/y/monster/dragonkin.png"],
+#monstercreate_left> div> img[src="/y/monster/elemental.png"],
+#monstercreate_left> div> img[src="/y/monster/giant.png"],
+#monstercreate_left> div> img[src="/y/monster/humanoid.png"],
+#monstercreate_left> div> img[src="/y/monster/mechanoid.png"],
+#monstercreate_left> div> img[src="/y/monster/reptilian.png"],
+#monstercreate_left> div> img[src="/y/monster/sprite.png"],
+#monstercreate_left> div> img[src="/y/monster/undead.png"],
+#monster_nav> div>a> img[src="/y/monster/ml_monstats_a.png"],
+#monster_nav> div>a> img[src="/y/monster/ml_skilledit_a.png"],
+#monsterstats_top> div>div>div> img[src="/y/monster/feedmonster_d.png"],
+#monsterstats_top> div>div>div> img[src="/y/monster/drugmonster_d.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/str.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/dex.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/agi.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/end.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/int.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/wis.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/fire.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/cold.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/elec.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/wind.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/holy.png"],
+#monsterstats_top>.mcr>table>tbody>tr>td> img[src="/y/monster/dark.png"],
+#shrine_trophy> div> img[src$="/y/shops/1handed_off.png"],
+#shrine_trophy> div> img[src$="/y/shops/2handed_off.png"],
+#shrine_trophy> div> img[src$="/y/shops/staff_off.png"],
+#shrine_trophy> div> img[src$="/y/shops/shield_off.png"],
+#shrine_trophy> div> img[src$="/y/shops/acloth_off.png"],
+#shrine_trophy> div> img[src$="/y/shops/alight_off.png"],
+#shrine_trophy> div> img[src$="/y/shops/aheavy_off.png"],
+#shrine_right> div> img[src$="/y/shops/offering_d.png"],
+#csp>#mainpane>div>#leftpane>div>div> img[src="/y/shops/lottery_donotwant_d.png"],
+#csp>#mainpane>div>#rightpane>div>div> img[src="/y/shops/buytickets_d.png"],
+#csp>#mainpane>div>#rightpane>div> img[src="/y/shops/lottery_golden_d.png"],
+#csp>#mainpane>div>div> img[src="/y/shops/lottery_prev_d.png"],
+#csp>#mainpane>div>div> img[src="/y/shops/lottery_next_d.png"],
+#csp>#mainpane>div>div> img[src="/y/shops/lottery_today_d.png"],
+#arena_pages> a> img[src$="/y/arena/pg1.png"],
+#arena_pages> a> img[src$="/y/arena/pg2.png"],
+#itemworld_right> div> img[src$="/y/shops/enteritemworld_d.png"],
+#repairall> div> img[src$="/y/shops/repairall_d.png"],
+#forge_outer> #rightpane>#shopform>div> img[src$="/y/shops/repair_d.png"],
+#forge_outer> #rightpane>#shopform>div> img[src$="/y/shops/showupgrades_d.png"],
+#forge_outer> #leftpane>div> img[src$="/y/shops/rename_d.png"],
+#forge_outer> #rightpane>div>table>tbody>tr>td> img[src$="/y/shops/upgrade_d.png"],
+#forge_outer> #rightpane>#shopform>div> img[src$="/y/shops/showenchants_d.png"],
+#forge_outer> #rightpane>div>table>tbody>tr>td> img[src$="/y/shops/enchant_d.png"],
+#forge_outer> #rightpane>#shopform>div> img[src$="/y/shops/salvage_d.png"],
+#forge_outer> #rightpane>#shopform>div> img[src$="/y/shops/reforge_d.png"],
+#forge_outer> #rightpane>#shopform>div> img[src$="/y/shops/soulfuse_d.png"],
+#pane_magic>.btpm1>.btpm2> img[src$="/y/battle/sbsel_skills_n.png"],
+#pane_skill>.btpm1>.btpm3> img[src$="/y/battle/sbsel_spells_n.png"],
+#towerstart> div> img[src="/isekai/y/arena/startchallenge_d.png"]
+{filter: invert(1) grayscale(1)}
+
+
+/* Main */
+body{color:#ffffff ;background:#000000;}
+a:link,a:visited,a:active{color:#66ccff;}
+a:hover{color:#ffffff}
+.emsg {color:#ff5555;} /* ??? */
+button {color:#66ccff; background-color:#333}
+input {color:#6cf; background-color:#181a1b}
+input::placeholder {color:#999}
+input[type="submit"],input[type="button"]{color:#6ccf;background:#1b1b29;border:2px solid #6cf;}
+input[type="submit"]:enabled:hover,input[type="submit"]:enabled:focus,input[type="button"]:enabled:hover,input[type="button"]:enabled:focus{color:#fff;border-color:#fff;background:#16171d}
+input[type="submit"]:enabled:active{background:radial-gradient(#262a2b,#0d0e0f);border-color:#ffa31a}
+input[type="submit"]:disabled,input[type="button"]:disabled{color:#555;border-color:#9c161f;background:#181a1b}
+input[type="text"],input[type="number"],textarea,select,option{color:#fff;background:#1b1b29;border:1px solid #6cf;}
+input[type="text"]:enabled:hover:not([readonly]),input[type="number"]:enabled:hover:not([readonly]),textarea:enabled:hover:not([readonly]),select:enabled:hover:not([readonly]){background:#232336}
+input[type="text"]:enabled:focus:not([readonly]),input[type="number"]:enabled:focus:not([readonly]),textarea:enabled:focus:not([readonly]),select:enabled:focus:not([readonly]){color:#6cf;background:#181a1b}
+input[type="text"]:disabled,input[type="number"]:disabled,textarea:disabled,select:disabled{color:#555;background:#181a1b}
+
+/* TODO .lc,.lr ??? */
+
+body> div[style="margin:200px auto; width:600px; text-align:center; border:1px solid #5C0D12; background:#EDEBDF; padding:10px"] {background: #1f2129 !important; border:1px solid #6cf !important} /* login */
+
+/* common global */ 
+#csp{background:#1f2129;border:1px solid #6cf;}
+
+/* message box */
+#messagebox_inner{background:#16171dee;border:2px solid #6cf;}
+.messagebox_error{color:#ff3e47}
+
+/* fonts and font colors */
+.fcb{color:#6cf}
+.fcy{color:#FCFF00} /* ??? */
+.fcg{color:#8A8A8A} /* ??? */
+.fcr{color:#ee0000}
+.fca{color:#0080ff}
+
+/* navbar */
+#navbar{border-bottom:1px solid #6cf;}
+.nc{background:#1f2129}
+.nc>div{border:1px solid #6cf;border-top:0}
+.nc>div>div{background:#1f2129}
+.nc>div>div:hover{background:#0d0e0f}
+#level_details>div{background:#1f2129;}
+#world_text>div{background:#1f2129;}
+
+/* common non-battle screens */
+#networth{border:1px solid #66ccff;}
+.cfb{border-top:1px solid #1f2129;border-bottom:1px solid #6cf} /* tab bar */
+.cfb:hover{background:#0d0e0f;border:1px solid #fff;color:#fff}
+.cfbs{border-top:1px solid #6cf;border:1px solid #6cf;border-bottom:1px solid #1f2129}
+
+/* equip/char shared */
+#stats_inner{border:1px ridge #6cf;}
+
+/* character */
+#attr_table{border-top:1px solid #6cf;}
+#prof_outer table{border-top:1px solid #6cf;}
+
+#stats_pane > div:nth-child(3) > div:nth-child(6) > div:nth-child(2) > div > div,#stats_pane > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > div > div{color:#b82008;}
+#stats_pane > div:nth-child(3) > div:nth-child(6) > div:nth-child(4) > div > div,#stats_pane > div:nth-child(3) > div:nth-child(4) > div:nth-child(4) > div > div{color:#48c0f8;}
+#stats_pane > div:nth-child(3) > div:nth-child(6) > div:nth-child(6) > div > div,#stats_pane > div:nth-child(3) > div:nth-child(4) > div:nth-child(6) > div > div{color:#d850f8;}
+#stats_pane > div:nth-child(3) > div:nth-child(6) > div:nth-child(8) > div > div,#stats_pane > div:nth-child(3) > div:nth-child(4) > div:nth-child(8) > div > div{color:#189078;}
+#stats_pane > div:nth-child(3) > div:nth-child(6) > div:nth-child(10) > div > div,#stats_pane > div:nth-child(3) > div:nth-child(4) > div:nth-child(10) > div > div{color:#a88820;}
+#stats_pane > div:nth-child(3) > div:nth-child(6) > div:nth-child(12) > div > div,#stats_pane > div:nth-child(3) > div:nth-child(4) > div:nth-child(12) > div > div{color:#5850b8;}
+#stats_pane > div:nth-child(2) > div:nth-child(9) > div:nth-child(2) > div{color:#0fc}
+#stats_pane > div:nth-child(2) > div:nth-child(9) > div:nth-child(4) > div{color:#0080ff}
+#stats_pane > div:nth-child(2) > div:nth-child(9) > div:nth-child(8) > div{color:#e00}
+
+#prof_outer > div > table > tbody > tr > td:nth-child(2) > div > div{color:#fff;
+}
+
+/* itemlist */
+.itemlist>tbody>tr>td>div[onclick]:not([style]):hover{opacity:0.7;color:#54a8ff !important}
+.itemlist>tbody>tr>td>div[onclick][style] {color:#54a8ff !important}
+
+/* item inventory */
+sa>div:last-child>div:hover{text-decoration:line-through;color:#C2A8A4}
+.sd>div:last-child>div{opacity:0.6;color:#0f0 !important}
+.ss,.ss:hover{opacity:0.8;color:#ff0 !important;text-decoration:none !important}
+
+/* item shop */
+#itshop_t1>input{background:#16171d !important;border:1px solid #6cf !important;color:#dddad6 !important}
+
+/* equiplist */
+.eqp>div:last-child:not([onclick]){color:#C2A8A4}
+.eqp>div:last-child[onclick]:not([data-locked="1"]):not([style]):hover{opacity:0.8;color:#54a8ff !important}
+.txf{color:#ff3e47}
+.txc{color:#dc8989}
+.eqp>div:last-child[onclick][style] {color:#ff8 !important}
+
+/* equipment */
+.eqb{border:1px solid #6cf}
+.eqb:hover{background:#0d0e0f;border:1px solid #ffa31a}
+
+/* equipment shop */
+#eqshop_transact>div:nth-child(1){background:#16171d;border:1px solid #6cf}
+
+/* equipment stat readout */
+#equip_extended{border:1px solid #6cf;background:#1b1b29;}
+.es>div:first-child>span{color:#ffa31a}
+.ex{border-top:1px solid #6cf}
+.er{color:#ff3e47}
+#eu>span{white-space:nowrap;color:#ffa31a}
+#ep>span{white-space:nowrap;color:#52a1ff}
+#ee>span{white-space:nowrap;color:#ff72ff}
+
+/* popup/compare */
+#popup_box{border:1px solid #dddad6;background:#1b1b29;opacity:0.95;}
+#compare_pane{border:1px solid #dddad6;background:#1b1b29;opacity:0.95;}
+#compare_pane>div:first-child,#popup_box>div:nth-child(1){border-bottom:1px solid #6cf}
+
+/* ability */
+#ability_treelist{border-right:1px solid #6cf}
+#ability_info{background:#1b1b29;border:1px solid #dddad6;}
+#ability_info>div:nth-child(3)>div:first-child{border-right:1px solid #6cf}
+#ability_info>div:nth-child(3)>div>div:first-child{border-bottom:1px solid #6cf}
+
+/* lottery */
+#lottery_eqstat{border:1px solid #dddad6;background:#1f2129;}
+
+/* monster lab */
+.msl{border:2px ridge #6cf;}
+.msl:hover{background:#0d0e0f}
+.mcr>div{border-bottom:1px solid #6cf}
+#monsterstats_right>div:first-child{border-bottom:1px solid #6cf;}
+#monsterskills th{border-bottom:1px solid #6cf}
+#monsterskills>tbody>tr>td:nth-child(1)>input{border-color:#C2A8A4;}
+.msp>div:first-child{border:1px solid #6cf;background:#1f2129;} /* TODO */
+#monstercreate_stats>div>div:first-child{border-bottom:1px solid #6cf}
+
+/* training */
+#train_progress>div:nth-child(1)>div:nth-child(2){background-color:#1b1b29;border:1px solid #6cf;}
+#train_table td{border-top:1px solid #6cf;border-bottom:1px solid #6cf}
+
+/* settings */
+#settings_challenge td,#settings_title td{border-top:1px solid #6cf;border-bottom:1px solid #6cf;}
+
+/* mooglemail */
+#mmail_left>table input{border-color:#C2A8A4;}
+#mmail_left>textarea{border-color:#C2A8A4;}
+#mmail_pager>div>span{color:#C2A8A4}
+#mmail_list>tbody>tr>th{border-bottom:1px solid #6cf;}
+#mmail_list>tbody>tr>td{border-top:1px solid #6cf;border-bottom:1px solid #6cf;}
+#mmail_list>tbody>tr[onclick]:hover{background:#0d0e0f}
+#mmail_pager>div>span{color:#C2A8A4}
+
+/* battleinit */
+#arena_list>tbody>tr>td{border-top:1px solid #6cf;border-bottom:1px solid #6cf;}
+
+/* market */
+#market_left>div,#market_left>a>div{border-right:1px solid #6cf}
+.market_cur{border:1px solid #6cf;border-right:1px solid transparent !important}
+#market_itemlist th{border-bottom:1px solid #6cf;background:#1f2129}
+#market_accountlog th,#market_tradelog th{padding:5px 5px 3px;position:sticky;top:0;background:#1f2129}
+
+/* forge */
+#forge_outer>#rightpane>div>div:nth-child(2){background-color:#1b1b29 !important; border:1px solid #6cf !important;} /* exp background */
+
+/* monster vitals */
+.chbd{background-color:black}
+
+/* player vitals */
+#pane_vitals{background-color:transparent;}
+#vbd{background-color:black} /* ??? */
+
+/* standard bars */
+#vbh{background-color:#2c4d21}
+#vbh{border:2px solid #6cf;}
+#vbh img{border:2px solid #9c4516}
+#vbm{background-color:#2d3032;border:2px solid #6cf;border-top-width:1px}
+#vbm img{border:2px solid rgb(0,0,200);border-right:1px solid rgb(0,0,200)}
+#vbs{background-color:#5f0000;border:2px solid #6cf;border-top-width:1px}
+#vbs img{border:2px solid rgb(150,0,0);border-left:1px solid rgb(150,0,0)}
+#vrhb{color:rgb(50,110,0)}
+#vrhd{color:rgb(200,255,150)}
+#vrm{color:#52a1ff;opacity:1}
+#vrs{color:#ff3e47;opacity:1}
+
+/* ugly bars */
+#dvbh,#dvbm,#dvbs,#dvbc{border:2px solid #909090}
+#dvbh{background-color:#2c4d21}
+#dvbh img{border:2px solid rgb(0,100,0);}
+#dvbm{background-color:#2d3032;}
+#dvbm img{border:2px solid rgb(0,0,200)}
+#dvbs{background-color:#5f0000;}
+#dvbs img{border:2px solid rgb(150,0,0)}
+#dvbc{background-color:#631f00;}
+#dvbc img{border:2px solid rgb(170,65,0)}
+#dvrhb,#dvrhd{color:#6fe600;opacity:1}
+#dvrm{color:#52a1ff;opacity:1}
+#dvrs{color:#ff3e47;opacity:1}
+#dvrc{color:rgb(255,200,175);opacity:1}
+
+/* monster type */
+.btm1[style="border-color:#BD7400"] {border-color:#cc7e00 !important}
+.btm1[style="border-color:#BD1F05"] {border-color:#b95546 !important}
+.btm1[style="border-color:#A60091"] {border-color:#e600c7 !important}
+.btm2[style="background:#E6CCA3"] {background-color:#8c6526 !important}
+.btm2[style="background:#DBA8A0"] {background-color:#813c31 !important}
+.btm2[style="background:#A989A5"] {background-color:#9d2f8e !important}
+
+/* battle */
+#btcp{border:2px ridge #dddad6;background:#16171d}
+div.btm1{border:2px ridge #6cf}
+#infopane{border-bottom:2px ridge #6cf}
+.btsd> .fcb> div[style="color: rgb(0, 48, 203);"] {color:#52a1ff !important}
+.btsd> .fcb> div[style="color: rgb(92, 13, 17);"] {color:#dddad6 !important}
+.bti3> div> .fcb> div[style="color: rgb(0, 48, 203);"] {color:#52a1ff !important}
+
+
+
+/*** HV Utils ***/
+/* > popup */
+div:last-child[style^="position: fixed; top: 0px; left: 0px; width: 1236px; height: 702px;"]>div[style] {color:#dddad6 !important; background:#16171d !important}
+div:last-child[style^="position: fixed; top: 0px; left: 0px; width: 1236px; height: 702px;"]>div[style]> span[style="color:#f00;font-weight:bold"] {color:#ff3e47 !important}
+
+/* > Battle RE timer */
+#csp> div:nth-child(2)[style$="color: rgb(238, 0, 0);"] {color:#ff3e47 !important}
+
+/* > Basic CSS */
+input[type='text'][readonly], input[type='number'][readonly] {color:#aaa}
+select[size] option:checked {background-color:#5C0D11; color:#eee}
+
+#csp>  div:nth-child(4)[id="mainpane"] .eqp:hover {background-color:#0d0e0f}
+.hvut-eq-category {border:2px solid #888; background-color:#333}
+div + .hvut-eq-border::before {border-top:1px solid #888}
+
+.hvut-it-Consumable {color:#45d145}
+.hvut-it-Artifact {color:#337dff}
+.hvut-it-Trophy {color:#a77be0}
+.hvut-it-Token {color:#9ec74c}
+.hvut-it-Crystal {color:#fa4bf4}
+.hvut-it-Monster_Food {color:#489EFF}
+.hvut-it-Material {color:#ff3e47}
+.hvut-it-Collectable {color:#337dff}
+
+@keyframes diagonal {
+    0% {background-position: 0% 0%}
+    100% {background-position: 100% 0%}
+}
+/* > equipColor */
+.hvut-eq-Superior {background-color:#45484d}
+.hvut-eq-Exquisite {background-color:#416b11}
+.hvut-eq-Magnificent {background-color:#6cf}
+/*.hvut-eq-Legendary {background:repeating-linear-gradient(to right, red, orange, yellow, lime, cyan, skyblue, #ff9afc,red,orange, yellow, lime, cyan, skyblue, #ff9afc,red);background-size: 200% 100%;color:#000;animation: diagonal linear 10s infinite;}*/
+.hvut-eq-Peerless {background:repeating-linear-gradient(to right, red, orange, yellow, lime, cyan, skyblue, #ff9afc,red,orange, yellow, lime, cyan, skyblue, #ff9afc,red);background-size: 200% 100%;color:#000;animation: diagonal linear 10s infinite;}
+
+/* > stats_pane */
+.stats_page .far {color:#ffffff}
+
+/* > Top Menu */
+#hvut-top {border-bottom:1px solid #6cf;}
+.hvut-top-warn {background-color:#1f2129}
+.hvut-top-warn> div:nth-child(6) > span {color:#e00 !important}
+.hvut-top-message {border:1px solid #6cf; background-color:rgb(16, 18, 25, 0.5); color:#ff3e47;}
+.hvut-top-sub {border-color:#6cf; background-color:#1f2129; opacity:0.95}
+.hvut-top-stamina > div {border-top:1px solid #6cf;}
+.hvut-top-stamina > div:nth-child(3)[style="color: rgb(238, 0, 0);"] {color: #ff3e47 !important} /* TODO: _player.accuracy */
+.hvut-top-exp {border:1px solid #6cf; background:linear-gradient(to right, #6cf 0, transparent 1px) repeat -1px 0 / 30px}
+.hvut-top-exp::before {background-color:#000;}
+.hvut-top-exp > div {background-color:#9cf;}
+.hvut-top-server > span {color:#0fc}
+.hvut-top-menu span {color:#ff0}
+.hvut-top-menu a:hover {background-color:#0d0e0f}
+.hvut-top-menu-s {background-color:#6cf; color:#fff}
+.hvut-top-quick > a:hover {background-color:#1f2129}
+.hvut-top-quick > a::after {background-color:#0d0e0f; color:#fff;}
+.hvut-top-ygm {filter:brightness(350%)}
+.hvut-top-ygm:hover {color:#ff3e47 !important}
+#hvut-top> div:nth-child(3)> span[style="color: rgb(0, 51, 204);"]{color:#52a1ff !important} /* Stamina: Great */
+#hvut-top> div:nth-child(3)> span[style="color: rgb(238, 0, 0);"]{color:#ff3e47 !important} /* Stamina: Warn */
+#mbsettings {color:#ff88ff} /* monsterbation  */
+#mbsettings:hover {color:#ff72ff}
+#hvut-top > div:nth-child(7)[style$="color: rgb(238, 0, 0);"] {color:#ff3e47 !important} /* RE timer */
+#hvut-top > div:nth-child(8)> span[style="margin:0 5px;color:#930"] {color:#ffcc55 !important}
+
+/* > Bottom Menu */
+#hvut-bottom {border:1px solid #6cf;}
+#hvut-bottom > div {border:1px solid #6cf}
+#hvut-bottom> div[style="color: rgb(204, 0, 0);"]{color: #6cf !important; background-color:#0d0e0f;}
+#hvut-bottom a {color:inherit}
+.hvut-bottom-warn {background-color:#5C0D11; color:#dddad6}
+
+/* > Lottery */
+.hvut-lt-check {background-color:#0d0e0f}
+
+/* > [1] Character - Character */
+.hvut-ch-prof td:nth-child(3) {color:#ffcc55}
+
+/* > [2] Character - Equipment */
+.hvut-eq-popups {color:#6cf; background-color:inherit}
+.hvut-eq-prof {background-color:#1f2129}
+.hvut-eq-prof input:invalid {color:#ff3e47}
+.hvut-eq-current {color:#52a1ff !important; border-color:#52a1ff !important}
+.hvut-eq-untradeable {color:#ff3e47}
+.hvut-eq-cdt1 {color:#ff3e47}
+.hvut-eq-cdt2 {color:#eee; background-color:#a60008}
+.hvut-eq-monster > li:nth-child(5), .hvut-eq-damage > li:nth-child(5) {border-bottom-color:currentColor}
+
+/* > [3] Character - Abilities */
+.hvut-ab-calc {background-color:#1f2129;}
+.hvut-ab-off {filter:grayscale(100%); box-shadow:0 0 0 20px rgba(255,255,255,0.35) inset}
+.hvut-ab-off:hover {filter:none} /* grayscale(0) */
+.hvut-ab-point {background-color:#111; color:#fff;}
+.hvut-ab-tooltip {border:1px solid; background-color:#16171d;}
+.hvut-ab-nolevel {background-color:#16171d}
+.hvut-ab-noab > span {color:#888}
+.hvut-ab-hr {border-top:1px dotted}
+
+.hvut-ab-slot {color:#eee}
+.hvut-ab-max {background-color:#000080}
+.hvut-ab-limit {background-color:#03c}
+.hvut-ab-up {background-color:rgba(204,0,0,.8)}
+.hvut-ab-tree > img[src*='/td'] {filter:brightness(450%) invert(0) grayscale(0) !important}
+.hvut-ab-bu {color:#dddad6;}
+.hvut-ab-bux {color:#999;}
+.hvut-ab-bx {color:#999}
+.hvut-ab-unslotted::before {background-color:#900; color:#eee;}
+.hvut-ab-unleveled::before {background-color:#900; color:#eee;}
+
+/* > [6] Character - Equip Inventory */
+.hvut-in-top > span:hover {background-color:#16171d;color: #ffa31a;}
+.hvut-in-untrade {color:#ff3e47}
+.hvut-in-untrade * {color:inherit !important}
+.hvut-in-untrade > input::placeholder {color:#c99; opacity:1}
+.hvut-in-eid {background-color:#16171d}
+.hvut-in-sub .hvut-in-lpr {border-color:currentColor !important}
+.hvut-in-sub> input[type="text"] {border:1px solid #aaa}
+
+.hvut-es-valuable {background-color:#16171d}
+.hvut-es-check {border:1px solid; color:#930; background-color:#ddd}
+.hvut-es-bold {color:#ff3e47}
+.hvut-es-tier {color:#52a1ff}
+/* .hvut-es-salvage2 {color:#45d145;} obsolete*/
+
+.txf> div[data-eid] {color:#fff}
+.txc> div[data-eid] {color:#fff}
+.txf> div> .hvut-es-level {background-color:#e00}
+.txc> div> .hvut-es-level {background-color:#600}
+
+/* > [7] Character - Settings */
+.hvut-se-div {border-top:3px double #6cf;}
+
+/* > [11] Bazaar - Monster Lab */
+#slot_pane div:hover > .hvut-ml-feed {background-color:rgba(0,0,0,0.3)}
+.hvut-ml-new {background-color:#404548}
+.hvut-ml-wins::after { background-color: #1f2129; }
+.hvut-ml-outdated { color: #ff3e47; }
+.hvut-ml-gains > span {background-color:#1f2129; color:#dddad6}
+.hvut-ml-gains > ul {border:1px solid; background-color:#16171d;}
+
+.hvut-ml-summary {border:1px solid; background-color:#16171d;}
+.hvut-ml-log {border:1px solid; background-color:#16171d;}
+
+.hvut-ml-up {background-color:#1f2129;}
+.hvut-ml-up-table tr:first-child td {background-color: #063906; }
+.hvut-ml-up-table tr:hover td { background-color: #16171d; }
+.hvut-ml-up-table td { border-color: #99121a; }
+.hvut-ml-up-table td:hover { background-color: #754B08 !important; }
+.hvut-ml-up-change { color: #FFD500; }
+.hvut-ml-up-table td[data-desc]::after { background-color: #0D0E0F; }
+
+.hvut-ml-up-bottom li.hvut-ml-up-nostock {color:#ff3e47; font-weight:bold}
+
+.hvut-ml-plc {background-color:#1f2129;}
+.hvut-ml-plc-btn > span {background-color:#dddad6; color:#000}
+.hvut-ml-plc-btn > .hvut-ml-plc-up {background-color:#222; color:#eee}
+
+/* > [12] Bazaar - The Shrine */
+#shrine_left .itemlist td:nth-child(3) {color:#a39b8f}
+.hvut-ss-selected:not([disabled]) {color:#45d145 !important; border-color:#45d145 !important;}
+.hvut-ss-log {background-color:#16171d}
+.hvut-ss-results {background-color:#16171d;}
+.hvut-ss-ul span:first-child {color:#ff9966}
+.hvut-ss-group {color:#c2a3a3}
+.hvut-ss-equip {margin-left:65px; color:#ff9966}
+
+/* > [13] Bazaar - MoogleMail */
+/* >> MM WRITE */
+.hvut-mm-right-menu {border-bottom:3px double #6cf}
+.hvut-mm-attach-menu {border-bottom:3px double #6cf}
+.hvut-mm-field input:invalid {color:#ff3e47}
+.hvut-mm-max {color:#ff3e47 !important}
+.hvut-mm-sub> input[type="text"] {border: 1px solid #aaa}
+.hvut-mm-eid {border:1px solid #dddad6; background-color:#16171d}
+#hvut-mm-credits div:last-child {border-top:3px double #6cf}
+
+/* >> MM LIST */
+.hvut-mm-list tr:hover {background-color:#16171d}
+.hvut-mm-list tr > td:hover {background-color:#0d0e0f}
+.hvut-mm-list tr:first-child > td {border-top:1px solid #6cf; background-color:#16171d;}
+.hvut-mm-list td {border-bottom:1px solid #6cf;}
+.hvut-mm-list td:nth-child(4) > span {color:#9999ff}
+.hvut-mm-attach-e {color:#ff6169}
+.hvut-mm-attach-e > a {color:inherit}
+.hvut-mm-attach-c {color:#52a1ff}
+.hvut-mm-attach-h {color:#fa4bf4}
+.hvut-mm-attach-i {color:#45d145}
+.hvut-mm-current {background-color:#16171d !important}
+.hvut-mm-loading {color:#ff3e47}
+.hvut-mm-returned {background-color:#333}
+.hvut-mm-returned * {color:#aaa !important}
+.hvut-mm-unread {background-color:#2e2626}
+.hvut-mm-nodb {background-color:#420a0d}
+.hvut-mm-removed {background-color:#1f2129; text-decoration:line-through}
+.hvut-mm-error {background-color:#701016}
+.hvut-mm-error * {color:#666 !important}
+.hvut-mm-search {border:2px solid; background-color:#1f2129;}
+.hvut-mm-view {border:2px solid; background-color:#16171d;}
+.hvut-mm-failed {background-color:#16171d} /* TODO */
+.hvut-mm-view dt {border:1px solid #666}
+.hvut-mm-view dd {border-bottom:1px solid}
+/* .hvut-mm-rts::before {color:#f00;} /* returned [MoogleMail] obsolete*/
+.hvut-mm-view ul {border:1px solid;}
+.hvut-mm-view li:first-child {border:1px solid; background-color:#0d0e0f;}
+.hvut-mm-view li > input {border:1px solid;}
+.hvut-mm-invalid {color:#ff3e47}
+.hvut-mm-view input[data-cod-match='1'] {color:#80b9ff}
+.hvut-mm-view input[data-cod-match='0'] {color:#ff3e47}
+.hvut-mm-log {background-color:#1f2129} /* TODO */
+#hvut-mm-equip .eqp> div:last-child:not([onclick]) {color:#dddad6;}
+.hvut-mm-field .equiplist>.eqp:hover {background-color:#0d0e0f}
+.hvut-mm-field .itemlist>tbody>tr:hover {background-color:#0d0e0f}
+
+/* > [14] Bazaar - Lottery */
+#mainpane> div>#rightpane> div:last-child[style="margin: 10px; color: rgb(204, 0, 0);"] {color:#ff3e47 !important}
+
+/* > [19] Battle - Item World */
+.hvut-iw-up {color:#ff3e47}
+.hvut-iw-gain {color:#45d145}
+.hvut-iw-reforge {color:#ff3e47}
+.hvut-iw-latest {border:1px solid; background-color:#1b1b29 !important}
+#itemworld_left> div>div> img[src="/y/shops/enteritemworld_d.png"] {filter:invert(1) grayscale(1)}
+
+/* > [20] Battle - Equipment Enchant and Repair */
+.hvut-bt-div {color:#dddad6;}
+.hvut-bt-div > ul::before {border-bottom:1px solid; background-color:#16171d;}
+
+.hvut-bt-equip li:hover { background-color: #16171d; z-index: 1; }
+.hvut-bt-active {background-color:#0d0e0f;}
+.hvut-bt-equip li > span:nth-child(2) > span { color: #FF53FF; }
+.hvut-bt-equip li > span:nth-child(3):hover { background-color: #16171d; }
+.hvut-bt-cdt1 { color: #ff3e47; }
+.hvut-bt-cdt2 { color: #eee; background-color: #a60008 !important; }
+
+.hvut-bt-warn {font-weight:bold; color:#ff3e47}
+
+.hvut-bt-enchant span:nth-child(1) { color: #52a1ff; }
+.hvut-bt-enchant span:nth-child(2) { color: #52a1ff; }
+.hvut-bt-day {background-color:#0d0e0f}
+.hvut-bt-nostock span { color: #999 !important;}
+
+.hvut-bt-repair:hover {background-color:#0d0e0f}
+.hvut-bt-repairall:hover {background-color:#0d0e0f}
+
+/* > [21] Forge - Upgrade */
+.hvut-up-span {color:#52a1ff;}
+.hvut-up-input:invalid {color:#ff3e47}
+.hvut-up-list tr:hover {background-color:#0d0e0f}
+
+.hvut-up-costs td { border: 1px solid #6cf; }
+.hvut-up-nostock {color:#ff3e47}
+
+.hvut-up-salvage {background-color:#1f2129;}
+.hvut-up-salvage td {border:1px solid;}
+
+/* > [23] Forge - Salvage */
+#forge_outer> #rightpane> div:nth-child(3)[style="margin-top: 30px; font-size: 12pt; font-weight: bold; color: rgb(204, 0, 0);"] {color:#ff3e47 !important} /* warning message */
+
+
+
+/*** Live Percentile Ranges */
+#svgDiv> svg> rect {fill:#1b1b29}
+#svgDiv> svg> text {fill:#dddad6}
+#svgDiv> svg>g> text {fill:#ffcc55}
+#svgDiv> svg>g> text[stroke] {fill:#fff; stroke:#1b1b29}
+#svgDiv> svg>g> rect[fill=black] {fill:#ccc}
+#svgDiv> svg>g> rect[fill=yellow] {fill:#0d0e0f}
+#svgDiv> svg>g> circle {fill:#ffa31a}
+
+
+
+/*** Monsterbation ***/
+#mbprofile {background: #1f2129; border: 1px solid #6cf;}
+#mbprofile> div[style="color: blue;"] {color:#52a1ff !important}
+#mbprofile> div[style="color: red;"] {color:#ff3e47 !important}
+.helptext {background-color:#1f2129 !important; border: 1px solid #6cf !important;}
+#mbcfgbt> select> option[style="color: blue;"] {color:#52a1ff !important}
+#mbcfgbt> select> option[style="color: red;"] {color:#ff3e47 !important}
+
+.effect_duration> div:not([style]) {color:#eee !important; background-color:#333 !important}
+.effect_duration> div[style^="background: aquamarine"] {color:#eee !important; background-color:#008060 !important}
+.effect_duration> div[style^="background: lavender"] {color:#eee !important; background-color:#3333bb !important}
+#quickbar .cooldown {color:#eee}
+#dropbox {border: 2px ridge #dddad6; background:#16171d;}
+.drop.crystal {color:#fa4bf4;}
+.drop.credit {color:#ffcc55;}
+.drop.equipment {color:#ff6169;}
+.drop.token {color:#9ec74c;}
+.drop.artifact {color:#337dff;}
+.drop.trophy {color:#a77be0;}
+.drop.consumable {color:#45d145;}
+.drop.food {color:#489EFF;}
+#textlog td>span[style="color:#BA05B4"] {color:#fa4bf4 !important} /* crystal */
+#textlog td>span[style="color:#A89000"] {color:#ffcc55 !important} /* credit */
+#textlog td>span[style="color:#FF0000"] {color:#ff6169 !important} /* equipment */
+#textlog td>span[style="color:#254117"] {color:#9ec74c !important} /* token */
+#textlog td>span[style="color:#0000FF"] {color:#337dff !important} /* artifact */
+#textlog td>span[style="color:#461B7E"] {color:#a77be0 !important} /* trophy */
+#textlog td>span[style="color:#00B000"] {color:#45d145 !important} /* consumable */
+/* #textlog td>span[style="color:#489EFF"] {color:#489EFF !important} /* food */
+.btm1[style^="border-color: rgb(189, 116, 0)"] {border-color:#cc7e00 !important}
+.btm1[style^="border-color: rgb(189, 31, 5)"] {border-color:#b95546 !important}
+.btm1[style^="border-color: rgb(166, 0, 145)"] {border-color:#e600c7 !important}
+
+/* > Test */
+/* #pane_effects {background-color:#009966 !important} */
+/* .testcolor {color:#1f2129} /* default */
+/* .testcolor {color:magenta} /* spark */
+/* .testcolor {color:deeppink} /* lowhp */
+/* .testcolor {color:darkslateblue} /* lowmp */
+/* .testcolor {color:indigo} /* lowsp */
+/* .testcolor {color:#00c87b} /* ocfull */
+/* .testcolor {color:#2a6f89} /* expiring */
+/* .testcolor {color:#009966} /* channelling */
+/* .testcolor {color:#00c87b} /* usable */
+/* #textlog .miss {color:#808080} /* miss */
+/* #textlog .damage {color:#ff4d55} /* damage */
+/* #textlog .item {color:#45d145} /* item */
+/* #textlog .attack {color:#66abff} /* attack */
+/* #textlog .spell {color:#ada6d8} /* spell */
+/* #textlog .recovery {color:#53c687} /* recovery */
+/* #textlog .effect {color:#8cd9ad} /* effect */
+/* #textlog .spirit {color:#d294ff} /* spirit */
+/* #textlog .proficiency {color:#98b95f} /* proficiency */
+/* .testcolor {color:#00a653} /* monster */
+/* .testcolor {color:#396039} /* stun */
+/* .testcolor {color:#2d476c} /* imperil */
+/* .testcolor {color:#395e60} /* stunimperil */
+
+
+
+/*** HentaiVerse Monster Database ***/
+/** Remove this line to enable a normal font-weight style
+.style-module_table__2G2Em td:nth-child(4) {border-left:1.8px ridge #6cf}
+.style-module_table__2G2Em tr>td:last-child {color:#eee; font-weight: normal}
+
+
+
+/*** Hentaiverse Battle Stats ***/
+/* > Container */
+#hbs_container {background-color: #16171d; color: #dddad6;}
+
+/* > Table Styling */
+.hbs-table tr.grouping_row th {border-left: 1px solid #dddad6; border-right: 1px solid #dddad6;}
+.last_agg_row td { border-bottom: 1px solid #dddad6; }
+
+/* > Tooltip */
+.hbs-tooltip-parent {border-bottom: 1px dashed #dddad6;}
+.hbs-tooltip-parent:hover {background: #404548}
+.hbs-tooltip {background: #0d0e0f; border: 1px solid #dddad6}
+
+/* > Profit */
+.hbs-table td[style="color: rgb(146, 32, 153);"] {color:#df81e4 !important} /* 100000 */
+.hbs-table td[style="color: rgb(41, 158, 196);"] {color:#6cc3e0 !important} /* 200000 */
+.hbs-table td[style="color: rgb(32, 153, 40);"] {color:#2dd238 !important} /* 300000 */
+
+
+}

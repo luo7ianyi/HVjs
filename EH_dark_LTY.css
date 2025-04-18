@@ -1,0 +1,175 @@
+/* ==UserStyle==
+@name           e-hentai.org
+@namespace      github.com/openstyles/stylus
+@version        1.0.0
+@description    A new userstyle
+@author         Me
+==/UserStyle== */
+
+@-moz-document domain("e-hentai.org") {
+      body { color: #f1f1f1; background: #34353b }
+      a { color: #DDDDDD }
+      a:hover { color: #EEEEEE }
+      /* input */
+      input, select, option, optgroup, textarea { color: #f1f1f1; background-color: #34353b }
+      input[type = "button"], input[type = "submit"] { border: 2px solid #8d8d8d }
+      select { border: 2px solid #8d8d8d }
+      input[type = "button"]:enabled:hover, input[type = "submit"]:enabled:hover, select:enabled:hover,
+        input[type = "button"]:enabled:focus, input[type = "submit"]:enabled:focus, select:enabled:focus
+        { background-color: #43464e !important; border-color: #aeaeae !important }
+      input[type = "button"]:enabled:active, input[type = "submit"]:enabled:active
+        { background: radial-gradient(#1a1a1a, #43464e) !important; border-color: #c3c3c3 !important }
+      input[type = "text"], input[type = "date"], input[type = "password"], textarea { border: 2px solid #8d8d8d }
+      input:disabled, select:disabled, textarea:disabled { color: #8a8a8a; -webkit-text-fill-color: #8a8a8a }
+      input::placeholder, textarea::placeholder { color: #8a8a8a; -webkit-text-fill-color: #8a8a8a }
+      input[type = "text"]:enabled:hover, input[type = "date"]:enabled:hover, input[type = "password"]:enabled:hover,
+        textarea:enabled:hover, input[type = "text"]:enabled:focus, input[type = "date"]:enabled:focus,
+        input[type = "password"]:enabled:focus, textarea:enabled:focus { background-color: #43464e }
+      input[type = "file"] { border: 2px solid #8d8d8d }
+      .lc:hover input:enabled ~ span, .lr:hover input:enabled ~ span, .lc input:enabled:focus ~ span,
+        .lr input:enabled:focus ~ span { background-color: #43464e !important; border-color: #aeaeae !important }
+      .lc input:disabled ~ span, .lr input:disabled ~ span { border-color: #5c5c5c !important }
+      .lc > span { background-color: #34353b; border: 2px solid #8d8d8d }
+      .lc > span:after { border: solid #f1f1f1 }
+      .lr > span { background-color: #34353b; border: 2px solid #8d8d8d }
+      .lr > span:after { background: #f1f1f1 }
+      /* misc */
+      .br { color: #FF3333 }
+      .stuffbox { background: #4f535b; border: 1px solid #000000 }
+      /* rating */
+      img.th { border: 1px solid #000000 }
+      div.ido { background: #4f535b; border: 1px solid #000000 }
+      /* index search/navigation */
+      .searchwarn { color: #FB7878 }
+      .searchnav div > span { color: #777 }
+      /* shared table stuff */
+      div.itg { border-top: 2px ridge #3c3c3c; border-bottom: 2px ridge #3c3c3c }
+      table.itg { border: 2px ridge #3c3c3c }
+      table.itg > tbody > tr > th { background: #40454b }
+      table.itg > tbody > tr:nth-child(2n + 1), table.itg > tbody > tr:nth-child(2n + 1) .glthumb,
+        table.itg > tbody > tr:nth-child(2n + 1) .glcut { background: #363940 }
+      table.itg > tbody > tr:nth-child(2n + 2), table.itg > tbody > tr:nth-child(2n + 2) .glthumb,
+        table.itg > tbody > tr:nth-child(2n + 2) .glcut { background: #3c414b }
+      table.mt { border: 1px solid #000000; background: #40454b }
+      table.mt > tbody > tr:nth-child(2n + 1) { background: #363940 }
+      table.mt > tbody > tr:nth-child(2n + 2) { background: #3c414b }
+      tr.gtr, table.mt > tbody > tr:first-child { background: #40454b !important }
+      td.itd { border-right: 1px solid #6f6f6f4d }
+      /* login boxes */
+      div.d { border: 1px solid #000000; background: #4f535b }
+      div.ds { border: 1px solid #000000; background: #4f535b }
+      /* index */
+      div.idi { border: 2px ridge #3c3c3c }
+      /* gallery list */
+      a:visited .glink, a:active .glink { color: #BBBBBB }
+      a:hover .glink { color: #EEEEEE }
+      .glname a :not(.glink), a .glname :not(.glink) { color: #dddddd }
+      .glcat { border-right: 1px solid #6f6f6f4d }
+      .glthumb { border: 2px solid #6f6f6f4d }
+      .glthumb > div:nth-child(1) { border: 1px solid #000000 }
+      .gltc > tbody > tr > td, .glte > tbody > tr > td { border-right: 1px solid #6f6f6f4d }
+      .gltm > tbody > tr > td { border-right: 1px solid #6f6f6f4d }
+      .gl1c, .gl2c, .gl3c, .gl4c, .glfc { border-top: 1px solid #6f6f6f4d; border-bottom: 1px solid #6f6f6f4d }
+      .gl1e, .gl2e, .glfe { border-top: 1px solid #6f6f6f4d; border-bottom: 1px solid #6f6f6f4d }
+      .gl1e > div { border: 1px solid #000000 }
+      .gl4e { border-left: 1px solid #6f6f6f4d }
+      .gld { border-left: 1px solid #6f6f6f4d }
+      .gl1t { border-right: 1px solid #6f6f6f4d; border-bottom: 1px solid #6f6f6f4d }
+      .gl3t { border: 1px solid #000000 }
+      .gl1t:nth-child(2n + 1) { background: #363940 }
+      .gl1t:nth-child(2n + 2) { background: #3c414b }
+      /* category buttons */
+      .ct1 { background: #777777; border-color: #777777 } /* misc */
+      .ct2 { background: #9E2720; border-color: #9E2720 } /* doujinshi */
+      .ct3 { background: #DB6C24; border-color: #DB6C24 } /* manga */
+      .ct4 { background: #D38F1D; border-color: #D38F1D } /* artistcg */
+      .ct5 { background: #6A936D; border-color: #617C63 } /* gamecg */
+      .ct6 { background: #325CA2; border-color: #325CA2 } /* imageset*/
+      .ct7 { background: #6A32A2; border-color: #6A32A2 } /* cosplay */
+      .ct8 { background: #A23282; border-color: #A23282 } /* asianporn */
+      .ct9 { background: #5FA9CF; border-color: #5FA9CF } /* nonh */
+      .cta { background: #AB9F60; border-color: #AB9F60 } /* western */
+      /* page selector */
+      table.ptt { color: #f1f1f1 }
+      table.ptt td { background: #34353b; border: 1px solid #000000 }
+      table.ptt td:hover { color: #000000; background: #43464e }
+      table.ptb { color: #f1f1f1 }
+      table.ptb td { background: #34353b; border: 1px solid #000000 }
+      table.ptb td:hover { color: #000000; background: #43464e }
+      td.ptds { color: #000000 !important; background: #43464e !important }
+      td.ptdd:hover { color: #C2A8A4 !important; background: #34353b !important }
+      /* gallery */
+      a.tup { color: #00E639 }
+      a.tdn { color: #FF3333 }
+      span.tup { color: #00E639 }
+      span.tdn { color: #FF3333 }
+      div.gm { background: #4f535b; border: 1px solid #000000 }
+      div#gmid { background: #4f535b }
+      div#gd1 div { border: 1px solid #000000 }
+      div#gd2 { background: #4f535b }
+      h1#gj { color: #b8b8b8; border-bottom: 1px solid #000000 }
+      div#gd4 { border-left: 1px solid #000000; border-right: 1px solid #000000 }
+      div#gdt { background: #4f535b; border: 1px solid #000000 }
+      div#gdt img { border: 1px solid #000000 }
+      .g3 a { color: #FF4A4A }
+      div.gt { border: 1px solid #989898; background: #4f535b }
+      div.gtl { border: 1px dashed #8c8c8c; background: #4f535b }
+      div.gtw { border: 1px dotted #8c8c8c; background: #4f535b }
+      #gds { background: #4f535b }
+      #grl { color: #FF3333 }
+      div.c2 { background: #34353b; border: 1px solid #4f535b }
+      div.ths { border: 1px solid #989898; background: #4f535b }
+      div.tha { border: 1px solid #706563 }
+      div.tha:hover { background: #4f535b; color: #000000 }
+      div.thd { border: 1px solid #706563; color: #706563 }
+      /* image pages */
+      div.sni { background: #4f535b; border: 1px solid #000000 }
+      /* keep the ticks in checkboxes */
+      .lc > span:after { border-width: 0 3px 3px 0 !important; }
+	.logbox{ background: #4f535b }
+	#dlvl {
+    border-left: 2px solid #5C0D1282;
+    border-right: 2px solid #5C0D1282;
+    background: #6cf6;
+}
+      /* page-specific */
+	
+        /* image view */
+        div#i1 + script + script + div.dp
+          { margin-top: -1px !important; }
+        /* news */
+        div#newsouter + div.dp { margin-top: 5px !important; }
+	
+	
+      /* cover event pane */
+      #eventpane { background: #4f535b !important; border-color: #000000 !important; }
+      /* use consistent round cornors */
+      div.ido, .stuffbox { border-radius: 9px; }
+	
+	
+      .glnew, tr[data-new] .glink, div[data-new] .glink { color: #6cf; font-weight: bold; }
+      div[id ^= "posted_"] > s, tr[data-expunged] .glink, div[data-expunged] .glink { color: #cc0; }
+	tr:nth-child(odd){background: #fff1 }
+	td[style~="color:green"],span[style~="color:green"]{color:#6cf !important}
+	#rangebar {
+    margin: 5px auto;
+    padding: 2px;
+    width: 720px;
+    height: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #34353b;
+    border-radius: 8px;
+}
+	#rangebar a:hover>div {
+    background: #fff6;
+}
+	#rangebar a>div {
+    background: #fff3;
+}
+	#rangebar div[data-inrange] {
+    background: #6cf;
+}
+}
