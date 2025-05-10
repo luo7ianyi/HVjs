@@ -48,7 +48,7 @@ var settings = {
 
   topMenuAlign: 'left', // '' (blank, default), 'left', 'center', 'right', or 'space-between', 'space-around', space-evenly'
   topMenuIntegrate: true, // integrate menus into one button
-  topMenuLinks: ['角色面板', '技能', '装备','莫古利邮局', '装备强化', '训练', '雪花祭坛', '怪物实验室', '物品仓库', '装备仓库', '物品商店', '装备商店', '交易市场', '竞技场', '塔楼', '浴血擂台', '道具界', '装备重铸', '压榨界'],
+  topMenuLinks: ['角色面板', '技能', '装备','莫古利邮局', '装备强化', '雪花祭坛', '怪物实验室', '物品仓库', '装备仓库', '物品商店', '装备商店', '交易市场', '竞技场', '塔楼', '浴血擂台', '道具界', '洗装备', '压榨界'],
   confirmStaminaRestorative: true, // confirm whether to use a stamina restorative item
   disableStaminaRestorative: 85, // disable a stamina restorative button when your stamina is higher than this
   warnLowStamina: 2, // warn when your stamina is lower than this
@@ -201,7 +201,7 @@ var settings = {
   equipEnchantWeapon: 4, // number of enchantments for your weapon
   equipEnchantArmor: 3, // number of enchantments for armors
   equipEnchantRepairThreshold: 55, // if the value is between 0 and 1, it means the condition % of the equipment (e.g., 0.6 => 60%). else if the value is larger than 1, it means a margin to 50% condition (e.g., 55 => 205/300). in this case, the recommended value for grindfest is 55.
-  equipEnchantInventory: { 'Health Draught': 500, 'Mana Draught': 500, 'Spirit Draught': 500, 'Health Potion': 300, 'Mana Potion': 300, 'Spirit Potion': 300, 'Health Elixir': 100, 'Mana Elixir': 100, 'Spirit Elixir': 100 , 'Last Elixir': 10, 'Flower Vase': 1, 'Bubble-Gum': 1},
+  equipEnchantInventory: { 'Health Draught': 500, 'Mana Draught': 500, 'Spirit Draught': 500, 'Health Potion': 300, 'Mana Potion': 300, 'Spirit Potion': 300, 'Health Elixir': 100, 'Mana Elixir': 100, 'Spirit Elixir': 100 , 'Last Elixir': 10, 'Flower Vase': 1, 'Bubble-Gum': 1,'Scroll of Swiftness':100,'Scroll of Protection':100,'Scroll of Shadows':100,'Scroll of Life':100,'Amnesia Shard':10},
   equipEnchantCheckArmors: true,
 
   arena: true,
@@ -822,7 +822,7 @@ var $re = {
       $re.button.textContent = time_format(remain, 2) + ` [${$re.json.count}]`;
       $re.beep = true;
     } else {
-      $re.button.textContent = (!$re.json.clear ? '已错失' : '遭遇战') + `[${$re.json.count}]`;
+      $re.button.textContent = (!$re.json.clear ? '🐙❌' : '🐙✅') + `[${$re.json.count}]`;
       if ($re.beep) {
         $re.beep = false;
         play_beep(settings.reBeep);
@@ -841,7 +841,7 @@ var $re = {
       }
     } else if ($re.type === 0) {
       $re.stop();
-      $re.button.textContent = '检查中...';
+      $re.button.textContent = '⏳...';
       const html = await $ajax.fetch('https://hentaiverse.org/');
       if (html.includes('<div id="navbar">')) {
         if (!$re.json.clear || engage) {
@@ -857,7 +857,7 @@ var $re = {
   load: async function (engage) {
     $re.stop();
     $re.get();
-    $re.button.textContent = '加载中...';
+    $re.button.textContent = '⏳...';
     const html = await $ajax.fetch('https://e-hentai.org/news.php');
     const doc = $doc(html);
     const eventpane = $id('eventpane', doc);
@@ -2440,7 +2440,7 @@ _top.menu = {
   '装备强化': { s: 'Forge', ss: 'up' ,text: '⚒️强化' },
   '装备附魔': { s: 'Forge', ss: 'en' ,text: '附魔' },
   '装备分解': { s: 'Forge', ss: 'sa' ,text: '分解' },
-  '装备重铸': { s: 'Forge', ss: 'fo' ,text: '🌊洗' },
+  '洗装备': { s: 'Forge', ss: 'fo' ,text: '🌊洗' },
   '装备魂绑': { s: 'Forge', ss: 'fu' ,text: '魂绑' },
 };
 
@@ -2514,7 +2514,7 @@ if (settings.topMenuIntegrate) {
   if (_top.node.server) {
     const sub = $element('div', _top.node.server, ['.hvut-top-sub']);
     if (_isekai) {
-      $element('a', sub, { href: '/', innerHTML: `<p>你现在在异世界</p><p>${_isekai}</p><p>点击切换到永久区</p>` });
+      $element('a', sub, { href: '/', innerHTML: `<p>异世相遇，尽享美味</p><p>${_isekai}</p><p>点击切换到永久区</p>` });
     } else {
       $element('a', sub, { href: '/isekai/', innerHTML: '<p>你现在在永久区</p><p>点击切换到异世界</p>' });
     }
@@ -2588,7 +2588,7 @@ _top.init = function () {
     }
   });
 
-  _top.node.stamina = $element('div', _top.node.div, ['!width: 90px;', `/<span>精力: ${_player.stamina}</span>`]);
+  _top.node.stamina = $element('div', _top.node.div, ['!width: 90px;', `/<span>🐮: ${_player.stamina}</span>`]);
   _top.node.level = $element('div', _top.node.div, ['!width: 60px;', `/<span>Lv.${_player.level}</span>`]);
   _top.node.dfct = $element('div', _top.node.div, ['!width: 80px;', `/<span>${_player.dfct}</span>`]);
   _top.node.persona = $element('div', _top.node.div, ['!width: 110px;', '/<span>Persona</span>']);
@@ -2909,14 +2909,14 @@ _bottom.node.div = $element('div', $id('csp'), ['#hvut-bottom']);
 // CREDITS COUNTER
 if (settings.showCredits) {
   _bottom.show_credits = async function () {
-    _bottom.node.credits = $element('div', _bottom.node.div, '加载中...');
+    _bottom.node.credits = $element('div', _bottom.node.div, '⏳...');
     if ($id('networth')) {
-      _bottom.node.credits.textContent = $id('networth').textContent;
+      _bottom.node.credits.textContent = $id('networth').textContent.replace("Credits", "💰");
       $id('networth').remove();
     } else {
       const html = await $ajax.fetch('?s=Bazaar&ss=is');
       const doc = $doc(html);
-      _bottom.node.credits.textContent = $id('networth', doc).textContent;
+      _bottom.node.credits.textContent = $id('networth', doc).textContent.replace("Credits", "💰");
     }
   };
 
@@ -2926,14 +2926,14 @@ if (settings.showCredits) {
 // EQUIPMENT COUNTER
 if (settings.showEquipSlots === 2 || settings.showEquipSlots === 1 && _query.s === 'Battle') {
   _bottom.show_equip = async function () {
-    _bottom.node.equip = $element('div', _bottom.node.div, '加载中...');
+    _bottom.node.equip = $element('div', _bottom.node.div, '⏳...');
     const html = await $ajax.fetch('?s=Character&ss=in');
     const exec = />Equip Slots: (\d+)(?: \+ (\d+))? \/ (\d+)</.exec(html);
     const inventory = parseInt(exec[1]);
     const storage = parseInt(exec[2] || 0);
     const slots = parseInt(exec[3]);
     const free = slots - inventory - storage;
-    _bottom.node.equip.textContent = `装备库存量: ${inventory} + ${storage} / ${slots}`;
+    _bottom.node.equip.textContent = `💼: ${inventory} + ${storage} / ${slots}`;
     if (free < slots / 10) {
       _bottom.node.equip.classList.add('hvut-bottom-warn');
     } else if (free < slots / 2) {
@@ -2956,7 +2956,7 @@ if (settings.trainingTimer) {
         return;
       }
       _bottom.tr.node.div = $element('div', _bottom.node.div);
-      _bottom.tr.node.link = $element('a', _bottom.tr.node.div, { href: '?s=Character&ss=tr', textContent: '初始化...', style: 'margin-right: 5px;' });
+      _bottom.tr.node.link = $element('a', _bottom.tr.node.div, { href: '?s=Character&ss=tr', textContent: '⏱️...', style: 'margin-right: 5px;' });
       _bottom.tr.node.clock = $element('span', _bottom.tr.node.div, ['!display: inline-block; width: 60px;']);
       if (json.error) {
         _bottom.tr.node.link.textContent = json.error;
@@ -2972,7 +2972,7 @@ if (settings.trainingTimer) {
         _bottom.tr.node.clock.textContent = time_format(remain);
         setTimeout(_bottom.tr.clock, 1000);
       } else {
-        _bottom.tr.node.link.textContent = '加载中...';
+        _bottom.tr.node.link.textContent = '⏳...';
         _bottom.tr.node.clock.textContent = '';
         _bottom.tr.load();
       }
@@ -2981,7 +2981,7 @@ if (settings.trainingTimer) {
       const html = await $ajax.fetch('?s=Character&ss=tr', post);
       const doc = $doc(html);
       if (!$id('train_outer', doc)) {
-        _bottom.tr.node.link.textContent = '请稍等...';
+        _bottom.tr.node.link.textContent = '⏳...';
         setTimeout(_bottom.tr.clock, 60000);
         return;
       }
@@ -3007,15 +3007,15 @@ if (settings.trainingTimer) {
           if ($qs(`img[onclick*="training.start_training(${json.next_id})"]`, doc)) {
             _bottom.tr.load('start_train=' + json.next_id);
           } else {
-            json.error = "现在无法开始训练";
+            json.error = "🌋现在无法开始训练";
             _bottom.tr.node.link.textContent = json.error;
             setTimeout(_bottom.tr.clock, 60000);
           }
         } else {
-          _bottom.tr.node.link.textContent = '训练完成!';
+          _bottom.tr.node.link.textContent = '🏖️训练完成!';
         }
       } else {
-        _bottom.tr.node.link.textContent = '训练完成!';
+        _bottom.tr.node.link.textContent = '🏖️训练完成!';
       }
       setValue('tr_timer', json);
     },
@@ -9290,7 +9290,7 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
       if (view.take && !view.returned && settings.moogleMailDarkDescent && /Dark Descent|reforge/i.test(db.subject + '\n' + db.text)) {
         const [, cost] = _mm.reforge_parse(db.attach);
         if (cost) {
-          $input(['button', `代重铸服务 [${cost}]`], buttons, { dataset: { action: 'reforge', mid } });
+          $input(['button', `代洗服务 [${cost}]`], buttons, { dataset: { action: 'reforge', mid } });
         }
       }
 
@@ -9733,9 +9733,9 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
       const amnesia = mail.db.attach.filter((e) => e.n === 'Amnesia Shard').reduce((s, e) => s + e.c, 0);
       let msg;
       if (!amnesia) {
-        msg = `这需要 ${cost} 重铸碎片，但没有附加任何物品。\n继续吗？`;
+        msg = `这需要 ${cost} 洗衣粉，但没有附加任何物品。\n继续吗？`;
       } else if (amnesia !== cost) {
-        msg = `这需要 ${cost} 重铸碎片，但附加物品的数量是 ${amnesia}。\n继续吗？`;
+        msg = `这需要 ${cost} 洗衣粉，但附加物品的数量是 ${amnesia}。\n继续吗？`;
       }
       if (msg && !confirm(msg)) {
         return;
@@ -9771,11 +9771,11 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
       }
       _mm.reforge.current = mid;
 
-      _mm.mail_log('[代重铸服务]', true);
+      _mm.mail_log('[代洗服务]', true);
       _mm.mail_log('接收');
       await _mm.mail_load(mid, `action=attach_remove&mmtoken=${_mm.mmtoken}`);
 
-      _mm.mail_log('重铸');
+      _mm.mail_log('洗');
       const html = await $ajax.fetch('?s=Character&ss=in');
       const uid = /var uid = (\d+);/.test(html) && RegExp.$1;
       const token = /var simple_token = "(\w+)";/.test(html) && RegExp.$1;
@@ -9794,7 +9794,7 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
 
         if (!eq.info.tier) {
           reforged++;
-          _mm.mail_log(`已重铸 (${reforged}/${total}): 潜能等级 0`);
+          _mm.mail_log(`已洗 (${reforged}/${total}): 潜能等级 0`);
           return true;
         }
 
@@ -9806,7 +9806,7 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
           return false;
         }
         reforged++;
-        _mm.mail_log(`已重铸 (${reforged}/${total})`);
+        _mm.mail_log(`已洗 (${reforged}/${total})`);
         return true;
       }
 
@@ -9822,8 +9822,8 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
       const attach = equips.map((eq) => eq.data);
       const mail = {
         to_name: _mm.mail_get(mid).view.from,
-        subject: '[代重铸服务]',
-        body: '[代重铸服务]',
+        subject: '[代洗服务]',
+        body: '[代洗服务]',
         attach,
       };
       $mail.request(mail);
@@ -10162,7 +10162,7 @@ if (_query.s === 'Battle' && $id('initform')) {
       $element('span', eq.node.sub, [`IW ${eq.info.tier}`, (eq.info.tier ? '.hvut-iw-tier' : '')]);
       $element('span', eq.node.sub, `(${eq.info.pxp1} / ${eq.info.pxp2})`);
       $element('span', eq.node.sub, [`+${gear_exp} (${eq.info.round_})`, '.hvut-iw-up hvut-cphu', { dataset: { action: 'calc', eid: eq.info.eid } }]);
-      $element('span', eq.node.sub, '=>');
+      $element('span', eq.node.sub, '→');
       $element('span', eq.node.sub, [`IW ${tier}`, (tier ? '.hvut-iw-tier' : '')]);
       $element('span', eq.node.sub, pxp_text);
 
@@ -10190,10 +10190,10 @@ if (_query.s === 'Battle' && $id('initform')) {
 
     _iw.reforge = async function (eq) {
       if (!eq.node.lock.classList.contains('iu')) {
-        alert('重铸装备前请先解锁.');
+        alert('洗装备前请先解锁.');
         return;
       }
-      if (!confirm(`[${eq.info.name}]\n你确定要重铸这件装备吗?\n这会移除它所有的潜能并将其潜能等级归0.`)) {
+      if (!confirm(`[${eq.info.name}]\n你确定要洗这件装备吗?\n这会移除它所有的潜能并将其潜能等级归0.`)) {
         return;
       }
       const html = await $ajax.fetch(`?s=Forge&ss=fo&filter=${_iw.filter}`, `select_item=${eq.info.eid}`);
@@ -10234,7 +10234,7 @@ if (_query.s === 'Battle' && $id('initform')) {
       eq.node.div.dataset.action = 'select';
       eq.node.lock = eq.node.wrapper.firstElementChild;
       eq.node.sub = $element('div', [eq.node.div, 'beforebegin'], ['.hvut-iw-sub']);
-      $element('span', eq.node.sub, [`潜能等级 ${eq.info.tier}`, (eq.info.tier ? '.hvut-iw-tier' : '')]);
+      $element('span', eq.node.sub, [`IW ${eq.info.tier}`, (eq.info.tier ? '.hvut-iw-tier' : '')]);
       $element('span', eq.node.sub, `(${eq.info.pxp1} / ${eq.info.pxp2})`);
     });
 
@@ -10521,18 +10521,19 @@ repair.split(', ').forEach((e) => {
 
       // 翻译补给品库存
      const recoveryItemsMapping = {
-        'Health Potion' : '生命药水',
-        'Health Draught' : '生命长效药',
-        'Health Elixir' : '生命秘药',
-        'Mana Potion' : '法力药水',
-        'Mana Draught' : '法力长效药',
-        'Mana Elixir' : '法力秘药',
-        'Spirit Potion' : '灵力药水',
-        'Spirit Draught' : '灵力长效药',
-        'Spirit Elixir' : '灵力秘药',
-        'Last Elixir' : '终极秘药',
-        'Flower Vase' : '花瓶',
-        'Bubble-Gum' : '泡泡糖',
+        'Health Potion' : '生命药水🥣',
+        'Health Draught' : '生命长效🥤',
+        'Health Elixir' : '生命秘药㊙️',
+        'Mana Potion' : '法力药水🥣',
+        'Mana Draught' : '法力长效🥤',
+        'Mana Elixir' : '法力秘药㊙️',
+        'Spirit Potion' : '灵力药水🥣',
+        'Spirit Draught' : '灵力长效🥤',
+        'Spirit Elixir' : '灵力秘药㊙️',
+        'Last Elixir' : '终极秘药㊙️',
+        'Flower Vase' : '花瓶🈲',
+        'Bubble-Gum' : '泡泡糖🈲','Scroll of Swiftness':'速卷🧾','Scroll of Protection':'护卷🧾','Scroll of Shadows':'影卷🧾','Scroll of Life':'命卷🧾',
+        'Amnesia Shard':'洗衣粉🧼'
       // 可在设置中继续添加
      };
     Object.entries(settings.equipEnchantInventory).forEach(([enName, m]) => {
