@@ -2578,7 +2578,7 @@ _top.init = function () {
     let text = m.text || m.ss.toUpperCase();
     const href = m.href || `?s=${m.s}&ss=${m.ss}`;
     let cn = '';
-    if (t === 'MoogleMail' && new_mail) {
+    if (t === '莫古利邮局' && new_mail) {
       text = `[${new_mail}]`;
       cn = 'hvut-top-ygm';
     }
