@@ -2304,7 +2304,10 @@ if (settings.equipColor) {
     .hvut-eq-Exquisite { background-color: #d7e698; }
     .hvut-eq-Magnificent { background-color: #66ccff; }
     .hvut-eq-Legendary { background-color: #ff9afc; }
-    .hvut-eq-Peerless { background-color: #ee0000; }
+    @keyframes diagonal {
+    0% {background-position: 0% 0%}
+    100% {background-position: 100% 0%}}
+    .hvut-eq-Peerless {background:repeating-linear-gradient(to right, red, orange, yellow, lime, cyan, skyblue, #ff9afc,red,orange, yellow, lime, cyan, skyblue, #ff9afc,red);background-size: 200% 100%;color:#000;animation: diagonal linear 10s infinite;}
   `);
 }
 
