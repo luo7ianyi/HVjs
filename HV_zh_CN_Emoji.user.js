@@ -3447,5 +3447,3 @@ if ((currentUrl.includes('?s=Character&ss=in') || currentUrl.includes('?s=Bazaar
 }
 
 })();
-
-}());
