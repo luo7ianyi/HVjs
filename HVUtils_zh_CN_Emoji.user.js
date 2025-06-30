@@ -1951,33 +1951,33 @@ var $mail = {
     let html;
     let doc;
 
-    $mail.log('\n========== Sending ==========');
+    $mail.log('\n========== 发送中 ==========');
 
     if (!$mail.token) {
       if (_query.ss === 'mm' && _query.filter === 'new') {
         doc = document;
       } else {
-        $mail.log(`#${index}: Checking Mailbox`);
+        $mail.log(`#${index}: 新建邮件中`);
         html = await $ajax.fetch('?s=Bazaar&ss=mm&filter=new');
         doc = $doc(html);
       }
       $mail.token = $id('mailform', doc).elements.mmtoken.value;
       if ($id('mmail_attachremove', doc)) {
-        $mail.log(`#${index}: Removing attachments`);
+        $mail.log(`#${index}: 取下附件`);
         await $mail.discard();
       }
     }
     const token = $mail.token;
 
     if (attach?.length) {
-      $mail.log(`#${index}: Attaching`);
+      $mail.log(`#${index}: 添加附件`);
       async function attach_add(e) {
         const html = await $ajax.fetch('?s=Bazaar&ss=mm&filter=new', `mmtoken=${token}&action=attach_add&select_item=${e.id}&select_count=${e.count}&select_pane=${e.pane}`);
         if ($mail.check(html)) {
           return false;
         }
         done++;
-        $mail.log(`#${index}: Attached (${done}/${total})`);
+        $mail.log(`#${index}: 添加附件 (${done}/${total})`);
         return true;
       }
 
@@ -1992,7 +1992,7 @@ var $mail = {
     }
 
     if (cod && !cod_persistent) {
-      $mail.log(`#${index}: Setting CoD`);
+      $mail.log(`#${index}: 设CoD`);
       html = await $ajax.fetch('?s=Bazaar&ss=mm&filter=new', `mmtoken=${token}&action=attach_cod&action_value=${cod}`);
       if ($mail.check(html)) {
         $mail.discard();
@@ -2001,7 +2001,7 @@ var $mail = {
     }
 
     if (cod && cod_persistent) {
-      $mail.log(`#${index}: Preparing in Persistent`);
+      $mail.log(`#${index}: 正在发主世界mm`);
       html = await $ajax.fetch('/?s=Bazaar&ss=mm&filter=new');
       doc = $doc(html);
       if ($mail.check(html)) {
@@ -2009,29 +2009,29 @@ var $mail = {
         return;
       }
       if (!$id('navbar', doc)) {
-        $mail.log('!!! Error: Unable to access to Persistent MoogleMail');
+        $mail.log('❌主世界正在战斗中，请完成主世界的战斗后再试');
         return;
       }
       if ($id('mmail_attachremove', doc)) {
-        $mail.log('!!! Error: Something is attached to Persistent MoogleMail');
+        $mail.log('❌主世界邮件有附件，需要先移除后再试');
         return;
       }
 
-      $mail.log(`#${index}: Attaching in Persistent`);
+      $mail.log(`#${index}: 主世界附件`);
       html = await $ajax.fetch('/?s=Bazaar&ss=mm&filter=new', `mmtoken=${token}&action=attach_add&select_item=0&select_count=1&select_pane=credits`);
       if ($mail.check(html)) {
         $mail.discard();
         return;
       }
 
-      $mail.log(`#${index}: Setting CoD in Persistent`);
+      $mail.log(`#${index}: 主世界设CoD`);
       html = await $ajax.fetch('/?s=Bazaar&ss=mm&filter=new', `mmtoken=${token}&action=attach_cod&action_value=${cod}`);
       if ($mail.check(html)) {
         $mail.discard();
         return;
       }
 
-      $mail.log(`#${index}: Sending in Persistent`);
+      $mail.log(`#${index}: 在主世界发`);
       html = await $ajax.fetch('/?s=Bazaar&ss=mm&filter=new', { mmtoken: token, action: 'send', message_to_name: to_name, message_subject: subject, message_body: body });
       if ($mail.check(html)) {
         $mail.discard();
@@ -2039,20 +2039,20 @@ var $mail = {
       }
     }
 
-    $mail.log(`#${index}: Sending`);
+    $mail.log(`#${index}: 正在发`);
     html = await $ajax.fetch('?s=Bazaar&ss=mm&filter=new', { mmtoken: token, action: 'send', message_to_name: to_name, message_subject: subject, message_body: body });
     if ($mail.check(html)) {
       $mail.discard();
       return;
     }
 
-    $mail.log(`#${index}: Completed`);
+    $mail.log(`#${index}: 已发送`);
     $mail.ready = true;
     $mail.current++;
     if ($mail.queue[$mail.current]) {
       return $mail.send();
     } else {
-      location.href = '?s=Bazaar&ss=mm&filter=sent';
+      //location.href = '?s=Bazaar&ss=mm&filter=sent';
       return true;
     }
   },
@@ -2140,7 +2140,7 @@ var $mail = {
     const error = get_message(html);
     if (error) {
       $mail.error = error;
-      $mail.log('!!! Error: ' + error);
+      $mail.log('❌ 错误：' + error);
     }
     return error;
   },
@@ -2828,6 +2828,15 @@ var $persona = {
     } else if (_player.condition.includes('你现在精力充沛')) {
       _top.node.stamina.firstElementChild.style.color = '#03c';
     }
+if(parseInt(document.querySelector("#stats_pane > div:nth-child(2) > div:nth-child(9) > div:nth-child(1) > div > div").textContent)%5==1)
+{
+    if(_query.s === 'Character' ||(_query.s === 'Battle' && document.querySelector("#navbar")))
+        _top.node.message = _top.node.message || $element('div', null, ['.hvut-top-message']);
+        _top.node.message.textContent = '[警告] 血量尾数为1或6';
+        _top.node.div.appendChild(_top.node.message);
+      _top.node.div.classList.add('hvut-top-warn');
+      _top.node.persona.firstElementChild.style.color = '#e00';
+}
   },
   parse_stats_pane: function (doc) {
     const stats_pane = {};
@@ -11525,5 +11534,6 @@ if (_query.s === 'Forge' && $id('item_pane')) {
     $equip.list($qs('#item_pane .equiplist'));
   }
 }
+
 
 /* END */
