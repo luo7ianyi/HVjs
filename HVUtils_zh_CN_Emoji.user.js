@@ -2828,15 +2828,18 @@ var $persona = {
     } else if (_player.condition.includes('你现在精力充沛')) {
       _top.node.stamina.firstElementChild.style.color = '#03c';
     }
+      if(parseInt(document.querySelector("#stats_pane > div:nth-child(2) > div:nth-child(9) > div:nth-child(1) > div > div"))){
 if(parseInt(document.querySelector("#stats_pane > div:nth-child(2) > div:nth-child(9) > div:nth-child(1) > div > div").textContent)%5==1)
 {
-    if(_query.s === 'Character' ||(_query.s === 'Battle' && document.querySelector("#navbar")))
+    if(_query.s === 'Character' ||(_query.s === 'Battle' && document.querySelector("#navbar"))){
         _top.node.message = _top.node.message || $element('div', null, ['.hvut-top-message']);
         _top.node.message.textContent = '[警告] 血量尾数为1或6';
         _top.node.div.appendChild(_top.node.message);
       _top.node.div.classList.add('hvut-top-warn');
       _top.node.persona.firstElementChild.style.color = '#e00';
 }
+}
+      }
   },
   parse_stats_pane: function (doc) {
     const stats_pane = {};
