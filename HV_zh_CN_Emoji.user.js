@@ -518,7 +518,7 @@ var words = {
         'Offhand Strike' : '副手攻击',
         'on offhand hit' : '副手击中时触发',
         'Staff' : '🧙法杖',
-        'Coalesced Mana' : '魔力合流',
+        'Coalesced Mana' : '蕴魔',
         'on spell hit' : '法术击中时触发',
         'Niten Ichiryu' : '🏌️⚒️二天一流',
         'on hit' : '击中时触发',
@@ -885,7 +885,7 @@ var words = {
         'Increases the chance that Absorb will successfully nullify a hostile spell.' : '增加“吸收”成功使敌方咒语无效的机率。',
         'Decreases the amount of damage required to make Spirit Shield kick in, as well as how much spirit is consumed when it does.' : '降低触动“灵力盾”所需的伤害值，同时也减少灵力值的损失。	',
         'Heartseeker will additionally increase the damage of any critical melee hits.' : '“穿心”会额外增加任何近战暴击的伤害。',
-        'Arcane Focus will additionally increase the damage of any critical spell hits.' : '“奥术集成”会额外增加任何咒语暴击的伤害。	',
+        'Arcane Focus will additionally increase the damage of any critical spell hits.' : '“聚精会神”会额外增加任何咒语暴击的伤害。	',
         'Increase the power and duration of the Regen spell.' : '增加“细胞活化”咒语的效果和持续回合数。	',
         'Increase the healing power and decrease the cooldown of the Cure spell.' : '增加“疗伤”咒语的治疗效果和缩短冷却时间。	',
         'Increase the duration and decrease the mana cost of the Spark of Life spell.' : '增加“遐蝶”咒语的持续回合数并且减少施放所需魔力值。	',
@@ -1005,7 +1005,7 @@ var words = {
         '/^Shadow Veil$/' : '锦木千束[S]',
         '/^Absorb$/' : '吸收[S]',
         '/^Spark of Life$/' : '遐蝶[S]',
-        '/^Arcane Focus$/' : '奥术集成[S]',
+        '/^Arcane Focus$/' : '聚精会神[S]',
         '/^Heartseeker$/' : '穿心[S]',
         '/^Spirit Shield$/' : '灵力盾[S]',
     },
@@ -1975,14 +1975,14 @@ var words = {
         'Potency Tier':'潜能等级',
         'MAX' : '已满',
 
-        'Ether Tap':'魔力回流',
+        'Ether Tap':'灵犀一指',
         'Bleeding Wound':'流血',
         'Penetrated Armor':'破甲',
         'Stunned':'眩晕',
         'Siphon Spirit':'灵力吸取',
         'Siphon Magic':'魔力吸取',
         'Siphon Health':'生命吸取',
-        'Ether Theft':'魔力回流',
+        'Ether Theft':'灵犀一指',
         'Lasts for':'持续',
         'chance - ':'几率 - ',
         ' turns':' 回合',
@@ -2874,7 +2874,7 @@ var words = {
 
         'Channels the power of the heavens for a powerful strike that causes massive carnage.' : '给予多达5个目标 3 道破甲 (缓伤降至 25%) 和 5 道流血 (流血百分比 = 20%) 的效果。',
 
-        'Focus your magical power into your staff for a precision strike towards the head of your enemy, causing major damage and stunning it.' : '使目标晕眩 5 回合，但不会使已晕眩的目标再晕眩。打出魔法性质伤害，而非物理性质。会触发魔力合流特效。',
+        'Focus your magical power into your staff for a precision strike towards the head of your enemy, causing major damage and stunning it.' : '使目标晕眩 5 回合，但不会使已晕眩的目标再晕眩。打出魔法性质伤害，而非物理性质。会触发蕴魔特效。',
 
 
         //辅助咒语（BUFF）
@@ -2997,32 +2997,32 @@ var words = {
 
         //战斗风格
         'Overwhelming Strikes' : '压倒性的攻击',
-        '/^Coalesced Mana$/' : '魔力合流',
-        'Ether Tap' : '以太水龙头',
+        '/^Coalesced Mana$/' : '蕴魔',
+        'Ether Tap' : '灵犀一指',
         'Increases attack damage by 15% and attack accuracy by 50%. Also grants a 20% chance per stack to overwhelm enemy parry.' : '增加15%攻击伤害和50%攻击准确度。每一道特效有20%反制怪物招架几率，最多可堆叠5道特效 (完全无视怪物的招架)',
         'Mystical energies have converged on this target. Striking it with any magic spell will consume only half the normal mana.' : '神秘的能量汇集于这个目标，对它施放魔法咒语只需消耗一半的魔力值 (可以和灵动架式共同作用)。',
-        'You are absorbing magicks from shattering the Coalesced Mana surrounding a target.' : '你打散了合流于目标周围的魔力然后吸取中。',
+        'You are absorbing magicks from shattering the Coalesced Mana surrounding a target.' : '你灵犀一指，正在吸取处于蕴魔状态的敌人中蕴含的MP',
 
         //武器效果
         'Penetrated Armor' : '破甲',
         'Stunned' : '眩晕',
         'Bleeding Wound' : '流血',
-        'A powerful blow has temporarily stunned this target.' : '巨大的冲击使目标陷入眩晕，它将无法继续行动。',
+        'A powerful blow has temporarily stunned this target.' : '咚！晕了！它将无法继续行动。',
         'The armor of this target has been breached, reducing its physical defenses.' : '目标的护甲被击穿，它的物理防御力下降了',
         'A gashing wound is making this target take damage over time.' : '血流如注的伤口给予此目标持续伤害。',
 
         //特殊
         '/^Channeling$/' : '蓝精灵',
-        'Blessing of the RiddleMaster' : '御谜士的祝福',
+        'Blessing of the RiddleMaster' : '谜语人的祝福',
         'You are channeling the mystic forces of the ever-after. Your next spell is powered up by 50%, and costs no MP.' : '蓝精灵使你下一次施放的咒语效果会增强 50% 且只会消耗 1 点魔力值。',
-        'You have been blessed by the RiddleMaster. Your attack and magic damage are temporarily increased by' : '你已被御谜士祝福，你的物理和魔法攻击会短暂提升',
+        'You have been blessed by the RiddleMaster. Your attack and magic damage are temporarily increased by' : '你已被谜语人祝福，你的物理和魔法攻击会短暂提升',
 
         //恢复剂
         'Refreshment' : '提神',
         'Regeneration' : '再生',
         'Replenishment' : '补给',
         'Energized' : '性欲大爆发',
-        'Kicking Ass': '海扁',
+        'Kicking Ass': '踢尻',
         'Sleeper Imprint' : '沉睡烙印',
         'You are generating additional Overcharge and Spirit.' : '你正在产生额外的斗气和灵力。',
         'The holy effects of the spell are restoring your body.' : '神奇的细胞再生效果正在恢复你的身体',
@@ -3066,7 +3066,7 @@ var words = {
         '/^Spark of Life$/' : '遐蝶[S]',
         '/^Cloak of the Fallen$/' : '遐蝶的保护[S]',
         '/^Heartseeker$/' : '穿心[S]',
-        '/^Arcane Focus$/' : '奥术集成[S]',
+        '/^Arcane Focus$/' : '聚精会神[S]',
         'The holy effects of the spell are restoring your body.' : '神奇的细胞再生效果正在恢复你的身体',
         'Places a shield effect on the target, absorbing' : '对目标施加护盾效果，吸收所有攻击',
         'of the damage from all attacks.' : '的伤害值。',
@@ -3445,5 +3445,4 @@ if ((currentUrl.includes('?s=Character&ss=in') || currentUrl.includes('?s=Bazaar
 } else {
     console.log('当前页面不符合显示重新翻译按钮的条件。');
 }
-
-})();
+}());
