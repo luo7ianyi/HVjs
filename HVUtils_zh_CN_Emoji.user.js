@@ -18,9 +18,9 @@
 // @exclude        http://alt.hentaiverse.org/equip/*
 // @exclude        http://alt.hentaiverse.org/isekai/equip/*
 // @exclude        https://hentaiverse.org/?s=Bazaar&ss=es&filter=*
-// @exclude        https://hentaiverse.org/isekai/?s=Bazaar&ss=es&filter=*
+// @exclude        https://hentaiverse.org/isekai/?s=Bazaar&ss=am&filter=*
 // @exclude        http://alt.hentaiverse.org/?s=Bazaar&ss=es&filter=*
-// @exclude        http://alt.hentaiverse.org/isekai/?s=Bazaar&ss=es&filter=*
+// @exclude        http://alt.hentaiverse.org/isekai/?s=Bazaar&ss=am&filter=*
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_addStyle
@@ -28,8 +28,6 @@
 // @grant          GM_setClipboard
 // @grant          unsafeWindow
 // @run-at         document-end
-// @downloadURL https://update.sleazyfork.org/scripts/472723/HV%20Utils%20%E6%B1%89%E5%8C%96.user.js
-// @updateURL https://update.sleazyfork.org/scripts/472723/HV%20Utils%20%E6%B1%89%E5%8C%96.meta.js
 // ==/UserScript==
 
 var settings = {
@@ -48,7 +46,7 @@ var settings = {
 
   topMenuAlign: 'left', // '' (blank, default), 'left', 'center', 'right', or 'space-between', 'space-around', space-evenly'
   topMenuIntegrate: true, // integrate menus into one button
-  topMenuLinks: ['角色面板', '技能', '装备','莫古利邮局', '装备强化', '雪花祭坛', '怪物实验室', '物品仓库', '装备仓库', '物品商店', '装备商店', '交易市场', '竞技场', '塔楼', '浴血擂台', '道具界', '洗装备', '压榨界'],
+  topMenuLinks: ['角色面板', '技能', '装备', '莫古利邮局', '训练', '雪花祭坛', '怪物实验室', '物品仓库','装仓', '装备仓库', '物品商店', '装备商店', '装备库AM', '交易市场', '竞技场', '塔楼', '浴血擂台', '道具界', '装备重铸', '压榨界'],
   confirmStaminaRestorative: true, // confirm whether to use a stamina restorative item
   disableStaminaRestorative: 85, // disable a stamina restorative button when your stamina is higher than this
   warnLowStamina: 2, // warn when your stamina is lower than this
@@ -100,6 +98,9 @@ var settings = {
     'Phase : type=bold ; Radiant || Charged : prefix=#f00 ; Mystic || Frugal : prefix=#f90',
     'Cotton && (Elementalist || Heaven-sent || Demon-fiend) : suffix=bold ; Charged : prefix=#f00 ; Elementalist && Shoes || (Heaven-sent || Demon-fiend) && Robe : slot=bold',
     'Shade && Shadowdancer : type=bold, suffix=bold ; Savage : prefix=#f00 ; Agile : prefix=#f90',
+    'Leather && (Protection || Fleet) : type=bold, suffix=bold',
+    'Kevlar && (Protection || Fleet) : type=bold, suffix=bold',
+    'Drakehide && (Protection || Fleet) : type=bold, suffix=bold',
     'Power : type=bold ; Savage : prefix=#f90 ; Slaughter : suffix=bold ; Savage && Slaughter : prefix=#f00',
     'Plate && Shielding : prefix=#f90',
   ],
@@ -633,6 +634,9 @@ if (_isekai) {
   document.title = 'HV异世界';
 }
 
+// Globals for feature modules
+var _am = {};
+
 // AJAX
 var $ajax = {
 
@@ -1040,9 +1044,9 @@ var $equip = {
       'Estoc': 1, 'Mace': 2, 'Longsword': 3, 'Katana': 4, 'Scythe': 5,
       'Oak Staff': 1, 'Willow Staff': 2, 'Katalox Staff': 3, 'Redwood Staff': 4, 'Ebony Staff': 5,
       'Force Shield': 1, 'Buckler': 2, 'Kite Shield': 3, 'Tower Shield': 4,
-      'Phase': 1, 'Cotton': 2, 'Gossamer': 3, 'Silk': 4,
-      'Shade': 1, 'Leather': 2, 'Kevlar': 3, 'Dragon Hide': 4,
-      'Power': 1, 'Plate': 2, 'Shield': 3, 'Chainmail': 4,
+      'Phase': 1, 'Cotton': 2, 'Gossamer': 3, 'Silk': 4, 'Ironsilk': 5,
+      'Shade': 1, 'Leather': 2, 'Kevlar': 3, 'Drakehide': 4,
+      'Power': 1, 'Plate': 2, 'Shield': 3, 'Chainmail': 4, 'Chain': 5, 'Reactive': 6,
     },
     quality: { 'Peerless': 1, 'Legendary': 2, 'Magnificent': 3, 'Exquisite': 4, 'Superior': 5, 'Fine': 6, 'Average': 7, 'Fair': 8, 'Crude': 9, 'Flimsy': 10 },
     prefix: {
@@ -1071,9 +1075,9 @@ var $equip = {
       const twohanded = 'Estoc|Longsword|Mace|Katana|Scythe';
       const staff = 'Oak Staff|Willow Staff|Katalox Staff|Redwood Staff|Ebony Staff';
       const shield = 'Buckler|Kite Shield|Force Shield|Tower Shield';
-      const acloth = 'Cotton|Phase|Gossamer|Silk';
-      const alight = 'Leather|Shade|Kevlar|Dragon Hide';
-      const aheavy = 'Plate|Power|Shield|Chainmail';
+      const acloth = 'Cotton|Phase|Gossamer|Silk|Ironsilk';  // Added "Ironsilk" for Isekai
+      const alight = 'Leather|Shade|Kevlar|Drakehide';
+      const aheavy = 'Plate|Power|Shield|Chainmail|Chain|Reactive';  // Added "Chain" and "Reactive" for Isekai
       const pattern = `^(${quality})(?: (?:(${prefix})|(.+?)))? (?:(${onehanded})|(${twohanded})|(${staff})|(${shield})|(?:(?:(${acloth})|(${alight})|(${aheavy})) (${slot})))(?: of (.+))?$`;
       return new RegExp(pattern, 'i');
     })(),
@@ -1278,6 +1282,59 @@ var $equip = {
       if (!dynjs) {
         return { error: 'no data' };
       }
+
+      // Try Isekai format first (check for <div class="eqt">)
+      // Matches: "Tier X / Y / Z", "Level 123", or "Level Unassigned"
+      const isekaiExec = /<div class="eqt">(.+?) &nbsp; &nbsp; (?:Tier (\d+) \/ (\d+) \/ (\d+)|Level (Unassigned|\d+))? ?&nbsp; ?&nbsp; <span>(Tradeable|Soulbound)<\/span><\/div>/.exec(dynjs.d);
+      if (isekaiExec) {
+        // Isekai format - extract condition percentage
+        const condMatch = /Condition: (\d+)% /.exec(dynjs.d);
+        const condition = condMatch ? parseInt(condMatch[1]) : 100;
+
+        // Parse level: can be "Unassigned" or a number
+        const levelValue = isekaiExec[5];
+        const isUnassigned = levelValue === 'Unassigned';
+        const level = isUnassigned ? 0 : parseInt(levelValue) || 0;
+
+        const eq = {
+          info: {
+            name: dynjs.t,
+            category: isekaiExec[1],
+            level: level,
+            unassigned: isUnassigned,
+            tradeable: isekaiExec[6] === 'Tradeable',
+            soulbound: isekaiExec[6] === 'Soulbound',
+            cdt: condition / 100,
+            condition: condition,
+            durability: 100,
+            tier: parseInt(isekaiExec[2]) || 0,
+            pxp1: parseInt(isekaiExec[3]) || 0,
+            pxp2: parseInt(isekaiExec[4]) || 0,
+            pab: (dynjs.d.match($equip.reg.pab) || []).map((p) => p[0]).join(''),
+            eid: eid,
+            key: dynjs.k,
+          },
+          data: {
+            html: dynjs.d,
+            value: $equip.eqvalue[eid],
+          },
+          node: {
+            div: div,
+          },
+        };
+        const equipname = $equip.names[eq.info.eid];
+        if (equipname && equipname !== eq.info.name) {
+          eq.info.customname = eq.info.name;
+          eq.info.name = equipname;
+        }
+        $equip.parse.name(eq.info.name, eq);
+        eq.info.pxp = $equip.getpxp(eq);
+        div.dataset.eid = eq.info.eid;
+        div.dataset.key = eq.info.key;
+        return eq;
+      }
+
+      // Try Persistent format
       const exec = $equip.reg.html.exec(dynjs.d);
       if (!exec) {
         return { error: 'parse error' };
@@ -1557,6 +1614,10 @@ var $equip = {
     }
     const equiplist = Array.from($qsa('div[onmouseover*="equips.set"]', node)).map((div) => {
       const eq = $equip.parse.div(div);
+      // Check if parsing failed (error object without node property)
+      if (!eq.node) {
+        return null;
+      }
       eq.node.wrapper = div.parentNode;
       if (eq.info.customname) {
         div.classList.add('hvut-eq-customname');
@@ -1564,7 +1625,7 @@ var $equip = {
       }
       div.classList.add('hvut-eq-' + eq.info.quality);
       return eq;
-    });
+    }).filter(eq => eq !== null);  // Filter out failed parses
     if (settings.equipSort && sort) {
       $equip.sort(equiplist, parent);
     }
@@ -1894,7 +1955,7 @@ var $price = {
       selector.size = $price.keys.length + 1;
       selector.classList.add('hvut-scrollbar-none');
     }
-    $element('option', selector, { text: '编辑价格...', value: '' });
+    $element('option', selector, { text: '编辑单价...', value: '' });
     $price.keys.forEach((k) => { $element('option', selector, { text: k, value: k }); });
     return selector;
   },
@@ -2422,11 +2483,17 @@ _top.menu = {
   '技能': { s: 'Character', ss: 'ab' , text: '✊️能力'},
   '训练': { s: 'Character', ss: 'tr', isekai: false ,text: '🏖️训练'},
   '物品仓库': { s: 'Character', ss: 'it' ,text: '📂物品'},
-  '装备仓库': { s: 'Character', ss: 'in' ,text: '💼仓库' },
+  '装仓': { s: 'Character', ss: 'in', isekai: false ,text: '💼仓库' },
   '设置': { s: 'Character', ss: 'se' ,text: '设置' },
   '前往异世界': { s: 'Character', href: '/isekai/', isekai: false, text: '异世界' },
   '前往永久区': { s: 'Character', href: '/', isekai: true, text: '永久区' },
-  '装备商店': { s: 'Bazaar', ss: 'es' ,text: '🚮垃圾'},
+  '装备商店': { s: 'Bazaar', ss: 'es', isekai: false ,text: '🚮垃圾'},
+  '卖装': { s: 'Bazaar', ss: 'am', screen: 'sell', isekai: true ,text: '🚮垃圾'},
+  '拆装': { s: 'Bazaar', ss: 'am', screen: 'salvage', isekai: true ,text: '🔨拆'},
+  '修装': { s: 'Forge', ss: 're', isekai: false ,text:'🔧修'},
+  '装备仓库': { s: 'Bazaar', ss: 'am', screen: 'organize', isekai: true ,text: '💼仓库'},
+  'isk魂绑': { s: 'Bazaar', ss: 'am', screen: 'soulbind', isekai: true },
+  '装备库AM': { s: 'Bazaar', ss: 'am', isekai: true ,text: '🏭装库'},
   '物品商店': { s: 'Bazaar', ss: 'is' ,text: '🏪物店'},
   '雪花祭坛': { s: 'Bazaar', ss: 'ss' ,text: '👑开杯'},
   '交易市场': { s: 'Bazaar', ss: 'mk' ,text: '💹市场'},
@@ -2439,12 +2506,12 @@ _top.menu = {
   '浴血擂台': { s: 'Battle', ss: 'rb' ,text: '🩸RB'},
   '压榨界': { s: 'Battle', ss: 'gr' ,text: '🏄GF'},
   '道具界': { s: 'Battle', ss: 'iw' ,text: '🌊IW'},
-  '装备修理': { s: 'Forge', ss: 're' ,text: '🛠️修理' },
-  '装备强化': { s: 'Forge', ss: 'up' ,text: '⚒️强化' },
-  '装备附魔': { s: 'Forge', ss: 'en' ,text: '附魔' },
-  '装备分解': { s: 'Forge', ss: 'sa' ,text: '分解' },
-  '洗装备': { s: 'Forge', ss: 'fo' ,text: '🌊洗' },
-  '装备魂绑': { s: 'Forge', ss: 'fu' ,text: '魂绑' },
+  '装备修理': { s: 'Forge', ss: 're', isekai: false ,text: '🛠️修理' },
+  '装备强化': { s: 'Bazaar', ss: 'up', isekai: false ,text: '⚒️强化' },
+  '装备附魔': { s: 'Forge', ss: 'en', isekai: false ,text: '附魔' },
+  '装备分解': { s: 'Forge', ss: 'sa', isekai: false ,text: '分解' },
+  '洗装备': { s: 'Forge', ss: 'fo', isekai: false ,text: '🌊洗' },
+  '装备魂绑': { s: 'Forge', ss: 'fu', isekai: false ,text: '魂绑' },
 };
 
 _top.create = function () {
@@ -2476,7 +2543,8 @@ if (settings.topMenuIntegrate) {
     if (!_isekai && m.isekai === true || _isekai && m.isekai === false) {
       return;
     }
-    ul[m.s].appendChild($element('li')).appendChild($element('a', null, { textContent: k, href: m.href || `?s=${m.s}&ss=${m.ss}` }));
+    const url = m.href || `?s=${m.s}&ss=${m.ss}${m.screen ? '&screen=' + m.screen : ''}`;
+    ul[m.s].appendChild($element('li')).appendChild($element('a', null, { textContent: k, href: url }));
   });
   /* monsterbation */
   if ($id('mbsettings')) {
@@ -2579,7 +2647,7 @@ _top.init = function () {
   settings.topMenuLinks.forEach((t) => {
     const m = _top.menu[t];
     let text = m.text || m.ss.toUpperCase();
-    const href = m.href || `?s=${m.s}&ss=${m.ss}`;
+    const href = m.href || `?s=${m.s}&ss=${m.ss}${m.screen ? '&screen=' + m.screen : ''}`;
     let cn = '';
     if (t === '莫古利邮局' && new_mail) {
       text = `[${new_mail}]`;
@@ -2905,7 +2973,7 @@ $persona.init();
 
 // BOTTOM MENU
 GM_addStyle(/*css*/`
-  #hvut-bottom { position: absolute; display: flex; top: 100%; left: -1px; width: 100%; border: 1px solid; font-size: 10pt; line-height: 20px; }
+  #hvut-bottom { position: absolute; display: flex; top: 114%; left: -1px; width: 100%; border: 1px solid; font-size: 10pt; line-height: 20px; }
   #hvut-bottom:empty { display: none; }
   #hvut-bottom > div { margin: -1px 0 -1px -1px; border: 1px solid #5C0D11; padding: 0 10px; }
   #hvut-bottom > .hvut-spaceholder ~ div { margin: -1px -1px -1px 0; }
@@ -2942,17 +3010,36 @@ if (settings.showCredits) {
 if (settings.showEquipSlots === 2 || settings.showEquipSlots === 1 && _query.s === 'Battle') {
   _bottom.show_equip = async function () {
     _bottom.node.equip = $element('div', _bottom.node.div, '⏳...');
-    const html = await $ajax.fetch('?s=Character&ss=in');
-    const exec = />Equip Slots: (\d+)(?: \+ (\d+))? \/ (\d+)</.exec(html);
-    const inventory = parseInt(exec[1]);
-    const storage = parseInt(exec[2] || 0);
-    const slots = parseInt(exec[3]);
-    const free = slots - inventory - storage;
-    _bottom.node.equip.textContent = `💼: ${inventory} + ${storage} / ${slots}`;
-    if (free < slots / 10) {
-      _bottom.node.equip.classList.add('hvut-bottom-warn');
-    } else if (free < slots / 2) {
-      _bottom.node.equip.style.color = '#c00';
+    try {
+      var html,exec;
+      if(_isekai){
+          html = await $ajax.fetch('?s=Bazaar&ss=am&screen=organize');
+          exec = /Inventory Capacity:<\/td><td>(\d+)<\/td><td>\/<\/td><td>(\d+)<\/td>/.exec(html);
+      }else{
+          html = await $ajax.fetch('?s=Character&ss=in');
+          exec = />Equip Slots: (\d+)(?: \+ (\d+))? \/ (\d+)</.exec(html);
+      }
+
+      if (!exec) {
+        _bottom.node.equip.textContent = '💼: 无法获取';
+        return;
+      }
+      const inventory = parseInt(exec[1]);
+      const storage = parseInt(exec[2] || 0);
+      const slots = parseInt(exec[3]);
+      const free = slots - inventory - storage;
+      if(_isekai){
+          _bottom.node.equip.textContent = `💼: ${inventory} / ${storage} `;
+      }else{
+          _bottom.node.equip.textContent = `💼: ${inventory} + ${storage} / ${slots}`;
+      }
+      if (free < slots / 10) {
+        _bottom.node.equip.classList.add('hvut-bottom-warn');
+      } else if (free < slots / 2) {
+        _bottom.node.equip.style.color = '#c00';
+      }
+    } catch (e) {
+      _bottom.node.equip.textContent = '💼: 无法获取';
     }
   };
 
@@ -3276,7 +3363,7 @@ $ajax.fetch('https://e-hentai.org/exchange.php?t=hath')
 
 
 //* [2] Character - Equipment
-if (settings.equipment && _query.s === 'Character' && _query.ss === 'eq') {
+if (settings.equipment && !_isekai && _query.s === 'Character' && _query.ss === 'eq') {
   _eq.mage_stats = function () {
   // to get exact numbers
     const stats_pane = _eq.stats_pane;
@@ -3859,7 +3946,69 @@ const spellTypeMap = new Map([
       }
     }
   }
-} else
+} else if (settings.equipment && _isekai && _query.s === 'Character' && _query.ss === 'eq') {
+  // Isekai Character Equipment - Simple coloring only
+  GM_addStyle(/*css*/`
+    #eqsb .eqb > div:last-child { position: relative; }
+    #eqsb .hvut-eq-Superior { background-color: #ccc; }
+    #eqsb .hvut-eq-Exquisite { background-color: #ce9; }
+    #eqsb .hvut-eq-Magnificent { background-color: #bdf; }
+    #eqsb .hvut-eq-Legendary { background-color: #fd8; }
+    #eqsb .hvut-eq-Peerless { background-color: #fbb; }
+    #equiplist tr.hvut-eq-Superior { background-color: #ccc; }
+    #equiplist tr.hvut-eq-Exquisite { background-color: #ce9; }
+    #equiplist tr.hvut-eq-Magnificent { background-color: #bdf; }
+    #equiplist tr.hvut-eq-Legendary { background-color: #fd8; }
+    #equiplist tr.hvut-eq-Peerless { background-color: #fbb; }
+  `);
+
+  // Apply coloring to equipped items
+  $qsa('#eqsb .eqb > div[onmouseover*="equips.set"]').forEach((div) => {
+    const eid = /equips\.set\((\d+),/.test(div.getAttribute('onmouseover')) && RegExp.$1;
+    if (!eid) return;
+
+    const dynjs = $equip.dynjs_equip[eid];
+    if (!dynjs) return;
+
+    const eq = { info: { name: dynjs.t } };
+    $equip.parse.name(eq.info.name, eq);
+
+    if (eq.info.quality) {
+      div.classList.add('hvut-eq-' + eq.info.quality);
+    }
+  });
+
+  // Apply coloring to equipment switching page (#equiplist)
+  const applyEquipListColoring = function () {
+    $qsa('#equiplist tr[onmouseover*="hover_equip"]:not([data-colored])').forEach((tr) => {
+      const onmouseover = tr.getAttribute('onmouseover');
+      const eid = /hover_equip\((\d+)\)/.test(onmouseover) && RegExp.$1;
+      if (!eid) return;
+
+      const dynjs = $equip.dynjs_equip[eid];
+      if (!dynjs) return;
+
+      const eq = { info: { name: dynjs.t } };
+      $equip.parse.name(eq.info.name, eq);
+
+      if (eq.info.quality) {
+        tr.classList.add('hvut-eq-' + eq.info.quality);
+      }
+      tr.dataset.colored = '1';  // Mark as processed
+    });
+  };
+
+  // Apply coloring on page load
+  applyEquipListColoring();
+
+  // Watch for dynamic changes (when switching equipment slots)
+  const equipList = $id('equiplist');
+  if (equipList) {
+    (new MutationObserver(() => {
+      applyEquipListColoring();
+    })).observe(equipList, { childList: true, subtree: true });
+  }
+}
 // [END 2] Character - Equipment */
 
 
@@ -5404,15 +5553,20 @@ if (settings.settings && _query.s === 'Character' && _query.ss === 'se') {
 // [END 7] Character - Settings */
 
 
-//* [8] Bazaar - Equipment Shop
-if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
+//* [8] Bazaar - Equipment Shop (ES in normal, AM in Isekai)
+// Isekai AM is always enabled, Persistent ES depends on settings
+if (_query.s === 'Bazaar' && (settings.equipmentShop && _query.ss === 'es' || _isekai && _query.ss === 'am')) {
+  _es.ss = _query.ss; // Store current ss parameter (es or am)
   _es.filter = _query.filter || '1handed';
   _es.rare_type = { 'Force Shield': true, 'Phase': true, 'Shade': true, 'Power': true };
   _es.mat_type = { '1handed': 'Metals', '2handed': 'Metals', 'staff': 'Wood', 'shield': 'Wood', 'acloth': 'Cloth', 'alight': 'Leather', 'aheavy': 'Metals' };
   _es.core_type = { '1handed': 'Weapon', '2handed': 'Weapon', 'staff': 'Staff', 'shield': 'Armor', 'acloth': 'Armor', 'alight': 'Armor', 'aheavy': 'Armor' };
   _es.quality = { 'Flimsy': 1, 'Crude': 2, 'Fair': 3, 'Average': 4, 'Fine': 5, 'Superior': 6, 'Exquisite': 7, 'Magnificent': 8, 'Legendary': 9, 'Peerless': 10 };
   _es.category = { 'valuable': {}, '1handed': {}, '2handed': {}, 'staff': {}, 'shield': {}, 'acloth': {}, 'alight': {}, 'aheavy': {} };
-  _es.storetoken = $id('shopform').elements.storetoken.value;
+  // Isekai AM uses equipform, Persistent ES uses shopform
+  const shopform = $id('shopform');
+  _es.storetoken = shopform?.elements?.storetoken?.value || '';
+  _es.has_storetoken = !!_es.storetoken;
   _es.item_pane = [];
   _es.shop_pane = [];
   _es.node = {};
@@ -5460,7 +5614,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     eq.data.sold = true;
     eq.node.wrapper.classList.add('hvut-es-disabled');
 
-    const html = await $ajax.fetch('?s=Bazaar&ss=es', `storetoken=${_es.storetoken}&select_group=item_pane&select_eids=${eq.info.eid}`);
+    const html = await $ajax.fetch(`?s=Bazaar&ss=${_es.ss}`, `storetoken=${_es.storetoken}&select_group=item_pane&select_eids=${eq.info.eid}`);
     _es.update_credits(html);
     eq.node.wrapper.remove();
   };
@@ -5505,7 +5659,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     eq.data.sold = true;
     eq.node.wrapper.classList.add('hvut-es-disabled');
 
-    const html = await $ajax.fetch('?s=Bazaar&ss=es', `storetoken=${_es.storetoken}&select_group=shop_pane&select_eids=${eq.info.eid}`);
+    const html = await $ajax.fetch(`?s=Bazaar&ss=${_es.ss}`, `storetoken=${_es.storetoken}&select_group=shop_pane&select_eids=${eq.info.eid}`);
     _es.update_credits(html);
     eq.node.wrapper.remove();
   };
@@ -5517,7 +5671,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     eq.data.sold = true;
     eq.node.wrapper.classList.add('hvut-es-disabled');
 
-    const html = await $ajax.fetch('?s=Bazaar&ss=es', `storetoken=${_es.storetoken}&select_group=shop_pane&select_eids=${eq.info.eid}`);
+    const html = await $ajax.fetch(`?s=Bazaar&ss=${_es.ss}`, `storetoken=${_es.storetoken}&select_group=shop_pane&select_eids=${eq.info.eid}`);
     const uid = /var uid = (\d+);/.test(html) && RegExp.$1;
     const simple_token = /var simple_token = "(\w+)";/.test(html) && RegExp.$1;
     _es.update_credits(html);
@@ -5582,7 +5736,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     });
 
     const select_eids = selected.map((eq) => eq.info.eid).join(',');
-    const html = await $ajax.fetch('?s=Bazaar&ss=es', `storetoken=${_es.storetoken}&select_group=item_pane&select_eids=${select_eids}`);
+    const html = await $ajax.fetch(`?s=Bazaar&ss=${_es.ss}`, `storetoken=${_es.storetoken}&select_group=item_pane&select_eids=${select_eids}`);
     _es.update_credits(html);
     selected.forEach((eq) => { eq.node.wrapper.remove(); });
   };
@@ -5694,7 +5848,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     _es.category[filter].item_div.classList.add('hvut-eq-loading');
     _es.category[filter].shop_div.classList.add('hvut-eq-loading');
 
-    const html = await $ajax.fetch('?s=Bazaar&ss=es&filter=' + filter);
+    const html = await $ajax.fetch(`?s=Bazaar&ss=${_es.ss}&filter=` + filter);
     const doc = $doc(html);
     Object.assign($equip.dynjs_eqstore, JSON.parse(/var dynjs_eqstore = (\{.*\});/.test(html) && RegExp.$1));
     Object.assign($equip.eqvalue, JSON.parse(/var eqvalue = (\{.*\});/.test(html) && RegExp.$1));
@@ -5825,12 +5979,14 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     _window.rangeselect.shop_pane = $qsa('#shop_pane .eqp').map((w) => w.lastElementChild.dataset.eid);
   };
 
-  GM_addStyle(/*css*/`
-    #eqshop_outer { position: relative; width: 1100px; margin-left: 120px; }
-    .eqshop_pane > div:first-child { display: none; }
-    .eqshop_pane > div:last-child { width: 540px; }
-    .eqshop_pane .cspp { overflow-y: scroll; }
-    #eqshop_sellall { display: none; }
+  // Persistent Equipment Shop UI
+  if (!_isekai && _query.ss === 'es' && $id('eqshop_outer')) {
+    GM_addStyle(/*css*/`
+      #eqshop_outer { position: relative; width: 1100px; margin-left: 120px; }
+      .eqshop_pane > div:first-child { display: none; }
+      .eqshop_pane > div:last-child { width: 540px; }
+      .eqshop_pane .cspp { overflow-y: scroll; }
+      #eqshop_sellall { display: none; }
 
     .hvut-es-side { position: absolute; top: 44px; left: -110px; width: 100px; display: flex; flex-direction: column; }
     .hvut-es-side input { margin: 3px 0; white-space: normal; }
@@ -5852,6 +6008,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
   toggle_button($input('button', _es.node.side), '显示所有装备', '使用过滤器', $id('shop_pane'), 'hvut-none-cont', true);
   $input(['button', '全选'], _es.node.side, null, () => { _es.select_all('sell'); });
   $input(['button', '出售选定装备'], _es.node.side, null, () => { _es.sell_all(); });
+  $input(['button', '全选'], _es.node.side, null, () => { _es.select_all('salvage'); });
   $input(['button', '分解选定装备'], _es.node.side, null, () => { _es.salvage_all(); });
   $input(['button', '材料价格'], _es.node.side, null, () => { $price.edit('Materials', () => { if (confirm('你需要刷新页面.')) { location.href = location.href; } }); });
   $input(['button', '装备保护器'], _es.node.side, null, () => { _es.edit_filter('protect'); });
@@ -5865,7 +6022,7 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
 
   if (settings.equipmentShopIntegration) {
     const filterbar = $id('filterbar');
-    $element('a', [filterbar, 'afterbegin'], { href: '?s=Bazaar&ss=es', innerHTML: '<div>All</div>' });
+    $element('a', [filterbar, 'afterbegin'], { href: `?s=Bazaar&ss=${_es.ss}`, innerHTML: '<div>All</div>' });
     if (_query.filter) {
       filterbar.children[0].children[0].classList.add('cfb');
     } else {
@@ -5895,10 +6052,554 @@ if (settings.equipmentShop && _query.s === 'Bazaar' && _query.ss === 'es') {
     item_equiplist.remove();
     shop_equiplist.remove();
 
-    const requests = ['2handed', 'staff', 'shield', 'acloth', 'alight', 'aheavy'].map((filter) => _es.load_list(filter));
-    Promise.all(requests).then(() => {
-      _es.category['valuable'].item_div.classList.remove('hvut-eq-loading');
-    });
+      const requests = ['2handed', 'staff', 'shield', 'acloth', 'alight', 'aheavy'].map((filter) => _es.load_list(filter));
+      Promise.all(requests).then(() => {
+        _es.category['valuable'].item_div.classList.remove('hvut-eq-loading');
+      });
+    }
+  }
+
+  //* [8.5] Isekai Armory - Equip Code Export
+  if (_isekai && _query.ss === 'am' && $id('armory_outer')) {
+    _am = _am || {};
+    _am.equiplist = [];
+    _am.equipdata = getValue('in_equipdata', {});
+    _am.equipcode = getValue('in_equipcode', settings.equipCode);
+    _am.namecode = getValue('in_namecode', settings.equipNameCode);
+    _am.node = {};
+    _am.defaultBazaarFilter = [
+      'Peerless',
+      'Legendary',
+      'Magnificent',
+      'Exquisite',
+    ];
+
+    // Quality name mapping for Chinese translation compatibility
+    _am.qualityMap = {
+      '☯无双P☯': 'Peerless',
+      '✪传奇L✪': 'Legendary',
+      '☆史诗M☆': 'Magnificent',
+      '✧精良Ex✧': 'Exquisite',
+      '优质F': 'Fine',
+      '上等S': 'Superior',
+      '中等A': 'Average',
+      '普通F': 'Fair',
+      '粗糙C': 'Crude',
+      '脆弱': 'Flimsy',
+    };
+
+    // Convert Chinese equipment name back to English for filtering
+    _am.normalizeEquipName = function (name) {
+      let normalized = name;
+      for (const [cn, en] of Object.entries(_am.qualityMap)) {
+        normalized = normalized.replace(cn, en);
+      }
+      return normalized;
+    };
+
+    // Event handler for Base value extraction buttons
+    _am.click = function (e) {
+      const target = e.target.closest('[data-action]');
+      if (!target) { return; }
+      const { action, eid } = target.dataset;
+      const eq = eid && _am.equiplist.find((eq) => eq.info.eid == eid);
+      if (action === 'lpr') {
+        _am.get_base(eq);
+      }
+    };
+
+    // Parse equipment list from AM page (table rows)
+    _am.parse_list = function () {
+      _am.equiplist = [];
+      const rows = $qsa('#equiplist table tr[onmouseover*="hover_equip"]');
+
+      rows.forEach((tr) => {
+        const onmouseover = tr.getAttribute('onmouseover');
+        const eid = /hover_equip\((\d+)\)/.test(onmouseover) && RegExp.$1;
+        if (!eid) { return; }
+
+        const dynjs = $equip.dynjs_equip[eid];
+
+        // For pages without dynjs data, use label text to create basic equipment object
+        if (!dynjs) {
+          const label = tr.querySelector('label');
+          if (!label) { return; }
+
+          // Get raw name first (keep quality symbols for normalization)
+          const rawName = label.textContent.trim();
+          // Normalize Chinese quality names to English FIRST (before removing emojis)
+          const normalized = _am.normalizeEquipName(rawName);
+          // Then remove remaining emojis and special characters (but not quality symbols which are now converted)
+          const equipName = normalized.replace(/[\u{1F000}-\u{1F9FF}\u{FE00}-\u{FE0F}\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}⚠️]/gu, '').trim();
+
+          const eq = {
+            info: {
+              name: equipName,
+              eid: eid,
+              key: '',
+            },
+            data: {},
+            node: {
+              tr: tr,
+              checkbox: $qs('input[type="checkbox"]', tr),
+            },
+            json: _am.equipdata[eid] || {},
+          };
+
+          $equip.parse.name(eq.info.name, eq);
+
+          if (eq.info.quality) {
+            tr.classList.add('hvut-eq-' + eq.info.quality);
+          }
+
+          // Add custom input fields (only on organize page)
+          if (_query.screen === 'organize') {
+            const targetCell = tr.cells[1] || tr.cells[0];
+            if (targetCell) {
+              eq.node.sub = $element('span', [targetCell, 'beforeend'], ['.hvut-am-sub']);
+              eq.node.price = $input('text', eq.node.sub, { className: 'hvut-am-price', placeholder: 'price', value: '' });
+              eq.node.note = $input('text', eq.node.sub, { className: 'hvut-am-note', placeholder: 'note', value: '' });
+              eq.node.lpr = $input(['button', '<'], eq.node.sub, { className: 'hvut-am-lpr', dataset: { action: 'lpr', eid: eq.info.eid } });
+            }
+          }
+
+          // Filter Purchase page
+          if (_query.screen === 'purchase') {
+            const bazaarFilter = (getValue('am_bazaar', _am.defaultBazaarFilter) || []).map(f => f.trim()).filter(f => f);
+            const visible = $equip.filter(equipName, bazaarFilter);
+            if (!visible) {
+              tr.style.display = 'none';
+            }
+          }
+
+          _am.equiplist.push(eq);
+          return;
+        }
+
+        // Isekai uses different HTML format - support "Level 123", "Level Unassigned", or "Tier X / Y / Z"
+        const isekaiMatch = /<div class="eqt">(.+?) &nbsp; &nbsp; (?:Tier (\d+) \/ (\d+) \/ (\d+)|Level (Unassigned|\d+))? ?&nbsp; ?&nbsp; <span>(Tradeable|Soulbound)<\/span><\/div>/.exec(dynjs.d);
+        if (!isekaiMatch) { return; }
+
+        // Extract condition percentage
+        const condMatch = /Condition: (\d+)% /.exec(dynjs.d);
+        const condition = condMatch ? parseInt(condMatch[1]) : 100;
+
+        // Parse level: can be "Unassigned" or a number
+        const levelValue = isekaiMatch[5];
+        const isUnassigned = levelValue === 'Unassigned';
+        const level = isUnassigned ? 0 : parseInt(levelValue) || 0;
+
+        const eq = {
+          info: {
+            name: dynjs.t,
+            category: isekaiMatch[1],
+            level: level,
+            unassigned: isUnassigned,
+            tradeable: isekaiMatch[6] === 'Tradeable',
+            soulbound: isekaiMatch[6] === 'Soulbound',
+            cdt: condition / 100,
+            condition: condition,
+            durability: 100,
+            tier: parseInt(isekaiMatch[2]) || 0,
+            pxp1: parseInt(isekaiMatch[3]) || 0,
+            pxp2: parseInt(isekaiMatch[4]) || 0,
+            pab: (dynjs.d.match($equip.reg.pab) || []).map((p) => p[0]).join(''),
+            eid: eid,
+            key: dynjs.k,
+          },
+          data: {
+            html: dynjs.d,
+          },
+          node: {
+            tr: tr,
+            checkbox: $qs('input[type="checkbox"]', tr),
+          },
+          json: _am.equipdata[eid] || {},
+        };
+
+        // Parse equipment name details
+        $equip.parse.name(eq.info.name, eq);
+        eq.info.pxp = $equip.getpxp(eq);
+
+        // Add quality coloring
+        if (eq.info.quality) {
+          tr.classList.add('hvut-eq-' + eq.info.quality);
+        }
+
+        // Add custom input fields (only on organize page)
+        if (_query.screen === 'organize') {
+          // Organize page has 1 column, other pages have 2 columns
+          const targetCell = tr.cells[1] || tr.cells[0];
+          if (targetCell) {
+            eq.node.sub = $element('span', [targetCell, 'beforeend'], ['.hvut-am-sub']);
+            eq.node.price = $input('text', eq.node.sub, { className: 'hvut-am-price', placeholder: 'price', value: '' });
+            eq.node.note = $input('text', eq.node.sub, { className: 'hvut-am-note', placeholder: 'note', value: '' });
+            eq.node.lpr = $input(['button', '<'], eq.node.sub, { className: 'hvut-am-lpr', dataset: { action: 'lpr', eid: eq.info.eid } });
+          }
+        }
+
+        _am.equiplist.push(eq);
+      });
+    };
+
+    // Generate WTS code
+    _am.wts = function () {
+      const equiplist = _am.equiplist.filter((e) => e.node.checkbox.checked);
+      const eid_maxlen = Math.max(...equiplist.map((e) => e.info.eid.toString().length));
+      const includeHeaders = getValue('am_include_headers', true); // default: include headers
+      let code = '';
+      let code_new = '';
+      let code_featured = '';
+
+      equiplist.sort((a, b) => {
+        if (a.info.category !== b.info.category) {
+          return $equip.index.category[a.info.category] - $equip.index.category[b.info.category];
+        } else if (a.info.category === 'Unknown') {
+          return a.info.name > b.info.name ? 1 : a.info.name < b.info.name ? -1 : 0;
+        } else if (a.info.type !== b.info.type) {
+          return $equip.index.type[a.info.type] - $equip.index.type[b.info.type];
+        }
+
+        let r = 0;
+        const k = a.info.category === 'One-handed Weapon' || a.info.category === 'Two-handed Weapon' ? ['suffix', 'quality', 'prefix']
+            : a.info.category === 'Staff' ? ['prefix', 'suffix', 'quality']
+            : a.info.type === 'Buckler' ? ['suffix', 'quality', 'prefix']
+            : a.info.category === 'Shield' ? ['quality', 'suffix', 'prefix']
+            : a.info.category === 'Cloth Armor' ? ['suffix', 'slot', 'quality', 'prefix']
+            : ['slot', 'suffix', 'quality', 'prefix'];
+
+        k.some((e) => {
+          if (e in $equip.index) {
+            r = ($equip.index[e][a.info[e]] || 99) - ($equip.index[e][b.info[e]] || 99);
+          } else {
+            r = a.info[e] > b.info[e] ? 1 : a.info[e] < b.info[e] ? -1 : 0;
+          }
+          return r;
+        });
+
+        return r || (b.info.eid - a.info.eid);
+      });
+
+      equiplist.forEach((eq, i, a) => {
+        const p = a[i - 1] || { info: {} };
+        if (includeHeaders) {
+          if (eq.info.category !== p.info.category) {
+            const category = eq.info.category;
+            code += `\n\n\n[size=3][b][${category}][/b][/size]\n`;
+          }
+
+          switch (eq.info.category) {
+            case 'One-handed Weapon':
+            case 'Two-handed Weapon':
+              if (eq.info.type !== p.info.type) {
+                const type = eq.info.type || 'Unknown';
+                code += `\n\n[size=2][b][${type}][/b][/size]\n\n`;
+              } else if (eq.info.suffix !== p.info.suffix) {
+                code += '\n';
+              }
+              break;
+            case 'Staff':
+              if (eq.info.type !== p.info.type) {
+                const type = eq.info.type || 'Unknown';
+                code += `\n\n[size=2][b][${type}][/b][/size]\n\n`;
+              } else if (eq.info.prefix !== p.info.prefix) {
+                code += '\n';
+              }
+              break;
+            case 'Shield':
+              if (eq.info.type !== p.info.type) {
+                const type = eq.info.type || 'Unknown';
+                code += `\n\n[size=2][b][${type}][/b][/size]\n\n`;
+              }
+              break;
+            case 'Cloth Armor':
+              if (eq.info.type !== p.info.type || eq.info.suffix !== p.info.suffix) {
+                const type = eq.info.type ? eq.info.suffix || 'No Suffix' : 'Unknown';
+                code += `\n\n[size=2][b][${type}][/b][/size]\n\n`;
+              } else if (eq.info.slot !== p.info.slot) {
+              //code += '\n';
+              }
+              break;
+            case 'Light Armor':
+            case 'Heavy Armor':
+              if (eq.info.type !== p.info.type) {
+                const type = eq.info.type || 'Unknown';
+                code += `\n\n[size=2][b][${type}][/b][/size]\n\n`;
+              } else if (eq.info.slot !== p.info.slot) {
+                code += '\n';
+              }
+              break;
+          }
+        }
+
+        eq.data._eid = eq.info.eid.toString();
+        const eid_len = eq.data._eid.length;
+        if (eid_maxlen > eid_len) {
+          eq.data._eid = '[color=transparent]' + '_'.repeat(eid_maxlen - eid_len) + '[/color]' + eq.data._eid;
+        }
+        // Add sequential number for custom prefix (e.g., yan01, yan02, ...)
+        eq.data._seq = String(i + 1).padStart(2, '0');
+        if (!eq.data.url && eq.info.key) {
+          eq.data.url = `${location.origin}${location.pathname}equip/${eq.info.eid}/${eq.info.key}`;
+        }
+        eq.data.namecode = $equip.namecode(eq);
+        eq.data.price = eq.node.price ? eq.node.price.value : '';
+        eq.data.note = eq.node.note ? eq.node.note.value : '';
+
+        if (eq.data.note.includes('$featured;')) {
+          eq.data['featured'] = true;
+          eq.data.note = eq.data.note.replace('$featured;', '');
+        } else {
+          eq.data['featured'] = false;
+        }
+        if (eq.data.note.includes('$new;')) {
+          eq.data['new'] = true;
+          eq.data.note = eq.data.note.replace('$new;', '');
+        } else {
+          eq.data['new'] = false;
+        }
+
+        const equipcode = _am.equipcode.replace(/\{\$(\w+)(\s*\?(.*?)(?::(.*?))?)?\}/g, (s, k, e, t, f) => {
+          const v = (k in eq.data) ? eq.data[k] : (k in eq.info) ? eq.info[k] : '';
+          if (!e) {
+            return v ?? '';
+          } else {
+            const r = v ? t : f || '';
+            return r.replace(/\$(\w+)/g, (s, k) => { const v = (k in eq.data) ? eq.data[k] : (k in eq.info) ? eq.info[k] : ''; return v ?? ''; });
+          }
+        }).trim();
+
+        code += equipcode + '\n';
+        if (eq.data['new']) {
+          code_new += equipcode + '\n';
+        }
+        if (eq.data['featured']) {
+          code_featured += equipcode + '\n';
+        }
+      });
+
+      if (code_featured) {
+        code = '\n\n\n[size=3][b][Featured][/b][/size]\n\n' + code_featured + code;
+      }
+      if (code_new) {
+        code = '\n\n\n[size=3][b][Newly Added][/b][/size]\n\n' + code_new + code;
+      }
+
+      _am.save_json();
+
+      popup_text(code.trim() || 'No equipment selected.', 'width: 900px; height: 500px; white-space: pre;', [
+        { value: 'Toggle Headers', click: (w, t) => {
+          const current = getValue('am_include_headers', true);
+          setValue('am_include_headers', !current);
+          w.remove();
+          _am.wts();
+        } },
+        { value: 'Equip Code Format', click: () => { _am.edit_equipcode(); } },
+        { value: 'Name Code Rule', click: () => { _am.edit_namecode(); } },
+      ]);
+    };
+
+    _am.edit_equipcode = function () {
+      const comment = `
+        // {$name}       装备名称
+        // {$namecode}   带颜色/粗体的装备名称
+        // {$url}        装备链接地址
+        // {$level}      装备等级
+        // {$soulbound}  如果是灵魂绑定则显示'Soulbound'
+        // {$unassigned} 如果是未分配则显示'Unassigned'
+        // {$pab}        装备属性值（potency/attack/block）
+        // {$tier}       效能等级（IW等级）
+        // {$price}      价格输入框的值
+        // {$note}       备注输入框的值
+        //               如果包含'$featured;'，装备代码会添加到'Featured'区域
+        //               如果包含'$new;'，装备代码会添加到'Newly Added'区域
+        // {$_eid}       装备UID（默认）
+        // {$_seq}       装备序号（01, 02, 03...）可用于自定义前缀，例如：[yan{$_seq}]
+        // {$condition ? text_if_true : text_if_false}
+        //               条件表达式：如果$condition有效，输出'text_if_true'，否则输出'text_if_false'
+        //               例如 {$level ? Lv.$level : Soulbound}
+        //               如果$level是500，输出'Lv.500'
+        //               如果没有$level信息，输出'Soulbound'
+      `.replace(/^\s+/gm, '').trim();
+      popup_text(comment + '\n\n' + _am.equipcode, 'width: 900px; height: 500px; white-space: pre;', [
+        { value: 'Save', click: (w, t) => {
+          _am.equipcode = (t.value || settings.equipCode).split('\n').filter((e) => !e.startsWith('//')).join('\n').trim();
+          setValue('in_equipcode', _am.equipcode);
+          w.remove();
+        } },
+        { value: 'Default', click: (w, t) => {
+          t.value = comment + '\n\n' + settings.equipCode;
+        } },
+      ]);
+    };
+
+    _am.edit_namecode = function () {
+      const comment = `
+        // 过滤条件 : 属性设置
+        // {条件} && {条件} : 匹配所有条件（与）
+        // {条件} || {条件} : 匹配任一条件（或）
+        // Peerless, Legendary, Magnificent, Exquisite : 品质(quality)
+        // Slaughter, Destruction : 后缀(suffix)
+        // Ethereal, Hallowed, Demonic : 前缀(prefix)
+        // Shortsword, Katalox, Shade : 类型(type)
+        // quality, prefix, type, suffix, name : 可修改的属性
+        // quality=#f90 或 quality=bold 或 quality=rainbow（rainbow是Peerless默认值）
+      `.replace(/^\s+/gm, '').trim();
+      popup_text(comment + '\n\n' + _am.namecode.join('\n'), 'width: 900px; height: 500px; white-space: pre;', [
+        { value: 'Save', click: (w, t) => {
+          _am.namecode = (t.value || settings.equipNameCode.join('\n')).split('\n').filter((e) => !e.startsWith('//')).map((e) => e.trim()).filter((e) => e);
+          setValue('in_namecode', _am.namecode);
+          w.remove();
+        } },
+        { value: 'Default', click: (w, t) => {
+          t.value = comment + '\n\n' + settings.equipNameCode.join('\n');
+        } },
+      ]);
+    };
+
+    _am.edit_filter = function () {
+      const comment = '// 将指定品质保留在购买页面，然后隐藏其他';
+      const current = getValue('am_bazaar', _am.defaultBazaarFilter);
+      popup_text(comment + '\n\n' + current.join('\n'), 'width: 600px; height: 500px; white-space: pre;', [
+        { value: 'Save Filter', click: (w, t) => {
+          const edited = t.value.split('\n').filter((f) => f && !f.startsWith('//'));
+          setValue('am_bazaar', edited);
+          w.remove();
+          location.reload();
+        } },
+        { value: 'Default', click: (w, t) => {
+          t.value = comment + '\n\n' + _am.defaultBazaarFilter.join('\n');
+        } },
+      ]);
+    };
+
+    _am.save_json = function () {
+      // Price and note are not saved, they reset on refresh
+      const data = { version: _am.equipdata.version };
+      setValue('in_equipdata', data);
+    };
+
+    _am.check_all = function (checked) {
+      _am.equiplist.forEach((eq) => { eq.node.checkbox.checked = checked; });
+    };
+
+    _am.toggle_filter = function () {
+      const allRows = $qsa('#equiplist table tr[onmouseover*="hover_equip"]');
+      const isFiltering = _am.node.toggleFilter.value === 'Hide Trash';
+      const bazaarFilter = (getValue('am_bazaar', _am.defaultBazaarFilter) || []).map(f => f.trim()).filter(f => f);
+
+      allRows.forEach((tr) => {
+        if (!isFiltering) {
+          tr.style.display = '';
+        } else {
+          const label = tr.querySelector('label');
+          if (label) {
+            const rawName = label.textContent.trim();
+            const normalized = _am.normalizeEquipName(rawName);
+            const equipName = normalized.replace(/[\u{1F000}-\u{1F9FF}\u{FE00}-\u{FE0F}\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}⚠️]/gu, '').trim();
+            const visible = $equip.filter(equipName, bazaarFilter);
+            tr.style.display = visible ? '' : 'none';
+          }
+        }
+      });
+
+      _am.node.toggleFilter.value = isFiltering ? 'Show All' : 'Hide Trash';
+    };
+
+    _am.get_base = function (eq) {
+      // Isekai uses Base values in title attributes, extract them from tooltip
+      // Support both English "Base:" and Chinese "基础:"
+      eq.node.lpr.value = '...';
+
+      // Simulate hover to trigger tooltip
+      const hoverEvent = new MouseEvent('mouseover', { bubbles: true, cancelable: true });
+      eq.node.tr.dispatchEvent(hoverEvent);
+
+      // Wait for tooltip to appear and extract Base values
+      setTimeout(() => {
+        const baseValues = [];
+        // Search for both English and Chinese versions
+        const tooltipDivs = document.querySelectorAll('div[title*="Base:"], div[title*="基础:"]');
+
+        tooltipDivs.forEach(div => {
+          const title = div.getAttribute('title');
+          // Match both "Base: 123" and "基础: 123"
+          const match = title.match(/(?:Base|基础):\s*(\d+)/i);
+          if (match) {
+            const base = match[1];
+            const statName = div.querySelector('div:first-child')?.textContent.trim();
+            if (statName) {
+              baseValues.push(`${statName}:${base}`);
+            }
+          }
+        });
+
+        if (baseValues.length > 0) {
+          eq.node.note.value = baseValues.join(' ');
+        } else {
+          eq.node.note.value = eq.info.soulbound ? 'Soulbound' : eq.info.level ? `Lv.${eq.info.level}` : 'No base data';
+        }
+
+        eq.node.lpr.value = '<';
+
+        // Clear hover state
+        const mouseoutEvent = new MouseEvent('mouseout', { bubbles: true, cancelable: true });
+        eq.node.tr.dispatchEvent(mouseoutEvent);
+      }, 300);
+    };
+
+    // Add styles
+    GM_addStyle(/*css*/`
+      .hvut-am-controls { padding: 8px 5px; background: #EDECDA; box-sizing: border-box; width: 100%; }
+      .hvut-am-side { display: flex; flex-direction: column; gap: 3px; }
+      .hvut-am-side input[type="button"] { width: 100%; box-sizing: border-box; }
+      #equiplist tr { position: relative; }
+      .hvut-am-sub { position: absolute; right: 80px; top: 50%; transform: translateY(-50%); white-space: nowrap; z-index: 1; }
+      .hvut-am-sub .hvut-am-price { width: 30px; margin: 0 1px; padding: 1px 2px; font-size: 8pt; border: 1px solid #999; background: #EDECDA; vertical-align: middle; box-sizing: border-box; }
+      .hvut-am-sub .hvut-am-note { width: 30px; margin: 0 1px; padding: 1px 2px; font-size: 8pt; border: 1px solid #999; background: #EDECDA; vertical-align: middle; box-sizing: border-box; }
+      .hvut-am-sub .hvut-am-lpr { width: 18px; height: 18px; margin: 0 1px; padding: 0; font-size: 8pt; font-weight: bold; cursor: pointer; vertical-align: middle; opacity: 0; transition: opacity 0.2s; box-sizing: border-box; }
+      .hvut-am-note:hover + .hvut-am-lpr, .hvut-am-lpr:hover { opacity: 1; }
+      #equiplist tr.hvut-eq-Superior { background-color: #ccc; }
+      #equiplist tr.hvut-eq-Exquisite { background-color: #ce9; }
+      #equiplist tr.hvut-eq-Magnificent { background-color: #bdf; }
+      #equiplist tr.hvut-eq-Legendary { background-color: #fd8; }
+      #equiplist tr.hvut-eq-Peerless { background-color: #fbb; }
+    `);
+
+    // Add UI buttons and event listeners (only on organize page)
+    if (_query.screen === 'organize') {
+      // Add UI buttons container - insert after last armory tab (Salvage)
+      const armoryLeft = $id('armory_left');
+      if (armoryLeft) {
+        // Find the last <a> tag (Salvage tab) and insert after it
+        const lastTab = armoryLeft.querySelector('a:last-of-type');
+        if (lastTab) {
+          _am.node.controls = $element('div', [lastTab, 'afterend'], ['.hvut-am-controls']);
+          _am.node.side = $element('div', _am.node.controls, ['.hvut-am-side']);
+          $input(['button', 'Equip Code'], _am.node.side, null, () => { _am.wts(); });
+          $input(['button', 'Select All'], _am.node.side, null, () => { _am.check_all(true); });
+          $input(['button', 'Deselect All'], _am.node.side, null, () => { _am.check_all(false); });
+        }
+      }
+
+      // Add click event listener for LPR buttons
+      $id('equiplist').addEventListener('click', _am.click);
+    } else if (_query.screen === 'purchase') {
+      // Add filter edit button for Purchase page
+      const armoryLeft = $id('armory_left');
+      if (armoryLeft) {
+        const lastTab = armoryLeft.querySelector('a:last-of-type');
+        if (lastTab) {
+          _am.node.controls = $element('div', [lastTab, 'afterend'], ['.hvut-am-controls']);
+          _am.node.side = $element('div', _am.node.controls, ['.hvut-am-side']);
+          _am.node.toggleFilter = $input(['button', 'Show All'], _am.node.side, null, () => { _am.toggle_filter(); });
+          $input(['button', 'Edit Filter'], _am.node.side, null, () => { _am.edit_filter(); });
+        }
+      }
+    }
+
+    // Parse equipment list (coloring works on all pages)
+    _am.parse_list();
   }
 } else
 // [END 8] Bazaar - Equipment Shop */
@@ -6057,9 +6758,9 @@ if (settings.shrine && _query.s === 'Bazaar' && _query.ss === 'ss') {
         return;
       } else if (msg.includes('Peerless Voucher')) { // 'Received 1x Peerless Voucher!'
         popup(`<p style="color: #f00; font-weight: bold;">${msg}</p>`);
-      } else if (msg.includes('Sold it for')) {
+      } else if (msg.includes('Sold it for') || msg.includes('Sold the remains for')) { // Isekai: '(Sold the remains for X credits)'
         _ss.equip.sold++;
-      } else if (msg.includes('Salvaged it for')) { // Salvaged it for .+ (Peerless|Legendary) .+ Core
+      } else if (msg.includes('Salvaged it for') || msg.includes('Salvaged the remains for')) { // Isekai might have similar format
         _ss.equip.salvaged++;
       } else if (reg.test(msg)) {
         rewards.push(RegExp.$1 || RegExp.$2 || RegExp.$3);
@@ -8458,8 +9159,8 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
       it.node.td = $element('td', it.node.tr);
       it.node.check = $input('checkbox', it.node.td, { dataset: { action: 'calc', iid: it.info.iid } });
       it.node.count = $input('text', it.node.td, { dataset: { action: 'calc', iid: it.info.iid }, className: 'hvut-mm-count', placeholder: '数量', pattern: '\\d+|\\d{1,3}(,\\d{3})*', max: it.data.stock });
-      it.node.price = $input('text', it.node.td, { dataset: { action: 'calc', iid: it.info.iid }, className: 'hvut-mm-price', placeholder: '价格', pattern: '(\\d+|\\d{1,3}(,\\d{3})*)(\\.\\d+)?[KMkm]?' });
-      it.node.cod = $input('text', it.node.td, { className: 'hvut-mm-cod', placeholder: '货到付款额', readOnly: true });
+      it.node.price = $input('text', it.node.td, { dataset: { action: 'calc', iid: it.info.iid }, className: 'hvut-mm-price', placeholder: '单价', pattern: '(\\d+|\\d{1,3}(,\\d{3})*)(\\.\\d+)?[KMkm]?' });
+      it.node.cod = $input('text', it.node.td, { className: 'hvut-mm-cod', placeholder: '总额(自算)', readOnly: true });
       it.node.send = $input(['button', '发送'], it.node.td, { dataset: { action: 'send', iid: it.info.iid }, className: 'hvut-mm-send' });
     });
 
@@ -8536,12 +9237,30 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
     $input('checkbox', _mm.node.equip_menu, { style: 'margin-left: 20px;' }, (e) => { _mm.equip_all(e.target.checked); });
 
     _mm.node.equip_attach = $element('div', _mm.node.equip_div, ['#equip', '.hvut-mm-attach'], { input: (e) => { _mm.equip_change(e); }, click: (e) => { _mm.equip_click(e); } });
-    _mm.node.equip_list = $qs('.equiplist') || $element('div', null, ['.equiplist nosel']);
-    _mm.node.equip_attach.appendChild(_mm.node.equip_list);
+
+    // Isekai: Equipment divs are in #mmail_attachequip, but we need to show them in our UI
+    if (_isekai && $id('mmail_attachequip')) {
+      const isekaiEquipList = $qs('.equiplist', $id('mmail_attachequip'));
+      if (isekaiEquipList) {
+        // Reference the original list for parsing, but also attach it to our UI
+        _mm.node.equip_list = isekaiEquipList;
+        // Make it visible in our container (hide the original location if needed)
+        _mm.node.equip_attach.appendChild(isekaiEquipList);
+      } else {
+        _mm.node.equip_list = $qs('.equiplist') || $element('div', null, ['.equiplist nosel']);
+        _mm.node.equip_attach.appendChild(_mm.node.equip_list);
+      }
+    } else {
+      // Persistent: Use original behavior - move the equiplist into our container
+      _mm.node.equip_list = $qs('.equiplist') || $element('div', null, ['.equiplist nosel']);
+      _mm.node.equip_attach.appendChild(_mm.node.equip_list);
+    }
 
     _mm.equip_json = getValue('in_equipdata', {});
-    _mm.equip_list = $equip.list(_mm.node.equip_list);
-    _mm.equip_list.forEach((eq) => {
+
+    // Common function to initialize equipment list UI
+    _mm.init_equip_list = function() {
+      _mm.equip_list.forEach((eq) => {
       eq.visible = true;
       eq.info.lowercase = eq.info.name.toLowerCase();
       eq.data.pane = 'equip';
@@ -8561,11 +9280,62 @@ if (settings.moogleMail && _query.s === 'Bazaar' && _query.ss === 'mm') {
         eq.node.price.value = json.price;
         eq.data.cod = _mm.parse_price(json.price);
       }
-    });
+      });
+    };
+
+    // Check if we need to load Isekai equipment data
+    const equipDivs = $qsa('div[onmouseover*="equips.set"]', _mm.node.equip_list);
+    let needsIsekaiData = false;
+
+    if (_isekai && equipDivs.length > 0) {
+      // Check if the first equipment div has corresponding dynjs data
+      const firstEid = /equips\.set\((\d+),/.test(equipDivs[0].getAttribute('onmouseover')) && RegExp.$1;
+      if (firstEid && !$equip.dynjs_equip[firstEid]) {
+        needsIsekaiData = true;
+      }
+    }
+
+    // In Isekai, we need to load equipment dynjs data from Armory page
+    if (needsIsekaiData) {
+      // Initialize empty list first to prevent errors
+      _mm.equip_list = [];
+
+      // Async load equipment data
+      (async function() {
+        try {
+          const html = await $ajax.fetch('?s=Bazaar&ss=am&screen=organize');
+          const doc = $doc(html);
+
+          // Load dynjs_equip data from external script
+          const scriptTag = $qs('script[src*="/dynjs/"][src*="/equip-"]', doc);
+          if (scriptTag) {
+            const dynjs_html = await $ajax.fetch(scriptTag.src + '?t=' + Date.now());
+            const dynjs_match = /var dynjs_equip = (\{.*?\});/s.exec(dynjs_html);
+            if (dynjs_match) {
+              Object.assign($equip.dynjs_equip, JSON.parse(dynjs_match[1]));
+            }
+          }
+
+          // Parse equipment list with loaded data
+          _mm.equip_list = $equip.list(_mm.node.equip_list) || [];
+          _mm.init_equip_list();
+        } catch (e) {
+          console.error('[HVUT MM] Failed to load Isekai equipment data:', e);
+          _mm.equip_list = [];
+        }
+      })();
+    } else {
+      // Non-Isekai or dynjs_equip already available: use normal flow
+      _mm.equip_list = $equip.list(_mm.node.equip_list) || [];
+      _mm.init_equip_list();
+    }
 
     if ($id('mmail_attachequip')) {
-      $id('equip').id += '_';
-      $element('span', _mm.node.write_tabs, '装备', () => { _mm.write_toggle('equip_div'); });
+      const equipElem = $id('equip');
+      if (equipElem) {
+        equipElem.id += '_';
+      }
+      $element('span', _mm.node.write_tabs, 'Equipment', () => { _mm.write_toggle('equip_div'); });
       _mm.node.write_right.appendChild(_mm.node.equip_div);
     }
 
