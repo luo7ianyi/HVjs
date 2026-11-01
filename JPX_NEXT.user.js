@@ -8,7 +8,6 @@
 // @exclude      *hentaiverse.org/equip/*
 // @exclude      *hentaiverse.org/isekai/equip/*
 // @grant        unsafeWindow
-// @connect      *
 // ==/UserScript==
 
 // 声音提醒
