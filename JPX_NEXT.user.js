@@ -7,7 +7,6 @@
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
 // @exclude      *hentaiverse.org/isekai/equip/*
-// @grant        GM_xmlhttpRequest
 // @grant        unsafeWindow
 // @connect      *
 // ==/UserScript==
