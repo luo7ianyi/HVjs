@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JPX NEXT
 // @namespace    ijpx
-// @version      26.11.01.01
+// @version      2026.11.06.1
 // @description  jpx
 // @run-at       document-end
 // @match        *://*.hentaiverse.org/*
@@ -452,6 +452,133 @@ let defaultCfgMissPink = {
         },
     },
 };
+const defaultPrefab = {
+    supports: {
+        "🛡️盾战基础药品补给": [
+            {"type":"item","name":"Spirit Gem","conditions":[{"key":"pSP","value":[0,0.9]}]},
+            {"type":"item","name":"Spirit Potion","conditions":[{"key":"pSP","value":[0,0.5]}]},
+            {"type":"item","name":"Last Elixir","conditions":[{"key":"pSP","value":[0,0.4]}]},
+            {"type":"item","name":"Spirit Elixir","conditions":[{"key":"pSP","value":[0,0.4]}]},
+            {"type":"stop","customMessage":"Can't use Spirit Elixir","conditions":[{"key":"pSP","value":[0,0.4]}]},
+            {"type":"item","name":"Health Gem","conditions":[]},
+            {"type":"spellSupport","name":"Cure","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"item","name":"Health Potion","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"spellSupport","name":"Full-Cure","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"item","name":"Health Elixir","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"stop","customMessage":"Can't use Health Elixir","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"item","name":"Mana Gem","conditions":[{"key":"pMP","value":[0,0.8]}]},
+            {"type":"item","name":"Mana Potion","conditions":[{"key":"pMP","value":[0,0.4]}]},
+            {"type":"item","name":"Mana Elixir","conditions":[{"key":"pMP","value":[0,0.2]}]},
+            {"type":"stop","customMessage":"Can't use Mana Elixir","conditions":[{"key":"pMP","value":[0,0.2]}]},
+            {"type":"item","name":"Mystic Gem","conditions":[{"key":"pIgnoredEffects","value":[0,9999,"Channeling"]}]},
+            {"type":"item","name":"Health Draught","conditions":[{"key":"pEffects","value":[-1,0,"Regeneration"]},{"key":"monsters","value":[4,10]},{"key":"battleTypes","value":["Arena","Colosseum","Battle1000","Tower","Item"]}]},
+            {"type":"item","name":"Mana Draught","conditions":[{"key":"pEffects","value":[-1,0,"Replenishment"]},{"key":"pMP","value":[0,0.85]},{"key":"battleTypes","value":["Arena","Colosseum","Battle1000","Tower","Item"]}]},
+            {"type":"item","name":"Spirit Draught","conditions":[{"key":"pEffects","value":[-1,0,"Refreshment"]},{"key":"pSP","value":[0,0.9]},{"key":"battleTypes","value":["Arena","Colosseum","Battle1000","Tower","Item"]}]}
+        ],
+        "🪄法师基础药品补给": [
+            {"type":"item","name":"Spirit Gem","conditions":[{"key":"pSP","value":[0,0.9]}]},
+            {"type":"item","name":"Spirit Potion","conditions":[{"key":"pSP","value":[0,0.5]}]},
+            {"type":"item","name":"Last Elixir","conditions":[{"key":"pSP","value":[0,0.35]}]},
+            {"type":"item","name":"Spirit Elixir","conditions":[{"key":"pSP","value":[0,0.35]},{"key":"pActionCooldown","value":[1,50,"Spirit Potion"]}]},
+            {"type":"stop","customMessage":"Can't use Spirit Elixir","conditions":[{"key":"pSP","value":[0,0.2]}]},
+            {"type":"item","name":"Health Gem","conditions":[{"key":"pHP","value":[0,0.5]}]},
+            {"type":"spellSupport","name":"Full-Cure","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"spellSupport","name":"Cure","conditions":[{"key":"pHP","value":[0,0.5]},{"key":"pActionCooldown","value":[1,10,"Full-Cure"]}]},
+            {"type":"item","name":"Health Potion","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"item","name":"Health Elixir","conditions":[{"key":"pHP","value":[0,0.4]}]},
+            {"type":"item","name":"Last Elixir","conditions":[{"key":"pHP","value":[0,0.1]},{"key":"pActionCooldown","value":[1,50,"Health Elixir"]}]},
+            {"type":"stop","customMessage":"Can't use Health Elixir","conditions":[{"key":"pHP","value":[0,0.1]},{"key":"pSP","value":[0,0.5]}]},
+            {"type":"item","name":"Mana Gem","conditions":[{"key":"pMP","value":[0,0.7]}]},
+            {"type":"item","name":"Mana Potion","conditions":[{"key":"pMP","value":[0,0.5]}]},
+            {"type":"item","name":"Mana Elixir","conditions":[{"key":"pMP","value":[0,0.2]}]},
+            {"type":"stop","customMessage":"Can't use Mana Elixir","conditions":[{"key":"pMP","value":[0,0.1]}]},
+            {"type":"item","name":"Mystic Gem","conditions":[{"key":"pIgnoredEffects","value":[0,999,"Channeling"]}]}
+        ],
+        "🛡️盾战增益组": [
+            {"type":"spellSupport","name":"Heartseeker","conditions":[{"key":"pEffects","value":[0,9999,"Channeling"]},{"key":"pEffects","value":[-1,500,"Heartseeker"]}]},
+            {"type":"spellSupport","name":"Regen","conditions":[{"key":"pEffects","value":[0,9999,"Channeling"]},{"key":"pEffects","value":[-1,500,"Regen"]}]},
+            {"type":"toggle","name":"Spirit","toggled":true,"conditions":[{"key":"pOC","value":[9,10]}]},
+            {"type":"toggle","name":"Defend","toggled":false,"conditions":[{"key":"pHP","value":[0,0.7]}],"disabled":true},
+            {"type":"spellSupport","name":"Heartseeker","conditions":[{"key":"pEffects","value":[-1,0,"Heartseeker"]}]},
+            {"type":"spellSupport","name":"Regen","conditions":[{"key":"pEffects","value":[-1,0,"Regen"]}]}
+        ],
+        "🪄法师增益组": [
+            {"type":"spellSupport","name":"Arcane Focus","conditions":[{"key":"pEffects","value":[0,9999,"Channeling"]},{"key":"pEffects","value":[-1,100,"Arcane Focus"]}]},
+            {"type":"spellSupport","name":"Regen","conditions":[{"key":"pEffects","value":[0,9999,"Channeling"]},{"key":"pEffects","value":[-1,50,"Regen"]}]},
+            {"type":"spellSupport","name":"Arcane Focus","conditions":[{"key":"pEffects","value":[-1,0,"Arcane Focus"]}]},
+            {"type":"spellSupport","name":"Regen","conditions":[{"key":"pEffects","value":[-1,0,"Regen"]}]}
+        ]
+    },
+    attacks: {
+        "🛡️盾战攻击组": [
+            {"type":"smartDebuff","name":"Sleep","targetCount":3,"tailSkip":2,"bottomUp":true,"maxAtFirst":6,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Asleep"],"offset":[0,0],"matched":[1,1]},{"key":"battleTypes","value":["Item"]}]},
+            {"type":"smartDebuff","name":"Silence","targetCount":3,"tailSkip":0,"bottomUp":false,"maxAtFirst":6,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Asleep"],"offset":[0,0],"matched":[1,1]},{"key":"battleTypes","value":["Item"]},{"key":"tIgnoredEffects","value":[1,9999,"Silenced"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"smartDebuff","name":"Weaken","targetCount":3,"tailSkip":0,"bottomUp":false,"maxAtFirst":6,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Weakened","Asleep"],"offset":[0,0],"matched":[1,1]},{"key":"battleTypes","value":["Item"]}]},
+            {"type":"smartDebuff","name":"Weaken","targetCount":3,"tailSkip":0,"bottomUp":false,"maxAtFirst":10,"minMonstersLeft":10,"conditions":[{"key":"tTypes","value":["Arena400","Arena500"],"offset":[0,0],"matched":[1,1]},{"key":"tIgnoredEffects","value":[1,9999,"Weakened"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"smartDebuff","name":"Weaken","targetCount":3,"tailSkip":-3,"bottomUp":false,"maxAtFirst":1,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Weakened"],"offset":[0,0],"matched":[1,1]},{"key":"activeMonsters","value":[7,10]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"world","value":["Persistent"]},{"key":"tDaysSinceUpdate","value":[46,9999],"offset":[0,0],"matched":[1,1]},{"key":"tIgnoredEffects","value":[0,9999,"Imperiled","Searing Skin","Freezing Limbs","Turbulent Air","Deep Burns","Breached Defense","Blunted Attack"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"skill","name":"Scan","conditions":[{"key":"pActionCounts","value":[0,0,"Scan"]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tName","value":"Yggdrasil","offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tTypes","value":["Rare","Legendary","Ultimate","Arena300","Arena400","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[]},
+            {"type":"skill","name":"Orbital Friendship Cannon","conditions":[{"key":"activeMonsters","value":[6,10]},{"key":"pOC","value":[9,10]},{"key":"pSpiritStatus","value":true}]},
+            {"type":"smartDebuff","name":"Imperil","targetCount":3,"bottomUp":false,"tailSkip":0,"maxAtFirst":10,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Imperiled"],"offset":[0,0],"matched":[1,1]},{"key":"tTypes","value":["Rare","Legendary","Ultimate","Arena300","Arena400","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"smartDebuff","name":"Imperil","targetCount":3,"bottomUp":false,"tailSkip":-1,"maxAtFirst":10,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Imperiled"],"offset":[0,0],"matched":[1,1]},{"key":"activeBosses","value":[0,0]},{"key":"pMP","value":[0.7,1]}]},
+            {"type":"skill","name":"Vital Strike","conditions":[{"key":"tTypes","value":["Ultimate","Arena300","Arena400","Arena500","Legendary","Rare"],"offset":[0,0],"matched":[1,1]},{"key":"tEffects","value":[0,9999,"Stunned"],"offset":[0,0],"matched":[1,1]},{"key":"tHP","value":[0.05,1],"offset":[0,0],"matched":[1,1]},{"key":"pOC","value":[2.5,10]}]},
+            {"type":"skill","name":"Vital Strike","conditions":[{"key":"battleTypes","value":["Item","Tower"]},{"key":"tEffects","value":[0,9999,"Stunned"],"offset":[0,0],"matched":[1,1]},{"key":"tHP","value":[0.05,1],"offset":[0,0],"matched":[1,1]},{"key":"pOC","value":[2.5,10]},{"key":"pSpiritStatus","value":true}]},
+            {"type":"skill","name":"Merciful Blow","conditions":[{"key":"tTypes","value":["Ultimate","Arena300","Arena400","Arena500"],"offset":[0,0],"matched":[1,1]},{"key":"tEffects","value":[0,9999,"Bleeding Wound"],"offset":[0,0],"matched":[1,1]},{"key":"tHP","value":[0.04,0.22],"offset":[0,0],"matched":[1,1]},{"key":"pOC","value":[4.5,10]}]},
+            {"type":"normalAttack"}
+        ],
+        "🪄法师攻击组": [
+            {"type":"smartDebuff","targetCount":3,"name":"Weaken","bottomUp":false,"tailSkip":0,"maxAtFirst":10,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Weakened"],"offset":[0,0],"matched":[1,1]},{"key":"tTypes","value":["Arena400","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"smartDebuff","targetCount":3,"name":"Silence","bottomUp":false,"tailSkip":0,"maxAtFirst":10,"minMonstersLeft":10,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Silenced"],"offset":[0,0],"matched":[1,1]},{"key":"tTypes","value":["Arena400","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"smartDebuff","targetCount":3,"name":"Imperil","bottomUp":false,"tailSkip":0,"maxAtFirst":3,"minMonstersLeft":5,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Imperiled"],"offset":[0,0],"matched":[1,1]},{"key":"tTypes","value":["Legendary","Ultimate","Arena400","Arena300","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"smartDebuff","targetCount":3,"name":"Imperil","bottomUp":false,"tailSkip":0,"maxAtFirst":2,"minMonstersLeft":5,"conditions":[{"key":"tIgnoredEffects","value":[1,9999,"Imperiled"],"offset":[0,0],"matched":[1,1]},{"key":"battleTypes","value":["Battle1000"]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tDaysSinceUpdate","value":[46,9999],"offset":[0,0],"matched":[1,1]},{"key":"tIgnoredEffects","value":[0,9999,"Imperiled","Searing Skin","Freezing Limbs","Turbulent Air","Deep Burns","Breached Defense","Blunted Attack"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"skill","name":"Scan","conditions":[{"key":"pActionCounts","value":[0,0,"Scan"]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tName","value":"Yggdrasil","offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tEffects","value":[0,9999,"Imperiled","Coalesced Mana"],"offset":[0,0],"matched":[1,1]},{"key":"tTypes","value":["Rare","Legendary","Ultimate","Arena300","Arena400","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tEffects","value":[0,9999,"Coalesced Mana"],"offset":[0,0],"matched":[1,1]},{"key":"tTypes","value":["Rare","Legendary","Ultimate","Arena300","Arena400","Arena500"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tEffects","value":[0,9999,"Imperiled","Coalesced Mana"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Top Down","conditions":[{"key":"tEffects","value":[0,9999,"Imperiled"],"offset":[0,0],"matched":[1,1]}]},
+            {"type":"target","priorityRule":"Current HP High to Low","conditions":[]},
+            {"type":"spellDamage","name":"T3","conditions":[{"key":"activeMonsters","value":[2,10]}]},
+            {"type":"spellDamage","name":"T2","conditions":[{"key":"activeMonsters","value":[2,10]}]},
+            {"type":"spellDamage","name":"T1","conditions":[{"key":"activeMonsters","value":[2,10]}]},
+            {"type":"spellDamage","name":"T3","conditions":[{"key":"pMP","value":[0.2,1]}]},
+            {"type":"spellDamage","name":"T2","conditions":[{"key":"pMP","value":[0.2,1]}]},
+            {"type":"spellDamage","name":"T1","conditions":[{"key":"pMP","value":[0.2,1]}]},
+            {"type":"normalAttack"}
+        ]
+    }
+};
+
+function ensurePrefabs() {
+    let stored = {};
+    try {
+        stored = JSON.parse(localStorage.getItem('cfgPrefab') || '{}');
+    } catch (e) {}
+
+    if (!stored.supports || !stored.attacks) {
+        stored = JSON.parse(JSON.stringify(defaultPrefab));
+        localStorage.setItem('cfgPrefab', JSON.stringify(stored));
+        return;
+    }
+
+    let updated = false;
+    for (const category in defaultPrefab) {
+        for (const key in defaultPrefab[category]) {
+            if (!stored[category][key]) {
+                stored[category][key] = defaultPrefab[category][key];
+                updated = true;
+            }
+        }
+    }
+    if (updated) {
+        localStorage.setItem('cfgPrefab', JSON.stringify(stored));
+    }
+}
+
 function ensureCfgMissPink() {
     if (cfgMissPinkInited) return cfgMissPink;
 
@@ -1165,7 +1292,7 @@ let statsFreezeSettings = {     // ← 新增
     bgColor: '#66ccff',
 };
 
-const difficumpMap = { Normal: 1, Hard: 2, Nightmare: 4, Hell: 7, Nintendo: 10, IWBTH: 15, PFUDOR: 20 };
+const difficultyMap = { Normal: 1, Hard: 2, Nightmare: 4, Hell: 7, Nintendo: 10, IWBTH: 15, PFUDOR: 20 };
 const itemMap = {
     10005: 'Health Gem', 10006: 'Mana Gem', 10007: 'Spirit Gem', 10008: 'Mystic Gem',
     11191: 'Health Draught', 11195: 'Health Potion', 11199: 'Health Elixir',
@@ -1548,7 +1675,7 @@ const conditionsGeneral = [
                                   mkF('pLevel', 'rangeNumber'),
                                   mkF('pMaxSpellType', 'array', { multiSelectOptions: Object.keys(spellsDamageObj), popup: true, itemSchema: { type: 'text' } }),
                                   mkF('battleTypes', 'array', { multiSelectOptions: BATTLE_TYPES, popup: true, itemSchema: { type: 'text' } }),
-                                  mkF('difficump', 'array', { multiSelectOptions: Object.keys(difficumpMap), popup: true, itemSchema: { type: 'text' } }),
+                                  mkF('difficulty', 'array', { multiSelectOptions: Object.keys(difficultyMap), popup: true, itemSchema: { type: 'text' } }),
                                   mkF('roundCurrent', 'rangeNumber'),
                                   mkF('roundLeft', 'rangeNumber'),
                                   mkF('roundTotal', 'rangeNumber'),
@@ -1847,6 +1974,7 @@ const I18N = {
 const mergedI18N = {};
 
 function initDo() {
+    ensurePrefabs();
     let style = document.createElement('style');
     style.id = 'jpx';
     style.textContent = cfg.styleText;
@@ -1905,7 +2033,7 @@ function initDo() {
                     info[keyTd.textContent.slice(0, -1)] = valueTd.textContent;
                 });
                 localStorage.setItem(prefix + 'worldLevel' + isekaiSuffix, info['World Level']);
-                localStorage.setItem(prefix + 'difficump' + isekaiSuffix, info['Difficump'].split(' ')[0]);
+                localStorage.setItem(prefix + 'difficulty' + isekaiSuffix, info['Difficulty'].split(' ')[0]);
             });
 
             observer.observe(equipForm, { childList: true, subtree: true });
@@ -1915,9 +2043,9 @@ function initDo() {
             let levelReadout = document.querySelector('#level_readout > div > div')?.innerText;
             let playerInfo = levelReadout.match(regExp.playerInfo);
             if (playerInfo) {
-                let difficump = localStorage.getItem(prefix + 'difficump' + isekaiSuffix) || 'undefined';
+                let difficulty = localStorage.getItem(prefix + 'difficulty' + isekaiSuffix) || 'undefined';
                 let playerLevel = parseInt(localStorage.getItem(prefix + 'playerLevel' + isekaiSuffix)) || 0;
-                if (difficump != playerInfo[1]) localStorage.setItem(prefix + 'difficump' + isekaiSuffix, playerInfo[1]);
+                if (difficulty != playerInfo[1]) localStorage.setItem(prefix + 'difficulty' + isekaiSuffix, playerInfo[1]);
                 if (playerLevel != playerInfo[1]) localStorage.setItem(prefix + 'playerLevel' + isekaiSuffix, playerInfo[2]);
             }
             let staminaReadout = document.querySelector('#stamina_readout > div > div')?.innerText;
@@ -2047,20 +2175,20 @@ function initDoBattle() {
         if (towerFloor) localStorage.setItem(prefix + 'towerFloor' + isekaiSuffix, towerFloor);
         else towerFloor = parseInt(localStorage.getItem(prefix + 'towerFloor' + isekaiSuffix)) || 0;
 
-        let difficump = 'PFUDOR';;
-        if (jpxUtils.inRange(towerFloor, [1, 6])) difficump = 'Normal';
-        else if (jpxUtils.inRange(towerFloor, [7, 13])) difficump = 'Hard';
-        else if (jpxUtils.inRange(towerFloor, [14, 19])) difficump = 'Nightmare';
-        else if (jpxUtils.inRange(towerFloor, [20, 26])) difficump = 'Hell';
-        else if (jpxUtils.inRange(towerFloor, [27, 33])) difficump = 'Nintendo';
-        else if (jpxUtils.inRange(towerFloor, [34, 39])) difficump = 'IWBTH';
-        localStorage.setItem(prefix + 'difficump' + isekaiSuffix, difficump);
+        let difficulty = 'PFUDOR';;
+        if (jpxUtils.inRange(towerFloor, [1, 6])) difficulty = 'Normal';
+        else if (jpxUtils.inRange(towerFloor, [7, 13])) difficulty = 'Hard';
+        else if (jpxUtils.inRange(towerFloor, [14, 19])) difficulty = 'Nightmare';
+        else if (jpxUtils.inRange(towerFloor, [20, 26])) difficulty = 'Hell';
+        else if (jpxUtils.inRange(towerFloor, [27, 33])) difficulty = 'Nintendo';
+        else if (jpxUtils.inRange(towerFloor, [34, 39])) difficulty = 'IWBTH';
+        localStorage.setItem(prefix + 'difficulty' + isekaiSuffix, difficulty);
     }
 
     preDoBattle();
 
     if (battleType === 'Arena' && roundInfo.total >= 90) {
-        localStorage.setItem(prefix + 'difficump' + isekaiSuffix, 'PFUDOR');
+        localStorage.setItem(prefix + 'difficulty' + isekaiSuffix, 'PFUDOR');
     }
 }
 
@@ -3082,7 +3210,7 @@ function initConditions() {
                                   pLevel: range => jpxUtils.inRange(parseInt(localStorage.getItem(prefix + 'playerLevel' + isekaiSuffix) || 1), range),
                                   pMaxSpellType: arr => arr.includes(spellDamageBonus.maxType),
                                   battleTypes: arr => arr.includes(battleType),
-                                  difficump: arr => arr.includes(localStorage.getItem(prefix + 'difficump' + isekaiSuffix) || 'PFUDOR'),
+                                  difficulty: arr => arr.includes(localStorage.getItem(prefix + 'difficulty' + isekaiSuffix) || 'PFUDOR'),
                                   roundCurrent: range => jpxUtils.inRange(roundInfo.current, range),
                                   roundLeft: range => jpxUtils.inRange(roundInfo.total - roundInfo.current, range),
                                   roundTotal: range => jpxUtils.inRange(roundInfo.total, range),
@@ -3910,7 +4038,7 @@ async function battleRecordPlayer(doFinal = true) {
         timestamp: timestamp,
         date: date,
         playerLevel: parseInt(localStorage.getItem(prefix + 'playerLevel' + isekaiSuffix)) || 0,
-                                  difficump: difficumpMap[localStorage.getItem(prefix + 'difficump' + isekaiSuffix)] || 0,
+                                  difficulty: difficultyMap[localStorage.getItem(prefix + 'difficulty' + isekaiSuffix)] || 0,
                                   persona: localStorage.getItem(prefix + 'persona' + isekaiSuffix),
                                   battleType: battleType,
                                   worldLevel: worldLevel,
@@ -4312,7 +4440,7 @@ function newWindowRecordPlayer(doClone, battleRecords, timeRecordEl, combatRecor
     `${battleRecords.timestamp}   ${t(`sP.${battleRecords.world}`)}   ` +
     `${t(`sP.${battleRecords.battleType || ''}`) + (battleRecords.worldLevel ? ` (WL${battleRecords.worldLevel})` : '') + (battleRecords.towerFloor ? ` (${battleRecords.towerFloor}F)` : '')}   ` +
     `${battleRecords.roundInfo.current}/${battleRecords.roundInfo.total} ${battleRecords.result !== 'Victory' ? `(${t(`sP.${battleRecords.result}`)})` : ''}   ` +
-    `${t(`sP.${Object.keys(difficumpMap).find(key => difficumpMap[key] === battleRecords.difficump)}`)}   LV: ${battleRecords.playerLevel}`;
+    `${t(`sP.${Object.keys(difficultyMap).find(key => difficultyMap[key] === battleRecords.difficulty)}`)}   LV: ${battleRecords.playerLevel}`;
     left.appendChild(info);
 
     container.appendChild(left);
@@ -4803,7 +4931,7 @@ async function importIndexedDB(jsonData, merge = true) {
 function filterData(data, filters) {
     if (filters.world && !filters.world.includes(data.world)) return false;
     if (filters.battleType && !filters.battleType.includes(data.battleType)) return false;
-    if (filters.difficulties && !filters.difficulties.includes(data.difficump.toString())) return false;
+    if (filters.difficulties && !filters.difficulties.includes(data.difficulty.toString())) return false;
     if (filters.result && !filters.result.includes(data.result)) return false;
     if (filters.roundTotal && !jpxUtils.inRange(data.roundInfo.total, filters.roundTotal)) return false;
 
@@ -6702,7 +6830,7 @@ function renderSettings() {
         cssText: 'padding: 4px 14px; cursor: pointer;',
         text: '💾保存',
         onClick: () => {
-            let activeTab = tabs.find(t => t.panel.style.display === 'block');
+            let activeTab = tabs.find(t => t.panel.style.display !== 'none');
             if (!activeTab || !activeTab.onSave) return t('cGen.error!');
             activeTab.onSave();
             return t('cGen.saved!');
@@ -6757,7 +6885,7 @@ function renderSettings() {
     jpxUtils.createButton(buttonsUI, {
         id: 'save-button',
         onClick: () => {
-            let activeTab = tabs.find(t => t.panel.style.display === 'block');
+            let activeTab = tabs.find(t => t.panel.style.display !== 'none');
             if (!activeTab || !activeTab.onSave) return t('cGen.error!');
             activeTab.onSave();
             return t('cGen.saved!');
@@ -6767,7 +6895,7 @@ function renderSettings() {
     jpxUtils.createButton(buttonsUI, {
         id: 'export-button',
         onClick: () => {
-            let activeTab = tabs.find(t => t.panel.style.display === 'block');
+            let activeTab = tabs.find(t => t.panel.style.display !== 'none');
             if (!activeTab || !activeTab.onExport) return t('cGen.exportFailed!');
 
             let info = activeTab.onExport();
@@ -6786,7 +6914,7 @@ function renderSettings() {
     jpxUtils.createButton(buttonsUI, {
         id: 'import-button',
         onClick: (btn) => {
-            let activeTab = tabs.find(t => t.panel.style.display === 'block');
+            let activeTab = tabs.find(t => t.panel.style.display !== 'none');
             if (!activeTab || !activeTab.onImport) return t('cGen.importFailed!');
             let input = document.createElement('input');
             input.type = 'file';
@@ -6934,16 +7062,44 @@ function renderBattleTab(parent) {
         { id: 'quickbar', text: '🎛️快捷栏' },
         { id: 'supports', text: t('cB.supports') },
                                   { id: 'attacks', text: t('cB.attacks') },
+                                  { id: 'prefab', text: '📦预制件管理' },
                                   { id: 'manage', text: '💾配置文件管理' },
     ];
 
     let subTabHeader = document.createElement('div');
     subTabHeader.className = 'settings-subtab-header';
+    subTabHeader.style.display = 'flex';
+    subTabHeader.style.alignItems = 'flex-end';
+
+    let subTabBtnsContainer = document.createElement('div');
+    subTabBtnsContainer.style.display = 'flex';
+    subTabBtnsContainer.style.gap = '2px';
+    subTabHeader.appendChild(subTabBtnsContainer);
+
+    let prefabSelectContainer = document.createElement('div');
+    prefabSelectContainer.id = 'battle-prefab-select-container';
+    prefabSelectContainer.style.cssText = 'margin-left: auto; display: none; align-items: center; gap: 8px; padding-bottom: 2px;';
+    subTabHeader.appendChild(prefabSelectContainer);
+
+    let prefabSelect = document.createElement('select');
+    prefabSelect.style.cssText = 'padding: 4px; border-radius: 4px; border: 1px solid #ccc; font-size: 9pt; min-width: 200px;';
+    prefabSelectContainer.appendChild(prefabSelect);
+
+    let newSupportsBtn = document.createElement('button');
+    newSupportsBtn.textContent = '➕ 新建补给';
+    newSupportsBtn.style.cssText = 'padding: 4px 10px; cursor: pointer; font-size: 9pt;';
+    prefabSelectContainer.appendChild(newSupportsBtn);
+
+    let newAttacksBtn = document.createElement('button');
+    newAttacksBtn.textContent = '➕ 新建战斗';
+    newAttacksBtn.style.cssText = 'padding: 4px 10px; cursor: pointer; font-size: 9pt;';
+    prefabSelectContainer.appendChild(newAttacksBtn);
+
     parent.appendChild(subTabHeader);
 
     let panels = {};
     subTabs.forEach(tab => {
-        tab.btn = jpxUtils.createButton(subTabHeader, {
+        tab.btn = jpxUtils.createButton(subTabBtnsContainer, {
             className: 'settings-subtab-btn',
             text: tab.text,
             onClick: () => switchSubTab(tab.id),
@@ -6960,13 +7116,103 @@ function renderBattleTab(parent) {
         panels[tab.id] = panel;
     });
 
+    let currentSubTabId = 'basic';
+
+    function updatePrefabSelectOptions() {
+        let prevVal = prefabSelect.value;
+        prefabSelect.innerHTML = '';
+        let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+
+        let optgSupports = document.createElement('optgroup');
+        optgSupports.label = '补给预制件';
+        for(let name in custom.supports) {
+            let opt = document.createElement('option');
+            opt.value = `supports|${name}`;
+            opt.textContent = name;
+            optgSupports.appendChild(opt);
+        }
+        prefabSelect.appendChild(optgSupports);
+
+        let optgAttacks = document.createElement('optgroup');
+        optgAttacks.label = '战斗预制件';
+        for(let name in custom.attacks) {
+            let opt = document.createElement('option');
+            opt.value = `attacks|${name}`;
+            opt.textContent = name;
+            optgAttacks.appendChild(opt);
+        }
+        prefabSelect.appendChild(optgAttacks);
+
+        if (prevVal && prefabSelect.querySelector(`option[value="${prevVal}"]`)) {
+            prefabSelect.value = prevVal;
+        } else if (prefabSelect.options.length > 0) {
+            prefabSelect.selectedIndex = 0;
+        }
+    }
+
+    function renderPrefabManagerPage() {
+        let panel = panels.prefab;
+        panel.innerHTML = '';
+        if (!prefabSelect.value) {
+            panel.innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无预制件，请点击右上角新建</div>';
+            return;
+        }
+        let parts = prefabSelect.value.split('|');
+        let type = parts[0];
+        let name = parts.slice(1).join('|');
+
+        renderTwoColumnPage(panel, type, { isPrefabManager: true, type: type, name: name });
+    }
+
+    prefabSelect.onchange = () => {
+        if (currentSubTabId === 'prefab') {
+            renderPrefabManagerPage();
+        }
+    };
+
+    const createNewPrefab = (category) => {
+        let name = prompt(`请输入新【${category === 'supports' ? '补给' : '战斗'}】预制件名称：`);
+        if (!name || !name.trim()) return;
+        name = name.trim();
+        let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+
+        if (custom[category][name]) {
+            alert('预制件名称已存在！');
+            return;
+        }
+        custom[category][name] = [];
+        localStorage.setItem('cfgPrefab', JSON.stringify(custom));
+
+        updatePrefabSelectOptions();
+        prefabSelect.value = `${category}|${name}`;
+        renderPrefabManagerPage();
+    };
+
+    newSupportsBtn.onclick = () => createNewPrefab('supports');
+    newAttacksBtn.onclick = () => createNewPrefab('attacks');
+
+    document.addEventListener('prefabDeleted', function onPrefabDeleted() {
+        if (!document.body.contains(parent)) {
+            document.removeEventListener('prefabDeleted', onPrefabDeleted);
+            return;
+        }
+        updatePrefabSelectOptions();
+        renderPrefabManagerPage();
+    });
+
     function switchSubTab(id) {
+        currentSubTabId = id;
         subTabs.forEach(tab => {
             let isActive = tab.id === id;
             let panel = tab.panel || panels[tab.id];
             if (panel) panel.style.display = isActive ? 'flex' : 'none';
             tab.btn.classList.toggle('active', isActive);
         });
+        prefabSelectContainer.style.display = id === 'prefab' ? 'flex' : 'none';
+        if (id === 'prefab') {
+            updatePrefabSelectOptions();
+            renderPrefabManagerPage();
+        }
     }
 
     // ===== 保存 / 导出 / 导入辅助 =====
@@ -7093,8 +7339,43 @@ function renderBattleTab(parent) {
         ['showCooldowns','quickbarExtend','showDurations']
         .forEach(k => renderTopField(panel, k));
     }
-    function renderTwoColumnPage(panel, fieldKey) {
+    function renderTwoColumnPage(panel, fieldKey, prefabOptions = null) {
         panel.innerHTML = '';
+        let isPrefabManager = !!prefabOptions;
+        let currentPrefabType = prefabOptions?.type;
+        let currentPrefabName = prefabOptions?.name;
+
+        let prefabCache = null;
+        let getTargetArray = () => {
+            if (isPrefabManager) {
+                if (!prefabCache) {
+                    let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+                    custom[currentPrefabType] ??= {};
+                    custom[currentPrefabType][currentPrefabName] ??= [];
+                    prefabCache = custom[currentPrefabType][currentPrefabName];
+                }
+                return prefabCache;
+            }
+            return getModeData()[fieldKey];
+        };
+
+        let getPrefabs = () => {
+            let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+            let category = fieldKey === 'supports' ? 'supports' : 'attacks';
+            return custom[category] || {};
+        };
+
+        let savePrefab = (name, items) => {
+            let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+            let category = fieldKey === 'supports' ? 'supports' : 'attacks';
+            if(!custom[category]) custom[category] = {};
+            custom[category][name] = JSON.parse(JSON.stringify(items));
+            localStorage.setItem('cfgPrefab', JSON.stringify(custom));
+
+            if (isPrefabManager && category === currentPrefabType && name === currentPrefabName) {
+                prefabCache = custom[category][name];
+            }
+        };
 
         let modeData = getModeData();
         let modesField = fieldByKey['modes'];
@@ -7102,7 +7383,7 @@ function renderBattleTab(parent) {
         let fieldDef = modesField.itemSchema.properties.find(p => p.key === fieldKey);
         if (!fieldDef) return;
 
-        let selectedItems = new Set();   // Set<item object>，跨渲染稳定
+        let selectedItems = new Set();
         let lastClickedIndex = -1;
 
         let layout = document.createElement('div');
@@ -7131,6 +7412,7 @@ function renderBattleTab(parent) {
         let activeMenu = null;
         let activeAddMenu = null;
         let activeSubMenu = null;
+        let activeCfgMenu = null;
         let rightObserver = null;
 
         // ===== 菜单管理 =====
@@ -7147,10 +7429,15 @@ function renderBattleTab(parent) {
             if (activeMenu && activeMenu.parentNode) activeMenu.parentNode.removeChild(activeMenu);
             activeMenu = null;
         }
+        function closeCfgMenu() {
+            if (activeCfgMenu && activeCfgMenu.parentNode) activeCfgMenu.parentNode.removeChild(activeCfgMenu);
+            activeCfgMenu = null;
+        }
         function closeAllMenus() {
             closeSubMenu();
             closeAddMenu();
             closeContextMenu();
+            closeCfgMenu();
         }
 
         let outsideListener = (e) => {
@@ -7160,7 +7447,7 @@ function renderBattleTab(parent) {
                 if (rightObserver) { rightObserver.disconnect(); rightObserver = null; }
                 return;
             }
-            let inAnyMenu = [activeMenu, activeSubMenu, activeAddMenu].some(m => m && m.contains(e.target));
+            let inAnyMenu = [activeMenu, activeSubMenu, activeAddMenu, activeCfgMenu].some(m => m && m.contains(e.target));
             if (!inAnyMenu && !(e.target.closest && e.target.closest('.jpx-outline-add-btn'))) {
                 closeAllMenus();
             }
@@ -7174,16 +7461,21 @@ function renderBattleTab(parent) {
             if (item.type) parts.push(t('cB.' + item.type));
             if (item.priorityRule) parts.push(t('cB.' + item.priorityRule));
             else if (item.name) parts.push(t('cB.' + item.name));
+
+            if (item.type === 'stop' && item.customMessage) {
+                parts.push(`${item.customMessage}`);
+            }
+
             return parts.join(' ');
         }
 
         // ===== 选中集辅助 =====
         function getSelectedItemsInOrder() {
-            let arr = modeData[fieldKey] || [];
+            let arr = getTargetArray() || [];
             return arr.filter(x => selectedItems.has(x));
         }
         function cleanSelected() {
-            let arr = modeData[fieldKey] || [];
+            let arr = getTargetArray() || [];
             for (let item of Array.from(selectedItems)) {
                 if (!arr.includes(item)) selectedItems.delete(item);
             }
@@ -7191,7 +7483,7 @@ function renderBattleTab(parent) {
 
         // ===== 移动操作（作用于传入的一组 item） =====
         function moveAffectedUp(affectedItems) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let affected = new Set(affectedItems);
             let idxs = [];
             arr.forEach((x, i) => { if (affected.has(x)) idxs.push(i); });
@@ -7199,7 +7491,7 @@ function renderBattleTab(parent) {
             let minIdx = idxs[0];
             if (minIdx === 0) return;
             let anchor = arr[minIdx - 1];
-            if (affected.has(anchor)) return;   // 已经连续在前，不必移
+            if (affected.has(anchor)) return;
             let affectedList = arr.filter(x => affected.has(x));
             let remaining = arr.filter(x => !affected.has(x));
             let pos = remaining.indexOf(anchor);
@@ -7208,7 +7500,7 @@ function renderBattleTab(parent) {
         }
 
         function moveAffectedDown(affectedItems) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let affected = new Set(affectedItems);
             let idxs = [];
             arr.forEach((x, i) => { if (affected.has(x)) idxs.push(i); });
@@ -7225,7 +7517,7 @@ function renderBattleTab(parent) {
         }
 
         function moveAffectedTop(affectedItems) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let affected = new Set(affectedItems);
             let affectedList = arr.filter(x => affected.has(x));
             if (!affectedList.length) return;
@@ -7235,7 +7527,7 @@ function renderBattleTab(parent) {
         }
 
         function moveAffectedBottom(affectedItems) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let affected = new Set(affectedItems);
             let affectedList = arr.filter(x => affected.has(x));
             if (!affectedList.length) return;
@@ -7245,7 +7537,7 @@ function renderBattleTab(parent) {
         }
 
         function duplicateAffectedBelow(affectedItems) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let affected = new Set(affectedItems);
             let idxs = [];
             arr.forEach((x, i) => { if (affected.has(x)) idxs.push(i); });
@@ -7264,7 +7556,7 @@ function renderBattleTab(parent) {
         }
 
         function deleteAffected(affectedItems) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let affected = new Set(affectedItems);
             let newArr = arr.filter(x => !affected.has(x));
             arr.length = 0;
@@ -7273,7 +7565,7 @@ function renderBattleTab(parent) {
         }
 
         function addAt(anchorItem, position, subSchema) {
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let idx = arr.indexOf(anchorItem);
             if (idx < 0) return;
             let newItem = createEmptyObject(subSchema);
@@ -7306,6 +7598,38 @@ function renderBattleTab(parent) {
                     sub.appendChild(el);
                 }
             }
+
+            // ===== 预制件插入列表 =====
+            let prefabs = getPrefabs();
+            let prefabKeys = Object.keys(prefabs);
+            if (prefabKeys.length > 0) {
+                let sep = document.createElement('div');
+                sep.style.cssText = 'height: 1px; background: #ccc; margin: 4px 0;';
+                sub.appendChild(sep);
+
+                prefabKeys.forEach(name => {
+                    let el = document.createElement('div');
+                    el.textContent = `📦 插入预制件: ${name}`;
+                    el.style.cssText = 'padding: 5px 14px; white-space: nowrap; cursor: pointer; color: #1976d2;';
+                    el.addEventListener('mouseenter', () => el.style.background = '#e0e8ff');
+                    el.addEventListener('mouseleave', () => el.style.background = '');
+                    el.addEventListener('pointerdown', (e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        let items = prefabs[name];
+                        let arr = getTargetArray();
+                        let idx = arr.indexOf(anchorItem);
+                        if (idx >= 0) {
+                            let copies = JSON.parse(JSON.stringify(items));
+                            arr.splice(position === 'before' ? idx : idx + 1, 0, ...copies);
+                        }
+                        closeAllMenus();
+                        refreshAll();
+                    });
+                    sub.appendChild(el);
+                });
+            }
+
             return sub;
         }
 
@@ -7320,7 +7644,6 @@ function renderBattleTab(parent) {
             let vw = document.documentElement.clientWidth;
             let vh = document.documentElement.clientHeight;
 
-            // 优先右侧空白处，否则左侧；尽量不遮挡一级菜单
             let left = rect.right + 2;
             if (left + subRect.width > vw) {
                 left = rect.left - subRect.width - 2;
@@ -7338,7 +7661,7 @@ function renderBattleTab(parent) {
         // ===== 右键菜单 =====
         function showContextMenu(x, y, index) {
             closeAllMenus();
-            let arr = modeData[fieldKey];
+            let arr = getTargetArray();
             let item = arr[index];
             if (!item) return;
 
@@ -7393,7 +7716,6 @@ function renderBattleTab(parent) {
                 menu.appendChild(sep);
             }
 
-            // 绿色：新增（仅单选可用）
             let addBeforeEl = addItem('➕ 在⬆️上方新增... ▶️', isMulti, () => {}, {
                 baseStyle: 'background: #2e7d32; color: #fff;',
                 baseBg: '#2e7d32',
@@ -7446,6 +7768,14 @@ function renderBattleTab(parent) {
                 refreshAll();
             });
 
+            addItem('💾 保存为预制件', false, () => {
+                let name = prompt('请输入预制件名称：');
+                if (name && name.trim()) {
+                    savePrefab(name.trim(), affectedItems);
+                    jpxUtils.createToast('✅ 预制件已保存');
+                }
+            });
+
             if (fieldDef.canDisable) {
                 let anyEnabled = affectedItems.some(x => x.disabled !== true);
                 addItem(`⊘ ${anyEnabled ? '禁用' : '启用'}`, false, () => {
@@ -7485,8 +7815,11 @@ function renderBattleTab(parent) {
             let prevScrollTop = leftScroll.scrollTop;
             leftScroll.innerHTML = '';
 
-            let arr = modeData[fieldKey];
-            if (!Array.isArray(arr)) arr = modeData[fieldKey] = [];
+            let arr = getTargetArray();
+            if (!Array.isArray(arr)) {
+                arr = [];
+                if (!isPrefabManager) modeData[fieldKey] = arr;
+            }
 
             if (!arr.length) {
                 let empty = document.createElement('div');
@@ -7494,7 +7827,6 @@ function renderBattleTab(parent) {
                 empty.textContent = '（空）';
                 leftScroll.appendChild(empty);
             } else {
-                // 表头全选
                 let header = document.createElement('div');
                 header.style.cssText = 'display: flex; align-items: center; padding: 2px 6px 4px; margin-bottom: 4px; border-bottom: 1px solid #ccc; font-size: 8pt; color: #666;';
                 let allCb = document.createElement('input');
@@ -7558,7 +7890,6 @@ function renderBattleTab(parent) {
                     if (e.target === cb || e.target === dragHandle) return;
                     if (e.button === 2 || e.ctrlKey || e.metaKey) return;
 
-                    // Shift 范围选择
                     if (e.shiftKey && lastClickedIndex >= 0) {
                         let from = Math.min(lastClickedIndex, index);
                         let to = Math.max(lastClickedIndex, index);
@@ -7580,7 +7911,6 @@ function renderBattleTab(parent) {
                 row.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    // 若右键的项不在选中集，把选中集重置为这一项
                     if (!selectedItems.has(item)) {
                         selectedItems.clear();
                         selectedItems.add(item);
@@ -7619,10 +7949,10 @@ function renderBattleTab(parent) {
                     draggingIndex = null;
                     draggingSet = null;
 
-                    let arr2 = modeData[fieldKey];
+                    let arr2 = getTargetArray();
                     let targetIdx = index;
                     let anchorItem = arr2[targetIdx];
-                    if (dragSet.has(anchorItem)) return;  // 拖到选中集自身无操作
+                    if (dragSet.has(anchorItem)) return;
 
                     let affectedList = arr2.filter(x => dragSet.has(x));
                     let remaining = arr2.filter(x => !dragSet.has(x));
@@ -7640,15 +7970,112 @@ function renderBattleTab(parent) {
         }
 
         // ===== 底部常驻添加栏 =====
+        function showCfgMenu() {
+            let menu = document.createElement('div');
+            menu.style.cssText = 'position: absolute; bottom: 100%; right: 0; margin-bottom: 4px; min-width: 220px; max-width: 100%; background: #fff; border: 1px solid #999; box-shadow: 0 -2px 8px rgba(0,0,0,0.2); padding: 4px 0; border-radius: 3px; font-size: 9pt; z-index: 10; color: #333;';
+
+            const addMenuItem = (label, onClick) => {
+                let btn = document.createElement('div');
+                btn.textContent = label;
+                btn.style.cssText = 'padding: 6px 14px; cursor: pointer; white-space: nowrap; text-align: left;';
+                btn.addEventListener('mouseenter', () => btn.style.background = '#e0e8ff');
+                btn.addEventListener('mouseleave', () => btn.style.background = '');
+                btn.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    try { onClick(); } finally { closeCfgMenu(); }
+                });
+                menu.appendChild(btn);
+            };
+
+            addMenuItem(t('cB.exportCurrentBattleMode'), () => {
+                let modeKey = getCurrentModeKey();
+                if (!cfgBattle[modeKey]) return t('cGen.exportFailed!');
+                let exportData = { [modeKey]: cfgBattle[modeKey], battleVersion: cfgBattle.battleVersion };
+                let blob = new Blob([jpxUtils.stringifyLimited(exportData, 3)], { type: 'text/plain;charset=utf-8' });
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = `cfgBattle${!isekaiSuffix ? '_Persistent' : '_Isekai'}_${modeKey}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+                return t('cGen.exported!');
+            });
+
+            addMenuItem(t('cB.resetCurrentBattleMode'), () => {
+                let modeKey = getCurrentModeKey();
+                cfgBattle[modeKey] = !jpxUtils.isEmpty(defaultCfgBattle[modeKey])
+                ? JSON.parse(JSON.stringify(defaultCfgBattle[modeKey]))
+                : {};
+                renderAllPages();
+                return t('cGen.reset!');
+            });
+
+            addMenuItem(t('cB.saveBattleConfig'), () => {
+                saveBattleCfg();
+                return t('cGen.saved!');
+            });
+
+            addMenuItem(t('cB.exportBattleConfig'), () => {
+                exportBattleCfg();
+                return t('cGen.exported!');
+            });
+
+            addMenuItem(t('cB.importBattleConfig'), () => {
+                importBattleCfgFromFile();
+            });
+
+            leftFooter.appendChild(menu);
+            activeCfgMenu = menu;
+        }
+
         function renderFooter() {
             closeAddMenu();
+            closeCfgMenu();
             leftFooter.innerHTML = '';
+            leftFooter.style.display = 'flex';
+            leftFooter.style.gap = '4px';
 
             let addBtn = document.createElement('div');
             addBtn.className = 'jpx-outline-add-btn';
             addBtn.textContent = '➕ 添加...';
-            addBtn.style.cssText = 'padding: 6px; background: #e8e8e8; border-radius: 3px; cursor: pointer; text-align: center; font-size: 9pt; user-select: none;';
+            addBtn.style.cssText = 'flex: 1 1 auto; padding: 6px; background: #e8e8e8; border-radius: 3px; cursor: pointer; text-align: center; font-size: 9pt; user-select: none;';
             leftFooter.appendChild(addBtn);
+
+            if (isPrefabManager) {
+                let delBtn = document.createElement('div');
+                delBtn.className = 'jpx-outline-del-btn';
+                delBtn.textContent = '❌删除当前预制件';
+                delBtn.style.cssText = 'flex: 0 0 auto; padding: 6px 10px; background: #ffcccc; color: #cc0000; border-radius: 3px; cursor: pointer; text-align: center; font-size: 9pt; user-select: none;';
+                leftFooter.appendChild(delBtn);
+
+                delBtn.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    if (confirm(`确定要删除预制件 "${currentPrefabName}" 吗？`)) {
+                        let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+                        delete custom[currentPrefabType][currentPrefabName];
+                        localStorage.setItem('cfgPrefab', JSON.stringify(custom));
+                        jpxUtils.createToast('✅ 预制件已删除');
+                        document.dispatchEvent(new CustomEvent('prefabDeleted'));
+                    }
+                });
+            } else {
+                let cfgBtn = document.createElement('div');
+                cfgBtn.className = 'jpx-outline-cfg-btn';
+                cfgBtn.textContent = '📄配置管理';
+                cfgBtn.style.cssText = 'flex: 0 0 auto; padding: 6px 10px; background: #e8e8e8; border-radius: 3px; cursor: pointer; text-align: center; font-size: 9pt; user-select: none;';
+                leftFooter.appendChild(cfgBtn);
+
+                cfgBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (activeCfgMenu) {
+                        closeCfgMenu();
+                        return;
+                    }
+                    closeAllMenus();
+                    showCfgMenu();
+                });
+            }
 
             addBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -7658,30 +8085,84 @@ function renderBattleTab(parent) {
                 }
 
                 let menu = document.createElement('div');
-                menu.style.cssText = 'position: absolute; bottom: 100%; left: 0; right: 0; margin-bottom: 4px; max-height: 300px; overflow-y: auto; background: #fff; border: 1px solid #999; box-shadow: 0 -2px 8px rgba(0,0,0,0.2); padding: 4px 0; border-radius: 3px; font-size: 9pt; z-index: 10; color: #333;';
+                menu.style.cssText = 'position: absolute; bottom: 100%; left: 0; right: 0; margin-bottom: 4px; max-height: 300px; overflow-y: auto; background: #fff; border: 1px solid #999; box-shadow: 0 -2px 8px rgba(0,0,0,0.2); padding: 4px 0; border-radius: 3px; font-size: 9pt; z-index: 10; color: #333; display: flex; flex-direction: column;';
 
-                let itemSchema = fieldDef.itemSchema;
-                if (itemSchema?.discriminator && itemSchema.oneOf) {
-                    for (const [typeKey, subSchema] of Object.entries(itemSchema.oneOf)) {
-                        let typeConst = subSchema.properties.find(p => p.type === 'constant');
-                        let typeLabel = typeConst ? t(typeConst.label || ('cB.' + typeConst.value)) : typeKey;
+                const showMainMenu = () => {
+                    menu.innerHTML = '';
+                    let prefabBtn = document.createElement('div');
+                    prefabBtn.textContent = '➕ 添加预制件 ▶️';
+                    prefabBtn.style.cssText = 'padding: 5px 10px; cursor: pointer; white-space: nowrap; font-weight: bold; color: #1976d2; border-bottom: 1px solid #eee;';
+                    prefabBtn.addEventListener('mouseenter', () => prefabBtn.style.background = '#e0e8ff');
+                    prefabBtn.addEventListener('mouseleave', () => prefabBtn.style.background = '');
+                    prefabBtn.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        showPrefabMenu();
+                    });
+                    menu.appendChild(prefabBtn);
 
-                        let btn = document.createElement('div');
-                        btn.textContent = `➕ 新增 ${typeLabel}`;
-                        btn.style.cssText = 'padding: 5px 10px; cursor: pointer; white-space: nowrap;';
-                        btn.addEventListener('mouseenter', () => btn.style.background = '#e0e8ff');
-                        btn.addEventListener('mouseleave', () => btn.style.background = '');
-                        btn.addEventListener('pointerdown', (e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            modeData[fieldKey].push(createEmptyObject(subSchema));
-                            closeAddMenu();
-                            refreshAll();
-                        });
-                        menu.appendChild(btn);
+                    let itemSchema = fieldDef.itemSchema;
+                    if (itemSchema?.discriminator && itemSchema.oneOf) {
+                        for (const [typeKey, subSchema] of Object.entries(itemSchema.oneOf)) {
+                            let typeConst = subSchema.properties.find(p => p.type === 'constant');
+                            let typeLabel = typeConst ? t(typeConst.label || ('cB.' + typeConst.value)) : typeKey;
+
+                            let btn = document.createElement('div');
+                            btn.textContent = `➕ 新增 ${typeLabel}`;
+                            btn.style.cssText = 'padding: 5px 10px; cursor: pointer; white-space: nowrap;';
+                            btn.addEventListener('mouseenter', () => btn.style.background = '#e0e8ff');
+                            btn.addEventListener('mouseleave', () => btn.style.background = '');
+                            btn.addEventListener('pointerdown', (ev) => {
+                                ev.stopPropagation();
+                                ev.preventDefault();
+                                getTargetArray().push(createEmptyObject(subSchema));
+                                closeAddMenu();
+                                refreshAll();
+                            });
+                            menu.appendChild(btn);
+                        }
                     }
-                }
+                };
 
+                const showPrefabMenu = () => {
+                    menu.innerHTML = '';
+
+                    let backBtn = document.createElement('div');
+                    backBtn.textContent = '⬅️ 返回';
+                    backBtn.style.cssText = 'padding: 5px 10px; cursor: pointer; white-space: nowrap; font-weight: bold; border-bottom: 1px solid #ccc; background: #f5f5f5;';
+                    backBtn.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        showMainMenu();
+                    });
+                    menu.appendChild(backBtn);
+
+                    let prefabs = getPrefabs();
+                    let keys = Object.keys(prefabs);
+                    if (keys.length === 0) {
+                        let empty = document.createElement('div');
+                        empty.textContent = '（无预制件）';
+                        empty.style.cssText = 'padding: 5px 10px; color: #888;';
+                        menu.appendChild(empty);
+                    } else {
+                        keys.forEach(name => {
+                            let btn = document.createElement('div');
+                            btn.textContent = name;
+                            btn.style.cssText = 'padding: 5px 10px; cursor: pointer; white-space: nowrap;';
+                            btn.addEventListener('mouseenter', () => btn.style.background = '#e0e8ff');
+                            btn.addEventListener('mouseleave', () => btn.style.background = '');
+                            btn.addEventListener('pointerdown', (ev) => {
+                                ev.stopPropagation();
+                                ev.preventDefault();
+                                let items = prefabs[name];
+                                getTargetArray().push(...JSON.parse(JSON.stringify(items)));
+                                closeAddMenu();
+                                refreshAll();
+                            });
+                            menu.appendChild(btn);
+                        });
+                    }
+                };
+
+                showMainMenu();
                 leftFooter.appendChild(menu);
                 activeAddMenu = menu;
             });
@@ -7691,7 +8172,14 @@ function renderBattleTab(parent) {
         function renderRight() {
             let prevScrollTop = rightPanel.scrollTop;
             rightPanel.innerHTML = '';
-            renderField(rightPanel, fieldDef, modeData);
+            if (isPrefabManager) {
+                let fakeData = {
+                    [fieldKey]: getTargetArray()
+                };
+                renderField(rightPanel, fieldDef, fakeData);
+            } else {
+                renderField(rightPanel, fieldDef, modeData);
+            }
             rightPanel.scrollTop = prevScrollTop;
         }
 
@@ -7699,6 +8187,11 @@ function renderBattleTab(parent) {
             closeAllMenus();
             renderRight();
             renderLeft();
+            if (isPrefabManager) {
+                let custom = JSON.parse(localStorage.getItem('cfgPrefab') || '{"supports":{},"attacks":{}}');
+                custom[currentPrefabType][currentPrefabName] = getTargetArray();
+                localStorage.setItem('cfgPrefab', JSON.stringify(custom));
+            }
         }
 
         function debouncedRefreshLeft() {
